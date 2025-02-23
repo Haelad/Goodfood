@@ -2,7 +2,7 @@ db.sqlite3
 manage.py
 requirements.txt
 
-../project/__pychache__/
-../project/__init__.py
-../goodfood/__pychache__/
-../goodfood/__init__.py
+/project/__pychache__
+project/__init__.py
+. ./goodfood/__pychache__
+goodfood/__init__.py
