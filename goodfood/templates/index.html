@@ -1,25 +1,28 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="css/styles.css" />
+		<link rel="stylesheet" href="{% static 'css/styles.css' %}" />
 		<title>Document</title>
 	</head>
-
 	<body>
 		<div class="main-block">
 			<div class="nav-bar">
 				<div class="nav-menu">
 					<div class="icone">
 						<a href="#" class="nav-link"
-							><img src="./images/logo.png" alt="None"
+							><img src="{% static 'images/logo.png' %}" alt=""
 						/></a>
 					</div>
 					<ul>
 						<li><a href="#" class="nav-link">Проект</a></li>
 						<li><a href="#" class="nav-link">Адрес</a></li>
-						<li><a href="{% url "index.html" %}" class="nav-link">Главная</a></li>
+						<li>
+							<a href="{% url 'goodfood:main' %}" class="nav-link">Главная</a>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -48,7 +51,7 @@
 					vero repellendus tempora quaerat, sit deleniti ex voluptas? Debitis?
 				</div>
 				<div class="img-food">
-					<img src="../images/dish.png" alt="" />
+					<img src="{% static 'images/dish.png' %}" alt="" />
 				</div>
 			</div>
 		</div>

@@ -109,7 +109,7 @@ a.nav-link:active {
 }
 
 body {
-	background-image: url('../images/background.png');
+	background-image: url(../images/background.png);
 }
 
 .second-block {

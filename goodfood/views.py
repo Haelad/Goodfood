@@ -8,4 +8,4 @@ from django.shortcuts import render
 
 def index_view(request):
 
-  return render(request, "./templates/index.html")
+  return render(request, "index.html")

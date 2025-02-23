@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from debug_toolbar.toolbar import debug_toolbar_urls
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from goodfood import urls
 
@@ -25,3 +26,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('goodfood/', include(urls))
 ] + debug_toolbar_urls()
+
+
+urlpatterns += staticfiles_urlpatterns()
