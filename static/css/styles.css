@@ -22,7 +22,7 @@ ul {
 	list-style-type: none;
 }
 
-.icone a.nav-link {
+.icon a.nav-link {
 	float: left;
 
 	text-decoration: none;
@@ -109,6 +109,7 @@ a.nav-link:active {
 }
 
 body {
+	background-image: url(../images/background.png);
 	background-image: url(../images/background.png);
 }
 

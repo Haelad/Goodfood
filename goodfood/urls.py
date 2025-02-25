@@ -1,6 +1,8 @@
 from django.urls import path
-from .views import index_view
-
+from goodfood import views
+ 
 app_name = "goodfood"
 
-urlpatterns = [path("", index_view, name="main")]
+urlpatterns = [path("", views.index, name="main"),
+               path()
+               ]
