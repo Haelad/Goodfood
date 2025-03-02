@@ -1,1 +1,16 @@
-List of goods by django
+{% extends "base.html" %} {% load static %} {% block content %}
+<ul>
+	{% for object in goods %}
+
+	<li>
+		{{object.name}} {{object.desc}}
+		<img
+			src="{{object.photo}}"
+			alt="Вероятнее всего в бд потребуется хранить url к фото, а не само фото"
+		/>
+		<br />
+	</li>
+
+	{% endfor %}
+</ul>
+{% endblock content %}

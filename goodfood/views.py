@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from .models import Goods, Categories
+
 
 
 
@@ -13,6 +15,15 @@ def index(request):
 
 def goods(request):
   
-  model = ...
+  goods = Goods.objects.all()
+  
+
+  
+
+  
+    
+  
+  
+  return render(request, "goods.html", {"goods" : goods})
   
   
