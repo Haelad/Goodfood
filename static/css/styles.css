@@ -55,11 +55,16 @@ a.nav-link:active {
 	color: rgb(78, 78, 78);
 }
 
+body {
+	background-color: #070510;
+}
+
 .main-block {
 	background-image: url(../images/bg.png);
 	background-repeat: no-repeat;
-	background-size: cover;
+	background-size: contain;
 	width: 100%;
+	height: max-content;
 }
 
 .content {
@@ -108,18 +113,12 @@ a.nav-link:active {
 	color: #ffffff;
 }
 
-body {
-	background-image: url(../images/background.png);
-	background-image: url(../images/background.png);
-}
-
 .second-block {
 	background-image: url(../images/background_objects.png);
 	background-repeat: no-repeat;
 	background-size: cover;
 	width: 100%;
 
-	display: flex;
 	align-items: center;
 	justify-content: center;
 
@@ -128,10 +127,22 @@ body {
 	padding-bottom: 250px;
 }
 
-.content-food {
-	background-color: #ffffff;
+.content-food-list {
+	background-color: ivory;
 
 	width: 800px;
+
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+
+	align-items: center;
+	justify-content: center;
+
+	list-style: none;
+	width: 800px;
+	margin: auto;
+	margin-bottom: 30px;
 }
 
 .title-food {
@@ -161,4 +172,8 @@ body {
 	text-align: center;
 	padding-top: 60px;
 	padding-bottom: 30px;
+}
+
+.img-food img {
+	width: 30%;
 }

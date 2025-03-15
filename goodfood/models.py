@@ -33,7 +33,7 @@ class Goods(models.Model):
   photo = models.ImageField(
     verbose_name="Фото", name="photo", 
     
-    blank=False, null=False, editable=True
+    blank=False, null=False, editable=True,
     )
   
   description = models.TextField(
