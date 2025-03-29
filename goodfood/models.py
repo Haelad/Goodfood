@@ -7,7 +7,7 @@ from django.template.defaultfilters import slugify
 # Create your models here.
 class Categories(models.Model):
   
-  cat = models.CharField(verbose_name="Категория", max_length=256, db_index=True)
+  cat = models.CharField(verbose_name="категория", max_length=256, db_index=True)
     
   class Meta:
       verbose_name = ("Категория")
@@ -17,11 +17,8 @@ class Categories(models.Model):
     return self.cat    
       
       
-      
- 
-
- # def get_absolute_url(self):
-    #  return reverse("_detail", kwargs={"pk": self.pk})
+  def get_absolute_url(self):
+     return reverse("goodfood:_category", kwargs={"cat_id": self.pk})
 
 
 class Goods(models.Model):
@@ -40,7 +37,7 @@ class Goods(models.Model):
     verbose_name="Описание", name="desc", max_length=256, unique=False, blank=True, null=True, editable=True,
   )
   
-  category = models.ForeignKey(to=Categories, verbose_name="Категория", name="category", on_delete=models.PROTECT,)
+  category = models.ForeignKey(to=Categories, verbose_name="категория", name="category", on_delete=models.PROTECT,)
   
   
   slugify_name = models.SlugField(verbose_name="Слаг", name="slug", max_length=256)
@@ -59,8 +56,8 @@ class Goods(models.Model):
     super(Goods, self).save(*args, **kwargs)
     
 
-  # def get_absolute_url(self):
-    #  return reverse("_detail", kwargs={"pk": self.pk})
+  def get_absolute_url(self):
+     return reverse("goodfood:_detail", kwargs={"slug_name": self.slug, "pk": self.pk})
       
 
 

@@ -13,17 +13,32 @@ def index(request):
   return render(request, "index.html")
 
 
-def goods(request):
+def food(request):
   
-  goods = Goods.objects.all()
-  
+  food = Goods.objects.all()
 
+  food_category = Categories.objects.all()
   
+  
+  return render(request, "goods.html", {"goods" : food, "cat": food_category})
 
+
+
+def food_detail(request, slug_name, pk):
   
-    
+  detail_food = Goods.objects.get(pk=pk)
+
+  return render(request, "food.html", {"f" : detail_food})
+
+
+def food_category(request, cat_id):
   
   
-  return render(request, "goods.html", {"goods" : goods})
+  food = Goods.objects.filter(category_id=cat_id)
+  
+  food_category = Categories.objects.all()
+  
+  return render(request, "category.html", {"food":food, "cat":food_category})
+  
   
   

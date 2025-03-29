@@ -55,6 +55,11 @@ a.nav-link:active {
 	color: rgb(78, 78, 78);
 }
 
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
 body {
 	background-color: #070510;
 }
@@ -62,9 +67,8 @@ body {
 .main-block {
 	background-image: url(../images/bg.png);
 	background-repeat: no-repeat;
-	background-size: contain;
-	width: 100%;
-	height: max-content;
+	background-size: cover;
+	padding-bottom: 13.1%;
 }
 
 .content {

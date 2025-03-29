@@ -9,28 +9,17 @@
 		<title>Document</title>
 	</head>
 	<body>
-
-
-
 		<div class="second-block">
 
-		{% for f in goods %}
+
 				<ul class="content-food-list">
-					{% for c in cat %}
-
-					{% if forloop.parentloop %}
-					<li><div class="category-food"><a href="{{c.get_absolute_url}}">{{f.category}}</a></div></li>
-					{% endif %}
-
-					{% endfor %}
-				<li><div class="title-food"><a href="{{f.get_absolute_url}}">{{f.name}}</a></div></li>
+					
+				<li><div class="title-food">{{f.name}}</div></li>
 				<li><div class="text-food">{{f.desc}}</div></li>
-				<li><div class="img-food">
+				<div class="img-food">
 					<img src="{{ MEDIA_URL }}/{{f.photo}}" alt="" />
-				</li></ul>
-
-
-		{% endfor %}
+				</ul>
+			
 			</div>
 		</div>
 	</body>
