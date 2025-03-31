@@ -37,9 +37,6 @@ INTERNAL_IPS = [
 
 
 
-
-
-
 # Application definition
 
 INSTALLED_APPS = [

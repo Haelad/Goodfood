@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import slugify
+from django.core.validators import validate_slug, MaxLengthValidator, MinLengthValidator
+from goodfood.validators import GoodfoodValidator
 
 
 
@@ -24,7 +26,7 @@ class Categories(models.Model):
 class Goods(models.Model):
   
   name = models.CharField(
-    verbose_name="Название", max_length=64, db_index=True, editable=True,
+    verbose_name="Название", max_length=64, db_index=True, editable=True, validators=[MinLengthValidator(5), MaxLengthValidator(64), GoodfoodValidator()]
     )
   
   photo = models.ImageField(
@@ -34,13 +36,13 @@ class Goods(models.Model):
     )
   
   description = models.TextField(
-    verbose_name="Описание", name="desc", max_length=256, unique=False, blank=True, null=True, editable=True,
+    verbose_name="Описание", name="desc", max_length=256, unique=False, blank=True, null=True, editable=True, validators=[MinLengthValidator(10), MaxLengthValidator(256), GoodfoodValidator()]
   )
   
-  category = models.ForeignKey(to=Categories, verbose_name="категория", name="category", on_delete=models.PROTECT,)
+  category = models.ForeignKey(to=Categories, verbose_name="категория", name="category", on_delete=models.PROTECT, validators=[MinLengthValidator(10), MaxLengthValidator(256), GoodfoodValidator()])
   
   
-  slugify_name = models.SlugField(verbose_name="Слаг", name="slug", max_length=256)
+  slugify_name = models.SlugField(verbose_name="Слаг", name="slug", max_length=256, validators=[MinLengthValidator(5)])
    
   
   class Meta:
