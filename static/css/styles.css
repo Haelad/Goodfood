@@ -181,3 +181,9 @@ body {
 .img-food img {
 	width: 30%;
 }
+
+.category-food {
+	color: #070510;
+
+	padding-bottom: 30px;
+}

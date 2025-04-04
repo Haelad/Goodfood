@@ -10,27 +10,41 @@
 	</head>
 	<body>
 
+		
 
 
+		
 		<div class="second-block">
 
-		{% for f in goods %}
-				<ul class="content-food-list">
-					{% for c in cat %}
 
-					{% if forloop.parentloop %}
-					<li><div class="category-food"><a href="{{c.get_absolute_url}}">{{f.category}}</a></div></li>
+				{% for food in context %}			
+				<ul class="content-food-list">
+
+					{% if food.category %}
+					<li><div class="category-food"><a href="{{food.category.get_absolute_url}}">{{food.category}}</a></div></li>
+					{% endif %}
+	
+					{% if food.name %}
+					<li><div class="title-food"><a href="{{food.get_absolute_url}}">{{food.name}}</a></div></li>
 					{% endif %}
 
-					{% endfor %}
-				<li><div class="title-food"><a href="{{f.get_absolute_url}}">{{f.name}}</a></div></li>
-				<li><div class="text-food">{{f.desc}}</div></li>
-				<li><div class="img-food">
-					<img src="{{ MEDIA_URL }}/{{f.photo}}" alt="" />
-				</li></ul>
+					{% if food.desc %}		
+					<li><div class="text-food">{{food.desc}}</div></li>
+					{% endif %}
+
+					{% if food.photo %}
+					<li><div class="img-food">
+						<img src="{{ MEDIA_URL }}/{{food.photo}}" alt="" />
+					</li>
+					{% endif %}
+				</ul>
+
+				{% endfor %}
+					
 
 
-		{% endfor %}
+	
+
 			</div>
 		</div>
 	</body>

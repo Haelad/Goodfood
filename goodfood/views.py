@@ -15,12 +15,17 @@ def index(request):
 
 def food(request):
   
+
   food = Goods.objects.all()
 
   food_category = Categories.objects.all()
   
+  context = list(food) + list(food_category)
   
-  return render(request, "goods.html", {"goods" : food, "cat": food_category})
+ 
+
+  
+  return render(request, "goods.html", {"context" : context})
 
 
 
@@ -37,6 +42,8 @@ def food_category(request, cat_id):
   food = Goods.objects.filter(category_id=cat_id)
   
   food_category = Categories.objects.all()
+  
+
   
   return render(request, "category.html", {"food":food, "cat":food_category})
   
