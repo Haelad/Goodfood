@@ -6,14 +6,21 @@ from django.utils.deconstruct import deconstructible
 @deconstructible
 class GoodfoodValidator():
   
-  ALLOWED_CHARACTERS = ascii_letters + digits + "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщбыъэюя " + "-,.;:!?"
+  ALLOWED_CHARACTERS = (
+    ascii_letters +
+    digits +
+    "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯ" +
+    "абвгдеёжзийклмнопрстуфхцчшщьыъэюя" +
+    " -,.;:!?"
+    )
   
-  def __init__(self, massage=None):
+  
+  def __init__(self, message=None):
     
-    self.massage = massage if massage else "input should be ascii_letters, digits or russian"
+    self.massage = message if message else "input should be ascii_letters, digits or russian"
     
   def __call__(self, value):
 
     if not (set(value) <= set(self.ALLOWED_CHARACTERS)):
-      raise ValidationError(self.massage, params={"value": value})
+      raise ValidationError(self.message, params={"value": value})
   

@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
-from django.core.validators import  MinLengthValidator, MaxLengthValidator
+from django.core.validators import  MinLengthValidator, MaxLengthValidator, RegexValidator
 from goodfood.validators import GoodfoodValidator
 
 from slugify import slugify
@@ -43,7 +43,12 @@ class Goods(models.Model):
   category = models.ForeignKey(to=Categories, verbose_name="категория", name="category", on_delete=models.PROTECT)
   
   
-  slugify_name = models.SlugField(verbose_name="Слаг", blank=True, max_length=256,)
+  slugify_name = models.SlugField(max_length=256, blank=True, unique=True, allow_unicode=True, verbose_name="Слаг", validators=[
+            RegexValidator(
+                regex=r'^[-a-zA-Z0-9_]+$',
+                message='Slug может содержать только буквы, цифры, дефис и подчёркивания.'
+            )
+        ])
    
   
   class Meta:
