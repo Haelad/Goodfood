@@ -8,9 +8,6 @@ class GoodfoodValidator():
   
   ALLOWED_CHARACTERS = ascii_letters + digits + "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщбыъэюя " + "-,.;:!?"
   
-
-   
-  
   def __init__(self, massage=None):
     
     self.massage = massage if massage else "input should be ascii_letters, digits or russian"

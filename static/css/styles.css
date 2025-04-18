@@ -132,7 +132,7 @@ body {
 }
 
 .content-food-list {
-	background-color: ivory;
+	background-image: url(../images/white-table.png);
 
 	width: 800px;
 
@@ -152,30 +152,28 @@ body {
 .title-food {
 	text-align: center;
 
-	font-size: 40px;
+	font-size: 46px;
 	font-weight: 700;
 
 	color: goldenrod;
 
-	padding-top: 40px;
-	padding-bottom: 40px;
+	padding-top: 32px;
+	padding-bottom: 20px;
 }
 
 .text-food {
 	text-align: center;
 
-	font-size: 18px;
-
-	padding-left: 150px;
-	padding-right: 150px;
+	font-size: 24px;
+	font-weight: 700;
 
 	font-style: italic;
 }
 
 .img-food {
 	text-align: center;
-	padding-top: 60px;
-	padding-bottom: 30px;
+	padding-top: 40px;
+	padding-bottom: 60px;
 }
 
 .img-food img {
@@ -183,7 +181,11 @@ body {
 }
 
 .category-food {
-	color: #070510;
+	color: #e4e3e9;
+	font-size: 22px;
+	font-weight: 600;
 
-	padding-bottom: 30px;
+	background-color: darkgreen;
+
+	border-radius: 5%;
 }
