@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
-from django.core.validators import  MaxLengthValidator
+from django.core.validators import  MinLengthValidator, MaxLengthValidator
 from goodfood.validators import GoodfoodValidator
 
 from slugify import slugify
@@ -11,7 +11,7 @@ from slugify import slugify
 # Create your models here.
 class Categories(models.Model):
   
-  cat = models.CharField(verbose_name="категория", max_length=256, db_index=True)
+  cat = models.CharField(verbose_name="категория", max_length=256, db_index=True, validators=[MinLengthValidator(1), MaxLengthValidator(256), GoodfoodValidator()])
     
   class Meta:
       verbose_name = ("Категория")
@@ -28,7 +28,7 @@ class Categories(models.Model):
 class Goods(models.Model):
   
   name = models.CharField(
-    verbose_name="Название", max_length=64, db_index=True, editable=True, validators=[MaxLengthValidator(64), GoodfoodValidator()]
+    verbose_name="Название", max_length=64, db_index=True, editable=True, validators=[MinLengthValidator(1), MaxLengthValidator(64),  GoodfoodValidator()]
     )
   
   photo = models.ImageField(
@@ -37,10 +37,10 @@ class Goods(models.Model):
     )
   
   description = models.TextField(
-    verbose_name="Описание", name="desc", max_length=256, unique=False, blank=True, null=True, editable=True, validators=[MaxLengthValidator(256), GoodfoodValidator()]
+    verbose_name="Описание", name="desc", max_length=256, unique=False, blank=True, null=True, editable=True, validators=[MinLengthValidator(1), MaxLengthValidator(256), GoodfoodValidator()]
   )
   
-  category = models.ForeignKey(to=Categories, verbose_name="категория", name="category", on_delete=models.PROTECT, validators=[MaxLengthValidator(256), GoodfoodValidator()])
+  category = models.ForeignKey(to=Categories, verbose_name="категория", name="category", on_delete=models.PROTECT)
   
   
   slugify_name = models.SlugField(verbose_name="Слаг", blank=True, max_length=256,)
