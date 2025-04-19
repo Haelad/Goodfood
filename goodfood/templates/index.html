@@ -1,4 +1,4 @@
-{% load static %}
+{% extends "base.html" %}{% load static %}{% block content %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div class="main-block">
-			<div class="nav-bar">
+			<!-- <div class="nav-bar">
 				<div class="nav-menu">
 					<div class="icon">
 						<a href="#" class="nav-link"
@@ -25,7 +25,7 @@
 						</li>
 					</ul>
 				</div>
-			</div>
+			</div> -->
 
 			<div class="content">
 				<div class="title">Правильные ингридиенты для правильных блюд</div>
@@ -41,3 +41,5 @@
 		</div>
 	</body>
 </html>
+
+{% endblock content %}

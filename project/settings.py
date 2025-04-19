@@ -84,7 +84,7 @@ TEMPLATES = [
 CACHES = { 
       "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis:///unix:7586@127.0.0.1:6379",
+        "LOCATION": "redis:///unixer:7586@127.0.0.1:6379",
         "TIMEOUT": 60 * 2,
 
     }
