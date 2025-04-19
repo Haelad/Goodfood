@@ -6,7 +6,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-		<title>Document</title>
+		
 	</head>
 	<body>
 		<div class="second-block">
@@ -16,8 +16,7 @@
 				<li><div class="category-food">{{f.category}}</div></li>
 				<li><div class="title-food">{{f.name}}</div></li>
 				<li><div class="text-food">{{f.desc}}</div></li>
-				<li><div class="img-food">
-					<img src="{{ MEDIA_URL }}/{{f.photo}}" alt="" /></li>
+				<li><div class="img-food"><img src="{{ MEDIA_URL }}/{{f.photo}}" alt="" /></li>
 				</ul>
 			{% endfor %}
 			

@@ -34,9 +34,6 @@ INTERNAL_IPS = [
     # ...
 ]
 
-
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -84,6 +81,15 @@ TEMPLATES = [
     },
 ]
 
+CACHES = { 
+      "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis:///unix:7586@127.0.0.1:6379",
+        "TIMEOUT": 60 * 2,
+
+    }
+}
+
 WSGI_APPLICATION = 'project.wsgi.application'
 
 
@@ -101,7 +107,7 @@ DATABASES = {
 
         'USER': 'postgres',
 
-        'PASSWORD': '7586',
+        'PASSWORD': '1234',
 
         'HOST': 'localhost',
 

@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import slugify
-from django.core.validators import validate_slug, MaxLengthValidator, MinLengthValidator
+from django.core.validators import  MaxLengthValidator, MinLengthValidator
 from goodfood.validators import GoodfoodValidator
 
 
