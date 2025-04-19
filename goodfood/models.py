@@ -1,10 +1,12 @@
+from slugify import slugify
+
 from django.db import models
 from django.urls import reverse
-
 from django.core.validators import  MinLengthValidator, MaxLengthValidator, RegexValidator
+
 from goodfood.validators import GoodfoodValidator
 
-from slugify import slugify
+
 
 
 

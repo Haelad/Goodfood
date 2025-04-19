@@ -8,6 +8,8 @@
 		<title>{% block title %} Document {% endblock title %}</title>
 	</head>
 	<body>
+
+		{% cache 1200 navbar %}
 		<div class="nav-bar">
 			<div class="nav-menu">
 				<div class="icon">
@@ -24,6 +26,7 @@
 				</ul>
 			</div>
 		</div>
+		{% endcache %}
 
 		{% block content %} {% endblock content%}
 	</body>
