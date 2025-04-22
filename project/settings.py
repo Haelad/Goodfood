@@ -13,6 +13,21 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
+# Time settings
+DATETIME_INPUT_FORMATS = (
+    '%Y-%m-%d %H:%M:%S', # Стандартный формат (24-часовой) [1](https://runebook.dev/en/articles/django/ref/settings/std:setting-DATETIME_INPUT_FORMATS)
+    '%m/%d/%Y %I:%M %p', # Формат в американском стиле (12-часовой с AM/PM) [1](https://runebook.dev/en/articles/django/ref/settings/std:setting-DATETIME_INPUT_FORMATS)
+    '%d-%b-%Y %H:%M:%S', # Формат в европейском стиле (день-месяц-год) [1](https://runebook.dev/en/articles/django/ref/settings/std:setting-DATETIME_INPUT_FORMATS)
+)
+
+TIME_ZONE = 'Europe/Moscow'
+
+USE_TZ = True
+
+YEAR_MONTH_FORMAT = 'm/Y'
+
+USE_THOUSAND_SEPARATOR = None
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -46,6 +61,7 @@ INSTALLED_APPS = [
     'goodfood',
     'debug_toolbar',
     'django_extensions',
+
     
 ]
 
@@ -81,14 +97,14 @@ TEMPLATES = [
     },
 ]
 
-CACHES = { 
-      "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis:///unixer:7586@127.0.0.1:6379",
-        "TIMEOUT": 60 * 2,
+# CACHES = { 
+#       "default": {
+#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
+#         "LOCATION": "redis:///unixer:7586@127.0.0.1:6379",
+#         "TIMEOUT": 60 * 2,
 
-    }
-}
+#     }
+# }
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
@@ -98,23 +114,11 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-
-    'default': {
-
-        'ENGINE': 'django.db.backends.postgresql',
-
-        'NAME': 'goodfood',
-
-        'USER': 'postgres',
-
-        'PASSWORD': '1234',
-
-        'HOST': 'localhost',
-
-        'PORT': 5432,
-
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        'NAME': BASE_DIR / 'db.sqlite3',
+   
     }
-
 }
 
 

@@ -51,6 +51,9 @@ class Goods(models.Model):
                 message='Slug может содержать только буквы, цифры, дефис и подчёркивания.'
             )
         ])
+  
+  time_created = models.DateTimeField(verbose_name="время создания", auto_now_add=True, editable=False )
+  time_updated = models.DateTimeField(verbose_name="Время изменения", auto_now=True, editable=True)
    
   
   class Meta:
