@@ -65,8 +65,6 @@ INSTALLED_APPS = [
     
 ]
 
-
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -97,14 +95,14 @@ TEMPLATES = [
     },
 ]
 
-# CACHES = { 
-#       "default": {
-#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-#         "LOCATION": "redis:///unixer:7586@127.0.0.1:6379",
-#         "TIMEOUT": 60 * 2,
+CACHES = { 
+      "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis:///unixer:7586@127.0.0.1:6379",
+        "TIMEOUT": 60 * 2,
 
-#     }
-# }
+    }
+}
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
@@ -114,11 +112,23 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        'NAME': BASE_DIR / 'db.sqlite3',
-   
+
+    'default': {
+
+        'ENGINE': 'django.db.backends.postgresql',
+
+        'NAME': 'goodfood',
+
+        'USER': 'postgres',
+
+        'PASSWORD': '1234',
+
+        'HOST': 'localhost',
+
+        'PORT': 5432,
+
     }
+
 }
 
 
