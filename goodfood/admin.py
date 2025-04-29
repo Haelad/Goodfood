@@ -14,23 +14,30 @@ STATUS_CHOICES = {
 
 @admin.register(Goods)
 class GoodsAdmin(admin.ModelAdmin):
-  # paginator = Paginator
-  # show_full_result_count = False
+  #fields content'
+  empty_value_display = "-пусто-"
+  readonly_fields = ['time_created', 'time_updated',]
 
-  #fields content
-  readonly_fields = ['time_created', 'time_updated', 'slugify_name']
-  # fields = ['name', 'desc', 'photo', 'category', 'slugify_name', ('time_created', 'time_updated')]
   fieldsets = (
         ('', {
-            'fields': ('name','desc', 'category')
+            'classes': ['wide'],
+            'fields': ('name','desc', 'category'),
+            'description': 'укажите все поля, пользуйтесь кириллицей или латиницей'
         }),
         ('Фото', {
-            'fields': ('photo',)  
+ 
+            'fields': ('photo',),
+            'description': '[Обязательно] Укажите поле фото размером 100 x 100'
         }),
-        ('Дата для администратора', {
-            'fields': (('time_created', 'time_updated'), 'slugify_name' )
+        ('Информация для администратора', {
+            'classes': ['collapse'],
+            'fields': ('slugify_name', ('time_created', 'time_updated',) )
         })
     )
+  
+
+    
+   
 
   # search content
   search_fields = ("name",)
@@ -44,6 +51,9 @@ class GoodsAdmin(admin.ModelAdmin):
 @admin.register(Categories)
 class CategoriesAdmin(admin.ModelAdmin):
   warn_unsaved_form = True
+
+  search_fields = ("cat",)
+  list_filter = ("cat", )
 
 
 
