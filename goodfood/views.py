@@ -11,14 +11,12 @@ def index(request):
 @cache_page(60*4, key_prefix="goodfood:food_list")
 def food(request):
   list_food = get_list_or_404(Goods.objects.select_related("category").all())
-  
-
   return render(request, "goods.html", {"context" : list_food})
 
 
 @cache_page(60, key_prefix="goodfood:food_detail")
 def food_detail(request, slug_name, pk):
-  detail_food = get_object_or_404(Goods, pk=pk)
+  detail_food = get_object_or_404(Goods.objects.select_related("category"), pk=pk)
   return render(request, "food.html", {"f" : detail_food})
 
 
