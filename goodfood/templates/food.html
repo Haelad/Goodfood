@@ -1,27 +1,15 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-		<title>Document</title>
-	</head>
-	<body>
-		<div class="second-block">
+<div class="second-block">
 
+		<ul class="content-food-list">
+		<li><div class="category-food"><a href="{{f.category.get_absolute_url}}">{{f.category}}</a></div></li>
+		<li><div class="title-food">{{f.name}}</div></li>
+		<li><div class="text-food">{{f.desc}}</div></li>
+		<li><div class="img-food"><img src="{{ MEDIA_URL }}/{{f.photo}}" alt="" /></li>
+		</ul>
 
-				<ul class="content-food-list">
-					
-				<li><div class="title-food">{{f.name}}</div></li>
-				<li><div class="text-food">{{f.desc}}</div></li>
-				<div class="img-food">
-					<img src="{{ MEDIA_URL }}/{{f.photo}}" alt="" />
-				</ul>
-			
-			</div>
-		</div>
-	</body>
+	</div>
+</div>
 	{% endblock content %}
 </html>

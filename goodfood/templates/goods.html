@@ -1,21 +1,7 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-		<title>Document</title>
-	</head>
-	<body>
-
-		
-
-
 		
 		<div class="second-block">
-
 
 				{% for food in context %}			
 				<ul class="content-food-list">
@@ -38,15 +24,9 @@
 					</li>
 					{% endif %}
 				</ul>
-
 				{% endfor %}
-					
-
-
-	
-
 			</div>
 		</div>
-	</body>
+
 	{% endblock content %}
-</html>
+

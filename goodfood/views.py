@@ -25,8 +25,17 @@ def food_detail(request, slug_name, pk):
 @cache_page(60*4, key_prefix="goodfood:food_category")
 def food_category(request, cat_id):
   food = get_list_or_404(Goods.objects.filter(category_id=cat_id))
-
   return render(request, "category.html", {"food":food})
+
+
+# views_handlers
+def page_not_found(request, exception):
+    return render(request, "handlers/page_404.html", status=404, context={"e": exception}) 
+
+def error_R(request):
+    return render(request, "handlers/page_500.html", status=500) 
+
+
   
   
   

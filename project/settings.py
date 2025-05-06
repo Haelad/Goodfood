@@ -14,19 +14,7 @@ import os
 from pathlib import Path
 
 # Time settings
-DATETIME_INPUT_FORMATS = (
-    '%Y-%m-%d %H:%M:%S', # Стандартный формат (24-часовой) [1](https://runebook.dev/en/articles/django/ref/settings/std:setting-DATETIME_INPUT_FORMATS)
-    '%m/%d/%Y %I:%M %p', # Формат в американском стиле (12-часовой с AM/PM) [1](https://runebook.dev/en/articles/django/ref/settings/std:setting-DATETIME_INPUT_FORMATS)
-    '%d-%b-%Y %H:%M:%S', # Формат в европейском стиле (день-месяц-год) [1](https://runebook.dev/en/articles/django/ref/settings/std:setting-DATETIME_INPUT_FORMATS)
-)
 
-TIME_ZONE = 'Europe/Moscow'
-
-USE_TZ = True
-
-YEAR_MONTH_FORMAT = 'm/Y'
-
-USE_THOUSAND_SEPARATOR = None
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,13 +29,17 @@ SECRET_KEY = 'django-insecure-6ls%_9_nvh6khtons1$&sxm%jz$f7l*_$u(0m*xz0cwogq!*&w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 INTERNAL_IPS = [
     # ...
     "127.0.0.1",
     # ...
 ]
+
+ERROR_404_TEMPLATE_NAME = 'page_404.html'
+ERROR_400_TEMPLATE_NAME = 'page_400.html'
+ERROR_500_TEMPLATE_NAME = 'page_500.html'
 
 # Application definition
 
@@ -60,9 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'goodfood',
     'debug_toolbar',
-    'django_extensions',
-
-    
+    'django_extensions',   
 ]
 
 
@@ -144,13 +134,21 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'eu-ru'
 
-TIME_ZONE = 'UTC'
+DATETIME_INPUT_FORMATS = (
+    '%Y-%m-%d %H:%M:%S', # Стандартный формат (24-часовой) [1](https://runebook.dev/en/articles/django/ref/settings/std:setting-DATETIME_INPUT_FORMATS)
+    '%m/%d/%Y %I:%M %p', # Формат в американском стиле (12-часовой с AM/PM) [1](https://runebook.dev/en/articles/django/ref/settings/std:setting-DATETIME_INPUT_FORMATS)
+    '%d-%b-%Y %H:%M:%S', # Формат в европейском стиле (день-месяц-год) [1](https://runebook.dev/en/articles/django/ref/settings/std:setting-DATETIME_INPUT_FORMATS)
+)
 
-USE_I18N = True
+TIME_ZONE = 'Europe/Moscow'
 
 USE_TZ = True
+
+YEAR_MONTH_FORMAT = 'm/Y'
+
+USE_THOUSAND_SEPARATOR = None
 
 
 # Static files (CSS, JavaScript, Images)
