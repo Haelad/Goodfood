@@ -107,7 +107,6 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         'NAME': BASE_DIR / 'db.sqlite3',
-   
     }
 }
 
@@ -134,7 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'eu-ru'
+LANGUAGE_CODE = 'ru'
 
 DATETIME_INPUT_FORMATS = (
     '%Y-%m-%d %H:%M:%S', # Стандартный формат (24-часовой) [1](https://runebook.dev/en/articles/django/ref/settings/std:setting-DATETIME_INPUT_FORMATS)

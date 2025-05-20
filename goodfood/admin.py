@@ -22,7 +22,7 @@ class GoodsAdmin(admin.ModelAdmin):
         ('', {
             'classes': ['wide'],
             'fields': ('name','desc', 'category'),
-            'description': 'укажите все поля, пользуйтесь кириллицей или латиницей'
+            'description': '[Обязательно] Укажите все поля, пользуйтесь кириллицей или латиницей'
         }),
         ('Фото', {
  
@@ -35,15 +35,9 @@ class GoodsAdmin(admin.ModelAdmin):
         })
     )
   
-
-    
-   
-
   # search content
   search_fields = ("name",)
   list_filter = ("category__cat", )
-
-  
 
   warn_unsaved_form = True
   list_filter_sheet = True
