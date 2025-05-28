@@ -3,6 +3,7 @@ from django.views.decorators.cache import cache_page
 
 from .models import Goods, Categories
 
+# сделать 404
 
 def index(request):
   return render(request, "index.html")

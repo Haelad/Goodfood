@@ -17,7 +17,7 @@ class GoodfoodValidator():
   
   def __init__(self, message=None):
     
-    self.massage = message if message else "input should be ascii_letters, digits or russian"
+    self.massage = message if message else "input should be Ascii_letters, Digits or Cyrillic"
     
   def __call__(self, value):
 

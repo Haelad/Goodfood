@@ -65,6 +65,8 @@ INSTALLED_APPS = [
     
 ]
 
+
+# создать MIDDLEWARE для отработки исключений и прочего
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
