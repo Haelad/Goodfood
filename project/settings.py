@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
+from decouple import config
+
+
 # Time settings
 
 
@@ -90,9 +93,10 @@ TEMPLATES = [
 CACHES = { 
       "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis:///unixer:7586@127.0.0.1:6379",
-        "TIMEOUT": 60 * 2,
-
+        'LOCATION': f'redis://:{config("REDIS_PASSWORD", default="7596")}@cache:6379/1',  
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient', 
+            }
     }
 }
 
@@ -109,15 +113,15 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql',
 
-        'NAME': 'goodfood',
+        'NAME': f'{config("POSTGRES_DB", default="Goodfood_db")}',
 
-        'USER': 'postgres',
+        'USER': f'{config("POSTGRES_USER", default="Viktor")}',
 
-        'PASSWORD': '1234',
+        'PASSWORD': f'{config("POSTGRES_PASSWORD", default="7586")}',
 
-        'HOST': 'localhost',
+        'HOST': 'db',
 
-        'PORT': 5432,
+        'PORT': f'{config("POSTGRES_PORT", default="5432")}',
 
     }
 

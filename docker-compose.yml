@@ -1,0 +1,49 @@
+
+
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: Goodfood_db
+      POSTGRES_USER: Viktor
+      POSTGRES_PASSWORD: 7586
+      POSTGRES_PORT: 5432
+      ports: 5432:5432
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: always
+
+  cache:
+    image: redis:alpine
+    ports: 
+      -  6379:6379
+    environment:
+      REDIS_PASSWORD: 7596
+      REDIS_MAXMEMORY: 500mb
+      REDIS_AOF_ENABLED: yes
+      REDIS_NOTIFY_KEYSPACE_EVENTS: A
+    volumes:
+      -  redis_data:/data
+    restart: always
+    networks:
+      -  network
+  web:
+    build: .
+    command: bash -c "sleep 10 && gunicorn project.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - .:/app  # Монтируем текущую директорию в контейнер
+    ports: 
+      -  8000:8000
+    depends_on:
+      - db
+      - cache
+    environment:
+       DJANGO_SETTINGS_MODULE: project.settings   
+
+volumes:
+    redis_data:
+    pg_data: 
+networks:
+    network:
+
+
