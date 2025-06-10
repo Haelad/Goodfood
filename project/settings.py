@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-6ls%_9_nvh6khtons1$&sxm%jz$f7l*_$u(0m*xz0cwogq!*&w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ["0.0.0.0:8000", 'localhost', '127.0.0.1']
 
 INTERNAL_IPS = [
     # ...
@@ -90,13 +90,13 @@ TEMPLATES = [
     },
 ]
 
-CACHES = { 
-      "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        'LOCATION': f'redis://:{config("REDIS_PASSWORD", default="7596")}@cache:6379/1',  
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient', 
-            }
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379/0",  # Use the Redis service name from docker-compose
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
 }
 

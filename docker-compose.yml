@@ -8,25 +8,35 @@ services:
       POSTGRES_USER: Viktor
       POSTGRES_PASSWORD: 7586
       POSTGRES_PORT: 5432
-      ports: 5432:5432
+      ports: "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
     restart: always
+    networks:
+      - network
 
-  cache:
+  redis:
     image: redis:alpine
+
     ports: 
-      -  6379:6379
+      -  "6379:6379"
     environment:
+      REDIS_HOST: redis
       REDIS_PASSWORD: 7596
+      REDIS_USER: user
+      REDIS_USER_PASSWORD: 1234
+      
       REDIS_MAXMEMORY: 500mb
       REDIS_AOF_ENABLED: yes
       REDIS_NOTIFY_KEYSPACE_EVENTS: A
     volumes:
       -  redis_data:/data
+
+
     restart: always
     networks:
       -  network
+
   web:
     build: .
     command: bash -c "sleep 10 && gunicorn project.wsgi:application --bind 0.0.0.0:8000"
@@ -36,9 +46,12 @@ services:
       -  8000:8000
     depends_on:
       - db
-      - cache
+      - redis
     environment:
        DJANGO_SETTINGS_MODULE: project.settings   
+       REDIS_PASSWORD: 7596
+    networks:
+      - network
 
 volumes:
     redis_data:
