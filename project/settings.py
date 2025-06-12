@@ -13,8 +13,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
 from decouple import config
 
+load_dotenv()
 
 # Time settings
 
@@ -27,22 +29,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6ls%_9_nvh6khtons1$&sxm%jz$f7l*_$u(0m*xz0cwogq!*&w'
+SECRET_KEY = config("SECRET_KEY", cast=str)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = ["0.0.0.0:8000", 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [str(hosts) for hosts in config("ALLOWED_HOSTS").split(",")]
 
-INTERNAL_IPS = [
-    # ...
-    "127.0.0.1",
-    # ...
-]
+INTERNAL_IPS = [str(ips) for ips in config("INTERNAL_IPS").split(",")]
 
-ERROR_404_TEMPLATE_NAME = 'page_404.html'
-ERROR_400_TEMPLATE_NAME = 'page_400.html'
-ERROR_500_TEMPLATE_NAME = 'page_500.html'
+ERROR_404_TEMPLATE_NAME = config("ERROR_404_TEMPLATE_NAME")
+ERROR_400_TEMPLATE_NAME = config("ERROR_400_TEMPLATE_NAME")
+ERROR_500_TEMPLATE_NAME = config("ERROR_500_TEMPLATE_NAME")
 
 # Application definition
 
@@ -71,7 +69,7 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
-ROOT_URLCONF = 'project.urls'
+ROOT_URLCONF =  config("ROOT_URLCONF")
 
 TEMPLATES = [
     {
@@ -93,14 +91,14 @@ TEMPLATES = [
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://redis:6379/0",  # Use the Redis service name from docker-compose
+        "LOCATION": f'redis://{config("REDIS_HOST", "REDIS_PASSWORD")}/0',  # Use the Redis service name from docker-compose
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }
 
-WSGI_APPLICATION = 'project.wsgi.application'
+WSGI_APPLICATION = config("WSGI_APPLICATION")
 
 
 
@@ -113,15 +111,15 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql',
 
-        'NAME': f'{config("POSTGRES_DB", default="Goodfood_db")}',
+        'NAME': f'{config("POSTGRES_DB")}',
 
-        'USER': f'{config("POSTGRES_USER", default="Viktor")}',
+        'USER': f'{config("POSTGRES_USER")}',
 
-        'PASSWORD': f'{config("POSTGRES_PASSWORD", default="7586")}',
+        'PASSWORD': f'{config("POSTGRES_PASSWORD")}',
 
-        'HOST': 'db',
+        'HOST': f'{config("POSTGRES_HOST")}',
 
-        'PORT': f'{config("POSTGRES_PORT", default="5432")}',
+        'PORT': f'{config("POSTGRES_PORT")}',
 
     }
 
@@ -158,11 +156,11 @@ DATETIME_INPUT_FORMATS = (
     '%d-%b-%Y %H:%M:%S', # Формат в европейском стиле (день-месяц-год) [1](https://runebook.dev/en/articles/django/ref/settings/std:setting-DATETIME_INPUT_FORMATS)
 )
 
-TIME_ZONE = 'Europe/Moscow'
+TIME_ZONE = config("TIME_ZONE")
 
-USE_TZ = True
+USE_TZ = config("USE_TZ", cast=bool)
 
-YEAR_MONTH_FORMAT = 'm/Y'
+YEAR_MONTH_FORMAT = config("YEAR_MONTH_FORMAT")
 
 USE_THOUSAND_SEPARATOR = None
 
@@ -170,11 +168,11 @@ USE_THOUSAND_SEPARATOR = None
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = config("STATIC_URL")
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
-MEDIA_URL = '/media/'
+MEDIA_URL = config("MEDIA_URL")
 
 # Путь хранения картинок
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
