@@ -4,3 +4,8 @@ project/.env
 
 
 
+**/*.pyc
+**/__pycache__
+**/.env
+**/.git
+**/tests/
