@@ -2,7 +2,9 @@
 
 services:
   db:
-    image: postgres:17
+    build:
+      context: .
+      dockerfile: dockerfile.pg
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -18,24 +20,20 @@ services:
 
   redis:
     image: redis:alpine
-
-    ports: 
-      -  "6379:6379"
+    restart: always
     environment:
       REDIS_HOST: ${REDIS_HOST}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       REDIS_USER: ${REDIS_USER}
       REDIS_USER_PASSWORD: ${REDIS_USER_PASSWORD}
       REDIS_PORT: ${REDIS_PORT}
-      
       REDIS_MAXMEMORY: 500mb
       REDIS_AOF_ENABLED: yes
       REDIS_NOTIFY_KEYSPACE_EVENTS: A
+    ports: 
+      -  "6379:6379"
     volumes:
       -  redis_data:/data
-
-
-    restart: always
     networks:
       -  network
 
@@ -49,11 +47,11 @@ services:
     depends_on:
       - db
       - redis
-    environment:
-       DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}   
-       REDIS_PASSWORD: ${REDIS_PASSWORD}
     networks:
       - network
+    environment:
+      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}   
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
 
 volumes:
     redis_data:
