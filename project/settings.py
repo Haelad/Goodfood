@@ -37,7 +37,7 @@ DEBUG = config("DEBUG", cast=bool)
 
 ALLOWED_HOSTS = [str(hosts) for hosts in config("ALLOWED_HOSTS").split(",")]
 
-# INTERNAL_IPS = [str(ips) for ips in config("INTERNAL_IPS").split(",")]
+INTERNAL_IPS = [str(ips) for ips in config("INTERNAL_IPS").split(",")]
 
 ERROR_404_TEMPLATE_NAME = config("ERROR_404_TEMPLATE_NAME")
 ERROR_400_TEMPLATE_NAME = config("ERROR_400_TEMPLATE_NAME")
@@ -66,6 +66,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
