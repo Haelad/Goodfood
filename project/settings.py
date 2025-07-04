@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+import dj_database_url
 from decouple import config
 
 load_dotenv()
@@ -36,7 +37,7 @@ DEBUG = config("DEBUG", cast=bool)
 
 ALLOWED_HOSTS = [str(hosts) for hosts in config("ALLOWED_HOSTS").split(",")]
 
-INTERNAL_IPS = [str(ips) for ips in config("INTERNAL_IPS").split(",")]
+# INTERNAL_IPS = [str(ips) for ips in config("INTERNAL_IPS").split(",")]
 
 ERROR_404_TEMPLATE_NAME = config("ERROR_404_TEMPLATE_NAME")
 ERROR_400_TEMPLATE_NAME = config("ERROR_400_TEMPLATE_NAME")
@@ -88,15 +89,15 @@ TEMPLATES = [
     },
 ]
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f'redis://{config("REDIS_HOST", "REDIS_PASSWORD")}/0',  # Use the Redis service name from docker-compose
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": f'redis://{config("REDIS_HOST", "REDIS_PASSWORD")}/0',  # Use the Redis service name from docker-compose
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
 
 WSGI_APPLICATION = config("WSGI_APPLICATION")
 
@@ -106,25 +107,10 @@ WSGI_APPLICATION = config("WSGI_APPLICATION")
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-
-    'default': {
-
-        'ENGINE': 'django.db.backends.postgresql',
-
-        'NAME': f'{config("POSTGRES_DB")}',
-
-        'USER': f'{config("POSTGRES_USER")}',
-
-        'PASSWORD': f'{config("POSTGRES_PASSWORD")}',
-
-        'HOST': f'{config("POSTGRES_HOST")}',
-
-        'PORT': f'{config("POSTGRES_PORT")}',
-
-    }
-
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL')
+    )
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -169,6 +155,8 @@ USE_THOUSAND_SEPARATOR = None
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = config("STATIC_URL")
+
+STATIC_ROOT= os.path.join(BASE_DIR,'static/static_collect/')
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 

@@ -24,13 +24,11 @@ from django.conf import settings
 from goodfood import urls
 
 
-handler404 = "goodfood.views.page_not_found"
-handler500 = "goodfood.views.error_R"
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('goodfood/', include(urls))
-] + debug_toolbar_urls()
+] 
+# + debug_toolbar_urls()
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
