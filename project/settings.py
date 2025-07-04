@@ -35,7 +35,9 @@ SECRET_KEY = config("SECRET_KEY", cast=str)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = [str(hosts) for hosts in config("ALLOWED_HOSTS").split(",")]
+ALLOWED_HOSTS = [
+    'goodfood-f5yd.onrender.com',
+]
 
 INTERNAL_IPS = [str(ips) for ips in config("INTERNAL_IPS").split(",")]
 
