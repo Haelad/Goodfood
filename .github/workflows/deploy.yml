@@ -3,7 +3,7 @@ name: Build and push Docker image
 on:
   push:
     branches:
-      - main
+      - main_page
 
 jobs:
   build:
@@ -28,20 +28,23 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
-          export DOCKER_BUILDKIT=1
-          docker build \
-          --secret id=secret_key,env=SECRET_KEY \
-          --secret id=db_password,env=DB_PASSWORD \
-          --secret id=postgres_password,env=POSTGRES_PASSWORD \
-          -f services/db/Dockerfile \
-          -t haelad/db:latest .
+          docker run -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} postgres  
+        # run: |
+        #   DOCKER_BUILDKIT=1 
+        #   docker build \
+        #   -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} postgres \
+        #   --secret id=secret_key,env=SECRET_KEY \
+        #   # --secret id=db_password,env=DB_PASSWORD \
+        #   --secret id=postgres_password,env=POSTGRES_PASSWORD \
+        #   -f services/db/Dockerfile \
+        #   -t haelad/db:latest .
 
       - name: Build Cache
         env:
           REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
           REDIS_USER_PASSWORD: ${{ secrets.REDIS_USER_PASSWORD }}
         run: |
-          export DOCKER_BUILDKIT=1
+          DOCKER_BUILDKIT=1
           docker build \
                       --secret id=redis_password,env=REDIS_PASSWORD \
                       --secret id=redis_user_password,env=REDIS_USER_PASSWORD \
