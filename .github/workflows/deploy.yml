@@ -1,63 +1,40 @@
-name: Build and push Docker image
+name: CI with Docker Compose and Postgres
 
 on:
   push:
-    branches:
-      - main_page
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+    # Устанавливаем Docker Compose (если нужно)
+    - name: Install Docker Compose
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+    # Передаем секреты в переменные окружения и запускаем docker-compose
+    - name: Run docker-compose with Postgres
+      env:
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        SECRET_KEY :  ${{ secrets.SECRET_KEY }}
+      run: |
+        docker-compose up -d
 
-      - name: Build Db
-        env:
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        run: |
-          docker run -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} postgres  
-        # run: |
-        #   DOCKER_BUILDKIT=1 
-        #   docker build \
-        #   -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} postgres \
-        #   --secret id=secret_key,env=SECRET_KEY \
-        #   # --secret id=db_password,env=DB_PASSWORD \
-        #   --secret id=postgres_password,env=POSTGRES_PASSWORD \
-        #   -f services/db/Dockerfile \
-        #   -t haelad/db:latest .
+    # Ждем, пока Postgres станет доступен
+    - name: Wait for Postgres
+      run: |
+        until docker exec $(docker ps -qf "name=db") pg_isready -U postgres; do
+          echo "Waiting for Postgres..."
+          sleep 2
+        done
 
-      - name: Build Cache
-        env:
-          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
-          REDIS_USER_PASSWORD: ${{ secrets.REDIS_USER_PASSWORD }}
-        run: |
-          DOCKER_BUILDKIT=1
-          docker build \
-                      --secret id=redis_password,env=REDIS_PASSWORD \
-                      --secret id=redis_user_password,env=REDIS_USER_PASSWORD \
-                      -f services/redis/Dockerfile \
-                      -t haelad/redis:latest .
-
-      - name: Push images
-        run: |
-          docker push haelad/db:latest
-          docker push haelad/redis:latest
-
-      - name: Deploy with docker-compose
-        run: |
-          docker-compose up -d
-
+    # Запускаем ваши тесты, используя правильный DATABASE_URL
+    - name: Run tests
+      env:
+        DATABASE_URL: postgres://postgres:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/postgres
+      run: |
+        # Здесь ваши команды для тестов
+        echo "Запускаем тесты"
           
