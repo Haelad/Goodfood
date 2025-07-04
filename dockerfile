@@ -26,7 +26,14 @@ RUN pip install --upgrade pip setuptools && \
 # Копируем проект
 COPY . .
 
+<<<<<<< HEAD
 EXPOSE 10000
 
 # Запуск сервера
 CMD ["python", "manage.py", "runserver", "0.0.0.0:10000"]
+=======
+EXPOSE 8000
+
+# Запуск сервера
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+>>>>>>> 4d7adbdf1ab796807de6c6787dc9dc284b888d5d
