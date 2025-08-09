@@ -24,8 +24,6 @@ services:
     environment:
       REDIS_HOST: ${REDIS_HOST}
       REDIS_PASSWORD: ${REDIS_PASSWORD}
-      REDIS_USER: ${REDIS_USER}
-      REDIS_USER_PASSWORD: ${REDIS_USER_PASSWORD}
       REDIS_PORT: ${REDIS_PORT}
       REDIS_MAXMEMORY: 500mb
       REDIS_AOF_ENABLED: yes
@@ -39,6 +37,8 @@ services:
 
   web:
     build: .
+    env_file:
+      - .env
     command: bash -c "sleep 10 && gunicorn project.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - .:/app  # Монтируем текущую директорию в контейнер
@@ -50,8 +50,8 @@ services:
     networks:
       - network
     environment:
-      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}   
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE} 
+      DB_HOST: db 
 
 volumes:
     redis_data:
