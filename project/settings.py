@@ -27,7 +27,37 @@ ALLOWED_HOSTS = [str(hts) for hts in config("ALLOWED_HOSTS").split(",")]
 
 INTERNAL_IPS = [str(ips) for ips in config("INTERNAL_IPS").split(",")]
 
+# CSP
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'",)  # разрешённые источники для JS
+CSP_STYLE_SRC = ("'self'",)  # разрешённые источники для CSS
+CSP_FONT_SRC = ("'self'",) # разрешенные источники для шрифтов
+CSP_IMG_SRC = ("'self'", 'data:') # разрешенные источники для изображений
+CSP_CONNECT_SRC = ("'self'",) # разрешенные источники для подключений
+CSP_REPORT_URI = None # адрес сервера для логов
 
+
+
+# КУКИ
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = True
+# ФИЛЬТРЫ
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+# РАЗРЕШЕННИЯ 
+SECURE_REFERRER_POLICY = 'same-origin'
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
+SECURE_CROSS_ORIGIN_RESOURCE_POLICY = 'same-site'
+SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = 'require-corp'
+SESSION_COOKIE_SAMESITE = 'Lax'
+# HSTS
+SECURE_HSTS_SECONDS = 31536000 # 1 год
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_SSL_REDIRECT = True
 
 
 # Application definition
@@ -35,6 +65,7 @@ INTERNAL_IPS = [str(ips) for ips in config("INTERNAL_IPS").split(",")]
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'csp',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -42,13 +73,14 @@ INSTALLED_APPS = [
     'goodfood',
     'debug_toolbar',
     'django_extensions',   
-]
+] 
 
 
 # создать MIDDLEWARE для отработки исключений и прочего
 MIDDLEWARE = [
+    'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware'
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
