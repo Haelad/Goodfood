@@ -65,14 +65,11 @@ SECURE_SSL_REDIRECT = True
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
-    'csp',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'goodfood',
-    'debug_toolbar',
-    'django_extensions',   
+    'goodfood', 
 ] 
 
 
@@ -80,14 +77,13 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware'
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF =  config("ROOT_URLCONF")
@@ -183,7 +179,7 @@ USE_THOUSAND_SEPARATOR = None
 
 STATIC_URL = config("STATIC_URL")
 
-STATIC_ROOT= os.path.join(BASE_DIR,'static/static_collect/')
+STATIC_ROOT= os.path.join(BASE_DIR,'static_collect')
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 

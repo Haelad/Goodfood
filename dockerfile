@@ -1,41 +1,33 @@
-FROM python:3.11-slim
-# настройка виртуального окружения
-# Установка необходимых пакетов и удаление лишнего
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY pyproject.toml poetry.lock* /app/
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        postgresql-client \
-    && apt-get purge -y \
+        postgresql-client && \
+    pip install "poetry==2.1.4" && \
+    poetry install --no-root --without dev && \
+    apt-get purge -y \
         gcc \
         libpq-dev \
         sqlite3 \
         libsqlite3* \
         binutils \
-        perl \
-    && apt-get autoremove -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+        perl && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Установка рабочей директории
 
-# Установка рабочей директории
-WORKDIR /app
+COPY . /app/
 
-# Установка зависимостей Python
-COPY requirements.txt .
-RUN pip install --upgrade pip setuptools && \
-    pip install --no-cache-dir -r requirements.txt
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Копируем проект
+EXPOSE 8000
 
-# Установка зависимостей Python
-COPY requirements.txt .
-RUN pip install --upgrade pip setuptools && \
-    pip install --no-cache-dir -r requirements.txt
+ENTRYPOINT ["/entrypoint.sh"]
 
-# Копируем проект
-COPY . .
-
-EXPOSE 10000
-
-# Запуск сервера
-CMD ["python", "manage.py", "runserver", "0.0.0.0:10000"]
+CMD ["poetry", "run", "gunicorn", "proejct.wsgi:application", "--bind", "0.0.0.0:8000"]

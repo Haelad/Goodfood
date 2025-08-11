@@ -39,7 +39,7 @@ services:
     build: .
     env_file:
       - .env
-    command: bash -c "sleep 10 && gunicorn project.wsgi:application --bind 0.0.0.0:8000"
+    command: poetry run gunicorn project.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/app  # Монтируем текущую директорию в контейнер
     ports: 
