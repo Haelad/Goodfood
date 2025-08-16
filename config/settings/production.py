@@ -27,6 +27,67 @@ DATABASES = {
     }
 }
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "{levelname} {asctime} {message}", # форматор, определяет какие данные будут в логах
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+            "style": "{" # обзначает синтаксис подстонвки данных в форматор
+        },
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}", 
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+            "style": "{" 
+        }, 
+    },
+    
+    "filters": {
+    "require_debug_false": {
+        "()": "django.utils.log.RequireDebugFalse"
+    },
+    },
+    "handlers": {
+        "file_django": {
+            "level": "DEBUG",
+            "formatters": "simple",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "config/logs", "django.txt")
+        },
+        "file": {
+            "level": "WARNING",
+            "formatters": "verbose",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "config/logs", "logs.txt")
+        },
+        "mail": {
+            "level":  "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
+            "formatters": "verbose",
+            "filters": ["require_debug_false"], 
+            
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file_django"],
+            "level": "DEBUG",
+            "propagate": False
+        },
+        "thread":{
+            "handlers": ["file"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        "mail_thread" : {
+            "handlers": ["mail"],
+            "level": "ERROR",
+            "propagate": False,
+        }
+    },
+}
+
 # security
 DEBUG = False
 
