@@ -93,8 +93,7 @@ DEBUG = False
 
 SECRET_KEY = config("SECRET_KEY", cast=str)
 
-ALLOWED_HOSTS = ("haeladgoodfood.ru", "www.haeladgoodfood.ru")
-
+ALLOWED_HOSTS = ['haeladgoodfood.ru', 'www.haeladgoodfood.ru']
 #Domen2025 Hosting2025 Webconstr2025
 
 
@@ -131,6 +130,7 @@ SECURE_HSTS_SECONDS = 31536000 # 1 год
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 STATIC_URL = "/static/"
 STATIC_ROOT= os.path.join(BASE_DIR,'static_collect')
