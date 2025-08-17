@@ -40,31 +40,31 @@ LOGGING = {
             "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}", 
             "datefmt": "%Y-%m-%d %H:%M:%S",
             "style": "{" 
-        }, 
+        }
     },
     
     "filters": {
     "require_debug_false": {
         "()": "django.utils.log.RequireDebugFalse"
-    },
+    }
     },
     "handlers": {
         "file_django": {
             "level": "DEBUG",
-            "formatters": "simple",
+            "formatter": "simple",
             "class": "logging.FileHandler",
             "filename": os.path.join(BASE_DIR, "config/logs", "django.txt")
         },
         "file": {
             "level": "WARNING",
-            "formatters": "verbose",
+            "formatter": "verbose",
             "class": "logging.FileHandler",
             "filename": os.path.join(BASE_DIR, "config/logs", "logs.txt")
         },
         "mail": {
             "level":  "ERROR",
             "class": "django.utils.log.AdminEmailHandler",
-            "formatters": "verbose",
+            "formatter": "verbose",
             "filters": ["require_debug_false"], 
             
         },
@@ -93,9 +93,10 @@ DEBUG = False
 
 SECRET_KEY = config("SECRET_KEY", cast=str)
 
-ALLOWED_HOSTS = [str(hts) for hts in config("ALLOWED_HOSTS").split(",")]
+ALLOWED_HOSTS = ("haeladgoodfood.ru", "www.haeladgoodfood.ru")
 
-INTERNAL_IPS = [str(ips) for ips in config("INTERNAL_IPS").split(",")]
+#Domen2025 Hosting2025 Webconstr2025
+
 
 # CSP
 CSP_DEFAULT_SRC = ("'self'",)
