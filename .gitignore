@@ -78,8 +78,8 @@ env/
 Thumbs.db
 
 # SSL certs and keys (if you don't want to commit them)
-certbot_data/
-certs/
+# certbot_data/
+# certs/
 
 # dotenv environment variables files
 .env
