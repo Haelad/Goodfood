@@ -6,20 +6,15 @@ COPY pyproject.toml poetry.lock* /app/
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        postgresql-client && \
+        postgresql-client curl gcc libpq-dev && \
+    pip install --upgrade pip && \
     pip install "poetry==2.1.4" && \
+    ln -s /usr/local/bin/poetry /usr/bin/poetry && \
     poetry install --no-root --without dev && \
-    apt-get purge -y \
-        gcc \
-        libpq-dev \
-        sqlite3 \
-        libsqlite3* \
-        binutils \
-        perl && \
+    apt-get purge -y gcc libpq-dev && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
 
 COPY . /app/
 
