@@ -9,6 +9,7 @@ RUN apt-get update && \
         postgresql-client curl gcc libpq-dev && \
     pip install --upgrade pip && \
     pip install "poetry==2.1.4" && \
+    poetry config virtualenvs.create false && \
     poetry install --no-root --without dev && \
     apt-get purge -y gcc libpq-dev && \
     apt-get autoremove -y && \
