@@ -1,8 +1,10 @@
 
 from .base import *
+from dotenv import load_dotenv
+from decouple import config
 
-# export DJANGO_SETTINGS_MODULE=config.settings.production
-# gunicorn config.wsgi:application
+
+load_dotenv()
 
 CACHES = {
     "default": {
