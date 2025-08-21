@@ -139,23 +139,23 @@ DATETIME_INPUT_FORMATS = (
 
 
 
-USE_TZ = config("USE_TZ", cast=bool)
+# USE_TZ = config("USE_TZ", cast=bool)
 
-YEAR_MONTH_FORMAT = config("YEAR_MONTH_FORMAT")
+# YEAR_MONTH_FORMAT = config("YEAR_MONTH_FORMAT")
 
-USE_THOUSAND_SEPARATOR = None
+# USE_THOUSAND_SEPARATOR = None
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = config("STATIC_URL")
+STATIC_URL = "/static/"
 
 STATIC_ROOT= os.path.join(BASE_DIR,'static/static_collect/')
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
-MEDIA_URL = config("MEDIA_URL")
+MEDIA_URL = "/media/"
 
 # Путь хранения картинок
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
