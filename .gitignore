@@ -1,8 +1,12 @@
+  
+/certs/
+/certbot/
+/apps/goodfood/migrations/
+
 # Byte-compiled / optimized / DLL files
 */__pycache__/
 *.py[cod]
 *$py.class
-/cerbot
 
 *.рус
 *.ру
@@ -67,7 +71,7 @@ docker-compose.override.yml
 
 # Virtual environment
 venv/
-.env
+env/
 .venv/
 
 # VSCode, PyCharm
@@ -79,8 +83,8 @@ venv/
 Thumbs.db
 
 # SSL certs and keys (if you don't want to commit them)
-certbot_data/
-certs/
+# certbot_data/
+# certs/
 
 # dotenv environment variables files
 .env
