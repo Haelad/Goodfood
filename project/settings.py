@@ -23,9 +23,9 @@ SECRET_KEY = config("SECRET_KEY", cast=str)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = [str(hts) for hts in config("ALLOWED_HOSTS").split(",")]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-INTERNAL_IPS = [str(ips) for ips in config("INTERNAL_IPS").split(",")]
+INTERNAL_IPS = ['127.0.0.1', 'localhost']
 
 
 
@@ -77,17 +77,17 @@ TEMPLATES = [
     },
 ]
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f'redis://{config("REDIS_HOST", "REDIS_PASSWORD")}/0',  # Use the Redis service name from docker-compose
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": f'redis://{config("REDIS_HOST", "REDIS_PASSWORD")}/0',  # Use the Redis service name from docker-compose
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
 
-WSGI_APPLICATION = config("WSGI_APPLICATION")
+WSGI_APPLICATION = "project.wsgi.application"
 
 
 
@@ -95,13 +95,9 @@ WSGI_APPLICATION = config("WSGI_APPLICATION")
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': f'{config("POSTGRES_DB")}',
-        'USER': f'{config("POSTGRES_USER")}',
-        'PASSWORD': f'{config("POSTGRES_PASSWORD")}',
-        'HOST': f'{config("POSTGRES_HOST")}',
-        'PORT': f'{config("POSTGRES_PORT")}',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",   # файл базы будет лежать в корне проекта
     }
 }
 
