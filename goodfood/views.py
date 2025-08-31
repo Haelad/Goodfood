@@ -12,13 +12,12 @@ def index(request):
 
 def food(request):
   list_food = get_list_or_404(Goods.objects.select_related("category").all())
-  return render(request, "goods.html", {"context" : list_food})
-
+  return render(request, "goods.html", context={"context": list_food})
 
 
 def food_detail(request, slug_name, pk):
   detail_food = get_object_or_404(Goods.objects.select_related("category"), pk=pk, slugify_name=slug_name)
-  return render(request, "food.html", {"f" : detail_food})
+  return render(request, "foood.html", {"food" : detail_food})
 
 
 

@@ -71,7 +71,9 @@ a {
 }
 
 body {
-	background-color: #070510;
+    background-color: #070510; 
+    margin: 0;
+    padding: 0;
 }
 
 
@@ -126,74 +128,128 @@ body {
 }
 
 .second-block {
-	background-image: url(../images/background_objects.png);
-	background-repeat: no-repeat;
-	background-size: cover;
+	background: url("../images/background_objects.png") center/cover no-repeat;   
+  position:absolute;
 	width: 100%;
+	min-height: 100vh;  
+  padding: 60px 0;
 
-	align-items: center;
-	justify-content: center;
-
-	padding-top: 250px;
-
-	padding-bottom: 250px;
 }
+
 
 .content-food-list {
-	background-image: url(../images/white-table.png);
-
-	width: 800px;
-
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-
-	align-items: center;
-	justify-content: center;
-
-	list-style: none;
-	width: 800px;
-	margin: auto;
-	margin-bottom: 30px;
+  background-color: #e4e3e9;        
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  max-width: 1200px;              
+  margin: 0 auto 30px auto;         
+  padding: 20px;                    
+  align-items: start;
 }
 
-.title-food {
-	text-align: center;
+.card-body {
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
 
-	font-size: 46px;
-	font-weight: 700;
-
-	color: goldenrod;
-
-	padding-top: 32px;
-	padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
-.text-food {
-	text-align: center;
-
-	font-size: 24px;
-	font-weight: 700;
-
-	font-style: italic;
+.btn .food-card, .content-food-list {
+  overflow-x: hidden;
+	resize: none; 
 }
 
-.img-food {
-	text-align: center;
-	padding-top: 40px;
-	padding-bottom: 60px;
+.card-text {
+  max-height: 50px;        
+  white-space: pre-wrap;      
+  padding-right: 10px;        
+  box-sizing: border-box;     
+	resize: none;       
+  overflow-y: auto;   
+  overflow-x: hidden; 
+	transform: translateZ(0);
+
+  flex-shrink: 0; 
 }
 
-.img-food img {
-	width: 30%;
+/* Картинка блюда */
+.card-img-wrapper {
+  height: 200px;        /* фиксируем одинаковую высоту */
+  overflow: hidden;
+
 }
+
+.card-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+	pointer-events: none;
+  user-select: none;    
+}
+
 
 .category-food {
-	color: #e4e3e9;
-	font-size: 22px;
-	font-weight: 600;
+  color: #e4e3e9;
+  font-size: 22px;
+  font-weight: 600;
+  background-color: darkgreen;
+  border-radius: 8px; 
+  padding: 6px 14px;
+  margin-bottom: 40px;
+}
 
-	background-color: darkgreen;
+.badge {
+  font-size: 0.8rem;      /* небольшой размер */
+  padding: 0.3em 0.6em;   /* уменьшенные отступы */
+}
 
-	border-radius: 5%;
+.card { position: relative; }
+
+/* Адаптивные мелочи: уменьшить шрифты на телефонах */
+@media (max-width: 575.98px) {
+  .title-food { font-size: 32px; }
+  .text-food  { font-size: 18px; }
+  .img-food img { width: 70%; }
+}
+
+@media (max-width: 768px) {
+  img, 
+  p, 
+  h1, 
+  h2, 
+  h3, 
+  span, 
+  a, 
+  button {
+    -webkit-user-drag: none;  /* Safari, Chrome */
+    user-select: none;         /* запрет выделения текста */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* IE10+ */
+  }
+
+  img {
+    draggable: false; /* HTML-атрибут нужно ставить через JS или в HTML */
+  }
+}
+
+.card-text {
+  transform: translateZ(0);  /* включает GPU acceleration */
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translate3d(0,0,0);
+}
+
+.card-text::-webkit-scrollbar {
+  width: 6px;
+}
+
+.card-text::-webkit-scrollbar-thumb {
+  background: goldenrod;
+  border-radius: 3px;
+}
+
+.card-text::-webkit-scrollbar-track {
+  background: transparent;
 }
