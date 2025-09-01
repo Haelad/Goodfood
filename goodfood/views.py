@@ -17,13 +17,13 @@ def food(request):
 
 def food_detail(request, slug_name, pk):
   detail_food = get_object_or_404(Goods.objects.select_related("category"), pk=pk, slugify_name=slug_name)
-  return render(request, "foood.html", {"food" : detail_food})
+  return render(request, "food.html", {"food" : detail_food})
 
 
 
 def food_category(request, cat_id):
-  food = get_list_or_404(Goods.objects.filter(category_id=cat_id))
-  return render(request, "category.html", {"food":food})
+  cat_food = get_list_or_404(Goods.objects.filter(category_id=cat_id))
+  return render(request, "category.html", {"food":cat_food})
 
 
 # views_handlers

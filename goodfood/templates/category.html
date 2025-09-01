@@ -1,16 +1,37 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+{% load static %} 
 
-		<div class="second-block">
-			{% for f in food %}
-				<ul class="content-food-list">
-				<li><div class="category-food">{{f.category}}</div></li>
+{% block content %}
 
-				<li><div class="title-food"><a href="{{ f.get_absolute_url }}">{{f.name}}</a></div></li>
-				<li><div class="text-food">{{f.desc}}</div></li>
-				<li><div class="img-food"><img src="{{ MEDIA_URL }}/{{f.photo}}" alt="" /></li>
-				</ul>
-			{% endfor %}
-			</div>
-		</div>
-	{% endblock content %}
-</html>
+<section class="second-block">
+<div class="container my-5">
+  <div class="row g-4">
+    {% for f in food %}
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <article class="card h-100 d-flex flex-column">
+        {% if f.category %}
+          <span class="badge bg-success mt-2 ms-2 position-absolute top-0 start-0">{{ f.category }}</span>
+        {% endif %}
+
+        {% if f.photo %}
+        <div class="card-img-wrapper">
+          <img src="{{ MEDIA_URL }}{{ f.photo }}" alt="{{ f.name }}" draggable="false">
+        </div>
+        {% endif %}
+
+        <div class="card-body d-flex flex-column text-center">
+          <h5 class="card-title mb-2">{{ f.name }}</h5>
+          <p class="card-text scroll-text mb-3">{{ f.desc }}</p>
+          
+         
+          <a href="{{ f.get_absolute_url }}" class="btn btn-primary mt-auto">Посмотреть</a>
+        </div>
+      </article>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+</section>
+
+
+{% endblock content %}

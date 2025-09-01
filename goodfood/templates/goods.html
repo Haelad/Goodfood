@@ -9,7 +9,7 @@
       <div class="col-12 col-sm-6 col-md-4 col-lg-3">
         <article class="card h-100 d-flex flex-column">
         {% if food.category %}
-          <span class="badge bg-success mt-2 ms-2 position-absolute top-0 start-0">{{ food.category }}</span>
+          <span class="badge bg-success mt-2 ms-2 position-absolute top-0 start-0"><a href="{{food.category.get_absolute_url}}">{{ food.category }}</a></span>
         {% endif %}
 
         {% if food.photo %}
