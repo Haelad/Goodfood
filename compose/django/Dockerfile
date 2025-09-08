@@ -18,7 +18,7 @@ RUN apt-get update && \
 
 COPY . /app/
 
-COPY entrypoint.sh /entrypoint.sh
+COPY compose/django/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 8000

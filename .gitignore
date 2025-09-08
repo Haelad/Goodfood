@@ -1,6 +1,8 @@
   
 /certs/
+/html/
 /certbot/
+/certbot_data/
 /apps/goodfood/migrations/
 
 # Byte-compiled / optimized / DLL files
