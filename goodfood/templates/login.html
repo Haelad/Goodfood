@@ -1,0 +1,15 @@
+<legend><h2>Регистрация</h2></legend>
+
+<form method="post">
+  {% csrf_token %}
+
+
+
+  <label for="" id="">Email or your user name<input type="text">{{form.login}}</label>
+
+  <label for="" id="">Password<input type="text">{{form.password}}</label>
+
+  <button type="submit">Войти</button>
+
+
+</form>

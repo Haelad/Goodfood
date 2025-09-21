@@ -4,6 +4,25 @@
 	font-family: 'Times New Roman', Times, serif;
 }
 
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+body {
+    background-color: #070510; 
+    margin: 0;
+    padding: 0;
+}
+
+li {
+	display: inline;
+}
+
+ul {
+	list-style-type: none;
+}
+
 @media (max-width: 767.98px) {
   .col-12 {
     padding-left: 24px;
@@ -18,14 +37,6 @@
 .nav-menu {
 	font-size: 32px;
 	font-weight: 900;
-}
-
-li {
-	display: inline;
-}
-
-ul {
-	list-style-type: none;
 }
 
 .nav-link {
@@ -58,23 +69,12 @@ ul {
 .btn-link:hover,
 .btn-link:focus,
 .btn-link:active {
-    color: #979797ab;         /* остаётся белым на hover, focus и active */
+    color: #979797ab;  
 }
 .nav-link:hover::after {
     transform: scaleY(1);
 }
 
-
-a {
-	text-decoration: none;
-	color: inherit;
-}
-
-body {
-    background-color: #070510; 
-    margin: 0;
-    padding: 0;
-}
 
 
 .main-block {
@@ -82,9 +82,15 @@ body {
     align-items: center;      
     justify-content: flex-start; 
     
-    background: url(../images/bg.png) center/cover no-repeat;
-    min-height: calc(100vh - 64px); 
+    background: url(../images/delicious-vegetable-salad.jpg) center/cover no-repeat;
+    min-height: calc(100vh - 64px);
     width: 100%;
+}
+
+@media (max-width: 2560px){
+  .main-block {
+    padding-right: 36vh;
+}
 }
 
 .title {
@@ -175,9 +181,9 @@ body {
   flex-shrink: 0; 
 }
 
-/* Картинка блюда */
+
 .card-img-wrapper {
-  height: 200px;        /* фиксируем одинаковую высоту */
+  height: 200px;        
   overflow: hidden;
 
 }
@@ -202,13 +208,13 @@ body {
 }
 
 .badge {
-  font-size: 0.8rem;      /* небольшой размер */
-  padding: 0.3em 0.6em;   /* уменьшенные отступы */
+  font-size: 0.8rem;      
+  padding: 0.3em 0.6em;   
 }
 
 .card { position: relative; }
 
-/* Адаптивные мелочи: уменьшить шрифты на телефонах */
+
 @media (max-width: 575.98px) {
   .title-food { font-size: 32px; }
   .text-food  { font-size: 18px; }

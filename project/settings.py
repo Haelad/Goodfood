@@ -37,11 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    "widget_tweaks", 
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'goodfood',
     'debug_toolbar',
-    'django_extensions',   
+    'django_extensions',  
+    
 ]
 
 
@@ -58,7 +60,7 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
-ROOT_URLCONF =  config("ROOT_URLCONF")
+ROOT_URLCONF = "project.urls"
 
 TEMPLATES = [
     {
