@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-
-from django.urls import reverse_lazy
+from django.contrib.auth import login, logout, authenticate
 
 
 
@@ -29,9 +27,23 @@ def login_view(request):
             login(request, form.get_user())
             return redirect("goodfood:main")
     else:
-        form = LogInForm()        
+        form = LogInForm() 
+        
+            
+    if form.is_valid():
+        print("VALID:", form.cleaned_data)
+    else:
+        print("ERRORS:", form.errors)      
     return render(request, "login.html", {"form": form})
         
+
+def exit_view(request):
+    if request.method == "POST":
+        logout(request)
+        return redirect("goodfood:main")
+        
+        
+    
             
             
                 

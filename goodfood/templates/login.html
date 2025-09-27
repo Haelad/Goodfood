@@ -1,15 +1,35 @@
-<legend><h2>Регистрация</h2></legend>
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static %}
 
-<form method="post">
-  {% csrf_token %}
+{% block content %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-6 col-lg-4">
+      <h2 class="mb-4 text-center">Вход</h2>
+      <form method="POST" novalidate> 
+        {% csrf_token %}
 
+        <div class="mb-3">
+          <div class="login-form" style="padding-bottom: 7%;">{{ form.username }}</div>
+          <div class="password input" style="padding-bottom: 5%;">{{ form.password }}
+          {% if field.errors %}
+            {{ field|add_class:"form-control is-invalid" }}
+            <div class="invalid-feedback">
+              {% for error in field.errors %}
+                {{ error }}
+              {% endfor %}
+            </div>
+          {% elif form.is_bound %}
+            {{ field|add_class:"form-control is-valid" }}
+          {% else %}
+            {{ field|add_class:"form-control" }}
+          {% endif %}
+        </div>
 
-
-  <label for="" id="">Email or your user name<input type="text">{{form.login}}</label>
-
-  <label for="" id="">Password<input type="text">{{form.password}}</label>
-
-  <button type="submit">Войти</button>
-
-
-</form>
+        <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}
