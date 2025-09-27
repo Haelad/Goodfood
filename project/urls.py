@@ -28,6 +28,7 @@ from users import urls as users_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('goodfood/', include(goodfood_urls)),
+    path('accounts/', include('allauth.urls')),  # добавляем allauth
     path('users/', include(users_urls))
     
 ] + debug_toolbar_urls()

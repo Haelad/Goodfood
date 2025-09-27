@@ -33,14 +33,22 @@ INTERNAL_IPS = ['127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    "widget_tweaks", 
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'django.contrib.sites',  # обязательный модуль
+    'widget_tweaks', 
     'goodfood',
+    # allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    
     'debug_toolbar',
     'django_extensions',  
     
@@ -54,11 +62,43 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+LOGIN_REDIRECT_URL = '/goodfood/'
+
+# Какие методы входа разрешены
+ACCOUNT_LOGIN_METHODS = {"email", "username"}  
+# или только email:
+# ACCOUNT_LOGIN_METHODS = {"email"}
+
+# Какие поля показывать на регистрации
+ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+    }
+}
+
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # подтверждение email обязательно
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/"  # куда кидать после подтверждения
+LOGIN_REDIRECT_URL = "/goodfood/"  # куда кидать после входа
+LOGOUT_REDIRECT_URL = "/goodfood/"  # куда после выхода
+
+
 
 ROOT_URLCONF = "project.urls"
 

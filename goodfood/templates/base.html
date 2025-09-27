@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -41,6 +42,9 @@
         {% else %}
         <li class="nav-item"><a href="{% url 'users:login'%}" class="nav-link">Вход</a></li>
         {% endif %}
+        <a class="btn btn-outline-danger" href="{% provider_login_url 'google' %}">
+  Войти через Google
+</a>
         <li class="nav-item"><a href="{% url 'users:signup' %}" class="nav-link">Регистрация</a></li>
       </ul>
     </div>
