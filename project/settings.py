@@ -93,10 +93,12 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # подтверждение email обязательно
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/"  # куда кидать после подтверждения
-LOGIN_REDIRECT_URL = "/goodfood/"  # куда кидать после входа
-LOGOUT_REDIRECT_URL = "/goodfood/"  # куда после выхода
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "goodfood:main"  # куда кидать после подтверждения
+LOGIN_REDIRECT_URL = "goodfood:main"  # куда кидать после входа
+LOGOUT_REDIRECT_URL = "goodfood:main"  # куда после выхода
 
 
 
