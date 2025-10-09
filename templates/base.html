@@ -34,15 +34,17 @@
 
         
          <li class="nav-item">
-          <form method="post" action="{% url 'users:logout' %}">
+          <form method="post" action="{% url 'account_logout' %}">
             {% csrf_token %}
             <button type="submit" class="nav-link">Выход</button>
           </form>
         </li>
         {% else %}
-        <li class="nav-item"><a href="{% url 'users:login'%}" class="nav-link">Вход</a></li>
+        <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link">Вход</a></li>
+
+        <li class="nav-item"><a href="{% url 'account_signup' %}" class="nav-link">Регистрация</a></li>
         {% endif %}
-        <li class="nav-item"><a href="{% url 'users:signup' %}" class="nav-link">Регистрация</a></li>
+        
       </ul>
     </div>
   </div>

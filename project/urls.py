@@ -22,14 +22,13 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from goodfood import urls as goodfood_urls
-from users import urls as users_urls
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('goodfood/', include(goodfood_urls)),
+    path('', include(goodfood_urls)),
     path('accounts/', include('allauth.urls')),  # добавляем allauth
-    path('users/', include(users_urls))
     
 ] + debug_toolbar_urls()
 

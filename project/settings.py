@@ -7,7 +7,8 @@ from decouple import config
 
 load_dotenv()
 
-# Time settings
+
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -19,6 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config("SECRET_KEY", cast=str)
+SITE_ID = 1
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", cast=bool)
@@ -33,25 +35,21 @@ INTERNAL_IPS = ['127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.sites',  # обязательный модуль
-    'widget_tweaks', 
-    'goodfood',
-    # allauth
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    
+    'goodfood',
+    'widget_tweaks', 
     'debug_toolbar',
-    'django_extensions',  
-    
+    'django_extensions',
 ]
 
 
@@ -61,44 +59,15 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
-SITE_ID = 1
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
-
-LOGIN_REDIRECT_URL = '/goodfood/'
-
-# Какие методы входа разрешены
-ACCOUNT_LOGIN_METHODS = {"email", "username"}  
-# или только email:
-# ACCOUNT_LOGIN_METHODS = {"email"}
-
-# Какие поля показывать на регистрации
-ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
-
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': ['profile', 'email'],
-        'AUTH_PARAMS': {'access_type': 'online'},
-    }
-}
-
-SOCIALACCOUNT_LOGIN_ON_GET = True
-
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # подтверждение email обязательно
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "goodfood:main"  # куда кидать после подтверждения
-LOGIN_REDIRECT_URL = "goodfood:main"  # куда кидать после входа
-LOGOUT_REDIRECT_URL = "goodfood:main"  # куда после выхода
 
 
 
@@ -149,7 +118,6 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -164,6 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
 
 
 # Internationalization
@@ -204,3 +173,60 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+
+# Какие методы входа разрешены
+ACCOUNT_LOGIN_METHODS = {"email", "username"}  
+
+
+# Какие поля показывать на регистрации
+ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+    }
+}
+
+ACCOUNT_FORMS = {
+    'login': 'goodfood.forms.CustomLoginForm',
+    'signup': 'goodfood.forms.CustomSignupForm',
+}
+
+
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True 
+
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # подтверждение email обязательно
+
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "goodfood:main"  # куда кидать после подтверждения
+LOGIN_REDIRECT_URL = "goodfood:main"  # куда кидать после входа
+LOGOUT_REDIRECT_URL = "goodfood:main"  # куда после выхода
+
+# Это нужно, чтобы allauth не конфликтовал с кастомными шаблонами
+ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# SMTP-сервер и порт
+EMAIL_HOST = 'smtp.gmail.com'  # для Gmail
+EMAIL_PORT = 587                # TLS порт
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'stupakviktor00@gmail.com' # ! ИЗМЕНИТЬ
+
+# Для Gmail нужен App Password (не обычный пароль) 
+EMAIL_HOST_PASSWORD = 'dsqoavnunqymugcl' #! ИЗМЕНИТЬ
+
+# Адрес отправителя по умолчанию
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
