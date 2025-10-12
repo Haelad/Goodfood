@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load socialaccount %}  
+{% load i18n %}
+
+{% block title %}Вход через Google{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 mx-auto" style="max-width: 500px;">
+        <h3 class="text-center mb-4">Подтверждение входа</h3>
+
+        <p class="text-center mb-3">
+            {% blocktrans with provider_name=account.get_provider.name %}
+            Вы собираетесь войти через <strong>{{ provider_name }}</strong>.
+            {% endblocktrans %}
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="d-grid">
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-google"></i> Войти через Google
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'account_login' %}">Назад к форме входа</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

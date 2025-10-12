@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% load static %} 
+
+
+
+{% block content %}
+<section class="second-block">
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8">
+      <div class="card shadow-lg">
+
+        {% if food.category %}
+          <span class="badge bg-success mt-2 ms-2 position-absolute top-0 start-0"><a href="{{food.category.get_absolute_url}}">{{ food.category }}</a></span>
+        {% endif %}
+        
+        <!-- Картинка блюда -->
+        {% if food.photo %}
+        <img src="{{ MEDIA_URL }}{{ food.photo }}" class="card-img-top img-fluid" alt="{{ food.photo }}" draggable="false">
+        {% endif %}
+
+        <div class="card-body">
+          <!-- Название -->
+          <h2 class="card-title">{{ food.name }}</h2>
+
+
+          <!-- Описание -->
+          <p class="card-text scroll-text">{{ food.desc }}</p>
+
+          <!-- Дополнительно можно добавить поля: цена, ингредиенты -->
+          {% if food.price %}
+          <p class="fw-bold">Цена: {{ food.price }} ₽</p>
+          {% endif %}
+
+          <!-- Кнопка возврата -->
+          <a href="{% url 'goodfood:goods' %}" class="btn btn-outline-primary mt-3">Вернуться к списку</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+{% endblock content %}

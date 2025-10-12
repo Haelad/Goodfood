@@ -21,14 +21,16 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 from django.conf import settings
 
-from goodfood import urls
+from goodfood import urls as goodfood_urls
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('goodfood/', include(urls))
-] 
-# + debug_toolbar_urls()
+    path('', include(goodfood_urls)),
+    path('accounts/', include('allauth.urls')),  # добавляем allauth
+    
+] + debug_toolbar_urls()
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

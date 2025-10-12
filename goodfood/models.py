@@ -13,7 +13,7 @@ from goodfood.validators import GoodfoodValidator
 # Create your models here.
 class Categories(models.Model):
   
-  cat = models.CharField(verbose_name='категория', max_length=256, db_index=True, validators=[MinLengthValidator(1), MaxLengthValidator(256), GoodfoodValidator()])
+  cat = models.CharField(verbose_name='категория', max_length=32, db_index=True, validators=[MinLengthValidator(1), MaxLengthValidator(32), GoodfoodValidator()])
     
   class Meta:
       verbose_name = ('Категория')
