@@ -1,15 +1,110 @@
+  
+/certs/
+/html/
+/certbot/
+/certbot_data/
+/apps/goodfood/migrations/
+
+# Byte-compiled / optimized / DLL files
+*/__pycache__/
+*.py[cod]
+*$py.class
+
+*.рус
+*.ру
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
 db.sqlite3
-project/.env
+db.sqlite3-journal
 
-**/certbot/
-**/certs
+# Media files (uploaded by users)
+media/
 
-**/venv/
+# Static files (collected)
+static_collect/
+
+# If using Docker
+*.env
+docker-compose.override.yml
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# VSCode, PyCharm
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# SSL certs and keys (if you don't want to commit them)
+# certbot_data/
+# certs/
+
+# dotenv environment variables files
 .env
-**/static_collect/
+.env.local
+.env.*.local
 
-**/*.pyc
-**/__pycache__
-**/.env
-**/.git
-**/tests/
+# PyCharm specific
+.idea/
+
+# JetBrains IDEs
+*.iml
+*.iws
+.idea/
+
+# MacOS
+*.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini

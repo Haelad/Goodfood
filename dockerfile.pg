@@ -1,3 +1,0 @@
-FROM postgres:17-alpine
-
-RUN apk update && apk upgrade && apk add --no-cache gcc libpq-dev postgresql-client && rm -rf /var/cache/apk/*
