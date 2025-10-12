@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 SECRET_KEY = config("SECRET_KEY", cast=str)
-SITE_ID = 1
+
 
 DEBUG = True
 
@@ -35,6 +35,7 @@ WSGI_APPLICATION = "config.wsgi.py"
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'csp',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -65,6 +66,7 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 
@@ -166,58 +168,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
-
-
-# Какие методы входа разрешены
-ACCOUNT_LOGIN_METHODS = {"email", "username"}  
-
-
-# Какие поля показывать на регистрации
-ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
-
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': ['profile', 'email'],
-        'AUTH_PARAMS': {'access_type': 'online'},
-    }
-}
-
-ACCOUNT_FORMS = {
-    'login': 'goodfood.forms.CustomLoginForm',
-    'signup': 'goodfood.forms.CustomSignupForm',
-}
-
-
-
-SOCIALACCOUNT_LOGIN_ON_GET = True
-SOCIALACCOUNT_AUTO_SIGNUP = True 
-
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # подтверждение email обязательно
-
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "goodfood:main"  # куда кидать после подтверждения
-LOGIN_REDIRECT_URL = "goodfood:main"  # куда кидать после входа
-LOGOUT_REDIRECT_URL = "goodfood:main"  # куда после выхода
-
-# Это нужно, чтобы allauth не конфликтовал с кастомными шаблонами
-ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
-
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-# SMTP-сервер и порт
-EMAIL_HOST = 'smtp.gmail.com'  # для Gmail
-EMAIL_PORT = 587                # TLS порт
-
-EMAIL_USE_TLS = True
-
-EMAIL_HOST_USER = 'stupakviktor00@gmail.com' # ! ИЗМЕНИТЬ
-
-# Для Gmail нужен App Password (не обычный пароль) 
-EMAIL_HOST_PASSWORD = 'dsqoavnunqymugcl' #! ИЗМЕНИТЬ
-
-# Адрес отправителя по умолчанию
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

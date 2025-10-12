@@ -18,12 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 
 from apps.goodfood import urls
+from allauth.account import views as allauth_views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('goodfood/', include(urls)),
-    path('accounts/', include('allauth.urls')),  # добавляем allauth
+    path('', include(urls)),
+    path('accounts/', include('allauth.urls')),
+    path("accounts/login/", allauth_views.LoginView.as_view(), name="account_login"),
+    path("accounts/signup/", allauth_views.SignupView.as_view(), name="account_signup")# добавляем allauth
     
 ] 
     
