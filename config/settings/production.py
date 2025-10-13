@@ -6,6 +6,8 @@ from decouple import config
 
 load_dotenv()
 
+SITE_ID = 2
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -100,15 +102,14 @@ ALLOWED_HOSTS = ['haeladgoodfood.ru', 'www.haeladgoodfood.ru']
 
 
 # CSP
-CSP_DEFAULT_SRC = ("'self'",)
-CSP_SCRIPT_SRC = ("'self'",)  # разрешённые источники для JS
-CSP_STYLE_SRC = ("'self'",)  # разрешённые источники для CSS
-CSP_FONT_SRC = ("'self'",) # разрешенные источники для шрифтов
-CSP_IMG_SRC = ("'self'", 'data:') # разрешенные источники для изображений
-CSP_CONNECT_SRC = ("'self'",) # разрешенные источники для подключений
-CSP_REPORT_URI = None # адрес сервера для логов
-
-
+CSP = {
+    "default-src": ["'self'"],
+    "script-src": ["'self'"],
+    "style-src": ["'self'"],
+    "font-src": ["'self'"],
+    "img-src": ["'self'", "data:"],
+    "connect-src": ["'self'"],
+}
 
 # КУКИ
 SESSION_COOKIE_HTTPONLY = True
@@ -134,12 +135,15 @@ SECURE_HSTS_PRELOAD = True
 SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+# STATIC
 STATIC_URL = "/static/"
 STATIC_ROOT= os.path.join(BASE_DIR,'static_collect')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-
+# MEDIA
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+# AUTH
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -180,7 +184,7 @@ LOGOUT_REDIRECT_URL = "goodfood:main"  # куда после выхода
 # Это нужно, чтобы allauth не конфликтовал с кастомными шаблонами
 ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
 
-
+# EMAIL
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # SMTP-сервер и порт

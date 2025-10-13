@@ -23,6 +23,8 @@ SECRET_KEY = config("SECRET_KEY", cast=str)
 
 DEBUG = True
 
+SITE_ID = 1
+
 ALLOWED_HOSTS = ["localhost","127.0.0.1"]
 INTERNAL_IPS = ["127.0.0.1","localhost"]
 
@@ -35,11 +37,11 @@ WSGI_APPLICATION = "config.wsgi.py"
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
-    'csp',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'csp',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -47,26 +49,31 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'apps.goodfood',
     'widget_tweaks', 
-    'debug_toolbar',
-    'django_extensions',
 ]
      
 
 
 
-# создать MIDDLEWARE для отработки исключений и прочего
+
 MIDDLEWARE = [
-    'csp.middleware.CSPMiddleware',
+    # --- Безопасность и статические файлы ---
     'django.middleware.security.SecurityMiddleware',
+
+    # --- Сессии, куки, запросы ---
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # --- Аутентификация и учетные записи ---
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+
+    # --- Сообщения и шаблоны ---
     'django.contrib.messages.middleware.MessageMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
+    # --- CSP и защита от iframe ---
+    'csp.middleware.CSPMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 
