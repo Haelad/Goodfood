@@ -1,30 +1,47 @@
 from django.shortcuts import redirect, render, get_object_or_404, get_list_or_404
+from django.views.generic import ListView, DetailView, TemplateView
 
-
-from .models import Goods, Categories
-
-# сделать 404
-
-def index(request):
-  return render(request, "goodfood/index.html")
+from .models import Goods
+from .mixins import PostgresSearchMixin, SearchMixin 
 
 # Настроить более точное кеширование отдельно темплейты и view
 
-def food(request):
-  list_food = get_list_or_404(Goods.objects.select_related("category").all())
-  return render(request, "goodfood/goods.html", context={"context": list_food})
+class IndexView(TemplateView):
+    template_name = "goodfood/index.html"
+
+class FoodListView(SearchMixin, ListView):
+    model = Goods
+    template_name = "goodfood/goods.html"
+    context_object_name = "context"
+    paginate_by = 12  
 
 
-def food_detail(request, slug_name, pk):
-  detail_food = get_object_or_404(Goods.objects.select_related("category"), pk=pk, slugify_name=slug_name)
-  return render(request, "goodfood/food.html", {"food" : detail_food})
 
 
 
-def food_category(request, cat_id):
-  cat_food = get_list_or_404(Goods.objects.filter(category_id=cat_id))
-  return render(request, "goodfood/category.html", {"food":cat_food})
+class FoodDetailView(DetailView):
+    model = Goods
+    template_name = "goodfood/food.html"
+    context_object_name = "food"
 
+    slug_field = "slugify_name"
+    slug_url_kwarg = "slug_name"
+    pk_url_kwarg = "pk"
+
+    def get_object(self):
+        pk = self.kwargs.get("pk")
+        slug = self.kwargs.get("slug_name")
+        return get_object_or_404(Goods, pk=pk, slugify_name=slug)
+
+
+class FoodCategoryView(ListView):
+    model = Goods
+    template_name = "goodfood/category.html"
+    context_object_name = "food"
+
+    def get_queryset(self):
+        cat_id = self.kwargs.get("cat_id")
+        return get_list_or_404(Goods.objects.filter(category_id=cat_id))
 
 # views_handlers
 def page_not_found(request, exception):

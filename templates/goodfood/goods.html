@@ -2,6 +2,12 @@
 
 {% block content %}
 
+<form method="get" class="search-form">
+  {% csrf_token %}
+  <input type="text" name="q" placeholder="Поиск..." value="{{ request.GET.q }}">
+  <button type="submit">🔍</button>
+</form>
+
 <section class="second-block">
 <div class="container my-5">
   <div class="row g-4">
