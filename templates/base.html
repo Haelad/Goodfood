@@ -1,5 +1,7 @@
-{% load static %}
+{% load static cache %}
+
 {% load socialaccount %}
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,7 +11,7 @@
 </head>
 <body>
 
-
+{% cache 1800 navbar %}
 <nav class="navbar navbar-expand-lg nav-bar">
   <div class="container-fluid nav-menu">
 
@@ -30,6 +32,8 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a href="#" class="nav-link">Проект</a></li>
         <li class="nav-item"><a href="#" class="nav-link">Адрес</a></li>
+        {% endcache %}
+        
         {% if request.user.is_authenticated %}
 
         
@@ -49,6 +53,7 @@
     </div>
   </div>
 </nav>
+
 {% block content %} {% endblock content %}
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>

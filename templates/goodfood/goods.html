@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% load static %} 
+{% extends "base.html" %} {% load static cache %} 
 
 {% block content %}
 
@@ -7,7 +7,7 @@
   <input type="text" name="q" placeholder="Поиск..." value="{{ request.GET.q }}">
   <button type="submit">🔍</button>
 </form>
-
+{% cache 600 "list_page" %}
 <section class="second-block">
 <div class="container my-5">
   <div class="row g-4">
@@ -34,10 +34,14 @@
       </article>
       </div>
     {% endfor %}
+
   </div>
 </div>
 </section>
+{% endcache %}
+
 
 
 {% endblock content %}
+
 

@@ -21,6 +21,14 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "local-cache",
+    }
+}
+
+
 
 # Статические файлы прямо из /static/
 STATICFILES_DIRS = [BASE_DIR / "static"]

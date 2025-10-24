@@ -1,18 +1,22 @@
-{% extends "base.html" %}{% load static %}{% block content %}
-  <div class="main-block">
-    <div class="container">
-      <div class="row justify-content-start">
-        <div class="col-12 col-md-8">
-          <h1 class="title">Правильные ингридиенты для правильных блюд</h1>
-          <div class="btts d-flex flex-wrap gap-3 justify-content-start justify-content-md-start">
-            <button type="button" class="done">Забронировать</button>
-            <button type="button" class="look-at-menu">
-              <a class="btn-link" href="{% url 'goodfood:goods'%}">Посмотреть меню</a>
-            </button>
+{% extends "base.html" %}{% load static %}{% load cache %}
+
+{% block content %}
+  {% cache 1800 index_page  %}
+    <div class="main-block">
+      <div class="container">
+        <div class="row justify-content-start">
+          <div class="col-12 col-md-8">
+            <h1 class="title">Правильные ингридиенты для правильных блюд</h1>
+            <div class="btts d-flex flex-wrap gap-3 justify-content-start justify-content-md-start">
+              <button type="button" class="done">Забронировать</button>
+              <button type="button" class="look-at-menu">
+                <a class="btn-link" href="{% url 'goodfood:goods'%}">Посмотреть меню</a>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  {% endcache %}
 {% endblock content %}
 

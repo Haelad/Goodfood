@@ -1,5 +1,10 @@
 from django.shortcuts import redirect, render, get_object_or_404, get_list_or_404
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, TemplateView
+
+
+
 
 from .models import Goods
 from .mixins import PostgresSearchMixin, SearchMixin 
@@ -8,6 +13,7 @@ from .mixins import PostgresSearchMixin, SearchMixin
 
 class IndexView(TemplateView):
     template_name = "goodfood/index.html"
+
 
 class FoodListView(SearchMixin, ListView):
     model = Goods
@@ -18,7 +24,7 @@ class FoodListView(SearchMixin, ListView):
 
 
 
-
+@method_decorator(cache_page(300), name='dispatch')
 class FoodDetailView(DetailView):
     model = Goods
     template_name = "goodfood/food.html"
@@ -33,7 +39,7 @@ class FoodDetailView(DetailView):
         slug = self.kwargs.get("slug_name")
         return get_object_or_404(Goods, pk=pk, slugify_name=slug)
 
-
+@method_decorator(cache_page(300), name='dispatch')
 class FoodCategoryView(ListView):
     model = Goods
     template_name = "goodfood/category.html"
