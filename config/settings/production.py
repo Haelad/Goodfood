@@ -98,7 +98,7 @@ DEBUG = False
 SECRET_KEY = config("SECRET_KEY", cast=str)
 
 ALLOWED_HOSTS = ['goodhealthyfood.ru', 'goodhealthyfood.online']
-#Domen2025 Hosting2025 Webconstr2025
+
 
 
 # CSP
@@ -185,18 +185,18 @@ LOGOUT_REDIRECT_URL = "goodfood:main"  # куда после выхода
 ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
 
 # EMAIL
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = f'{config("EMAIL_BACKEND")}'
 
 # SMTP-сервер и порт
-EMAIL_HOST = 'smtp.gmail.com'  # для Gmail
-EMAIL_PORT = 587                # TLS порт
+EMAIL_HOST = f'{config("EMAIL_HOST")}'  # для Gmail
+EMAIL_PORT = f'{config("EMAIL_PORT")}'               # TLS порт
 
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = f'{config("EMAIL_USE_TLS")}'
 
-EMAIL_HOST_USER = 'goodfoodemailconfirmation@gmail.com'
+EMAIL_HOST_USER = f'{config("EMAIL_HOST_USER")}'
 
 # Для Gmail нужен App Password (не обычный пароль) 
-EMAIL_HOST_PASSWORD = 'ohvwfxhtevzndnza' 
+EMAIL_HOST_PASSWORD = f'{config("EMAIL_HOST_PASSWORD")}'
 
 # Адрес отправителя по умолчанию
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = f'{config("DEFAULT_FROM_EMAIL")}'
