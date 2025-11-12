@@ -97,7 +97,7 @@ DEBUG = False
 
 SECRET_KEY = config("SECRET_KEY", cast=str)
 
-ALLOWED_HOSTS = ['haeladgoodfood.ru', 'www.haeladgoodfood.ru']
+ALLOWED_HOSTS = ['goodhealthyfood.ru', 'goodhealthyfood.online']
 #Domen2025 Hosting2025 Webconstr2025
 
 
@@ -193,10 +193,10 @@ EMAIL_PORT = 587                # TLS порт
 
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = 'stupakviktor00@gmail.com' # ! ИЗМЕНИТЬ
+EMAIL_HOST_USER = 'goodfoodemailconfirmation@gmail.com'
 
 # Для Gmail нужен App Password (не обычный пароль) 
-EMAIL_HOST_PASSWORD = 'dsqoavnunqymugcl' #! ИЗМЕНИТЬ
+EMAIL_HOST_PASSWORD = 'ohvwfxhtevzndnza' 
 
 # Адрес отправителя по умолчанию
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
