@@ -1,4 +1,6 @@
+
 [tool.poetry]
+package-mode = false
 name = "django-goodfood-project"
 version = "0.1.0"
 description = "Web site"
