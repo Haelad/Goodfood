@@ -1,5 +1,5 @@
 from .base import *
-from dotenv import load_dotenv
+
 from decouple import config
 
 load_dotenv()
@@ -7,8 +7,27 @@ load_dotenv()
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 
+
+INSTALLED_APPS += [
+    "debug_toolbar",
+]
+
+MIDDLEWARE += [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+]
+
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 DATABASES = {
     'default': {
@@ -31,4 +50,4 @@ CACHES = {
 
 
 # Статические файлы прямо из /static/
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [str(BASE_DIR / "static")]

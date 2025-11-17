@@ -8,15 +8,23 @@ load_dotenv()
 
 SITE_ID = 2
 
+DEBUG = False
+
+SECRET_KEY = config("SECRET_KEY", cast=str)
+
+ALLOWED_HOSTS = ['goodhealthyfood.ru', 'goodhealthyfood.online']
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f'redis://{config("REDIS_HOST", "REDIS_PASSWORD")}/0',  # Use the Redis service name from docker-compose
+        "LOCATION": f'redis://{config("REDIS_HOST", "REDIS_PASSWORD")}/0',  
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }
+
+
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -93,12 +101,6 @@ LOGGING = {
 }
 
 # security
-DEBUG = False
-
-SECRET_KEY = config("SECRET_KEY", cast=str)
-
-ALLOWED_HOSTS = ['goodhealthyfood.ru', 'goodhealthyfood.online']
-
 
 
 # CSP

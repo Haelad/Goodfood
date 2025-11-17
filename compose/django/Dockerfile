@@ -8,7 +8,8 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         postgresql-client curl gcc libpq-dev && \
     pip install --upgrade pip && \
-    curl -sSL https://install.python-poetry.org | python3 - && \
+    pip install "poetry" && \
+    poetry install --with dev && \
     poetry install --no-root && \
     apt-get purge -y gcc libpq-dev && \
     apt-get autoremove -y && \

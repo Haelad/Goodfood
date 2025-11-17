@@ -19,6 +19,7 @@ from django.urls import path, include
 
 from apps.goodfood import urls
 from allauth.account import views as allauth_views
+from debug_toolbar.toolbar import debug_toolbar_urls
 
 
 urlpatterns = [
@@ -26,9 +27,9 @@ urlpatterns = [
     path('', include(urls)),
     path('accounts/', include('allauth.urls')),
     path("accounts/login/", allauth_views.LoginView.as_view(), name="account_login"),
-    path("accounts/signup/", allauth_views.SignupView.as_view(), name="account_signup")# добавляем allauth
-    
-] 
+    path("accounts/signup/", allauth_views.SignupView.as_view(), name="account_signup")
+] + debug_toolbar_urls()
+
     
 
 

@@ -7,21 +7,13 @@ from decouple import config
 
 load_dotenv()
 
-
-
-
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 SECRET_KEY = config("SECRET_KEY", cast=str)
 
 
-DEBUG = True
+DEBUG = False
 
 SITE_ID = 1
 
@@ -30,7 +22,16 @@ INTERNAL_IPS = ["127.0.0.1","localhost"]
 
 ROOT_URLCONF = "config.urls"
 
-WSGI_APPLICATION = "config.wsgi.py"
+WSGI_APPLICATION = "config.wsgi.application"
+ASGI_APPLICATION = "config.asgi.application"
+
+
+STATIC_URL = "/static/"
+STATIC_ROOT= os.path.join(BASE_DIR,'static_collect')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Application definition
 
@@ -51,9 +52,6 @@ INSTALLED_APPS = [
     'widget_tweaks', 
 ]
      
-
-
-
 
 MIDDLEWARE = [
     # --- Безопасность и статические файлы ---
@@ -95,30 +93,6 @@ TEMPLATES = [
     },
 ]
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f'redis://{config("REDIS_HOST", "REDIS_PASSWORD")}/0',  
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
-
-
-
-
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",  
-    }
-}
-
 
 
 # Password validation
@@ -140,11 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
-
-
 DATETIME_INPUT_FORMATS = (
     '%Y-%m-%d %H:%M:%S', # Стандартный формат (24-часовой) [1](https://runebook.dev/en/articles/django/ref/settings/std:setting-DATETIME_INPUT_FORMATS)
     '%m/%d/%Y %I:%M %p', # Формат в американском стиле (12-часовой с AM/PM) [1](https://runebook.dev/en/articles/django/ref/settings/std:setting-DATETIME_INPUT_FORMATS)
@@ -152,25 +121,11 @@ DATETIME_INPUT_FORMATS = (
 )
 
 
-
 USE_TZ = True
 YEAR_MONTH_FORMAT = "m/Y"
 
 # USE_THOUSAND_SEPARATOR = None
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-STATIC_URL = "/static/"
-STATIC_ROOT= os.path.join(BASE_DIR,'static_collect')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

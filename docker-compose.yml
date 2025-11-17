@@ -46,8 +46,8 @@ services:
       - backend_app
       - backend_proxy
     environment:
-      DJANGO_SETTINGS_MODULE: config.settings.local
-
+      DJANGO_ENV: "local"
+      DJANGO_SETTINGS_MODULE: config.settings
       DB_HOST: db
   
   nginx:
