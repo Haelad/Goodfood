@@ -27,7 +27,7 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
-}
+} 
 
 DATABASES = {
     'default': {
@@ -51,3 +51,4 @@ CACHES = {
 
 # Статические файлы прямо из /static/
 STATICFILES_DIRS = [str(BASE_DIR / "static")]
+

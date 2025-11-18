@@ -7,7 +7,7 @@ from django.views.generic import ListView, DetailView, TemplateView
 
 
 from .models import Goods
-from .mixins import PostgresSearchMixin, SearchMixin 
+from .mixins import SearchMixin 
 
 # Настроить более точное кеширование отдельно темплейты и view
 

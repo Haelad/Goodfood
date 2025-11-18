@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'apps.goodfood',
+    'apps.users',
     'widget_tweaks', 
 ]
      
@@ -130,3 +131,27 @@ YEAR_MONTH_FORMAT = "m/Y"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+
+# Какие методы входа разрешены
+ACCOUNT_LOGIN_METHODS = {"email", "username"}  
+
+
+# Какие поля показывать на регистрации
+ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+    }
+}
+
+# ACCOUNT_FORMS = {
+#     'login': 'apps.users.forms.CustomLoginForm',
+#     'signup': 'apps.users.forms.CustomSignupForm',
+# }

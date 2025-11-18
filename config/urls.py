@@ -17,17 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from apps.goodfood import urls
-from allauth.account import views as allauth_views
+from apps.goodfood import urls as goodfood_urls
+from apps.users import urls as users_urls
+
 from debug_toolbar.toolbar import debug_toolbar_urls
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(urls)),
-    path('accounts/', include('allauth.urls')),
-    path("accounts/login/", allauth_views.LoginView.as_view(), name="account_login"),
-    path("accounts/signup/", allauth_views.SignupView.as_view(), name="account_signup")
+    path('', include(goodfood_urls)),
+    path("accounts/", include("apps.users.urls")),
+
 ] + debug_toolbar_urls()
 
     

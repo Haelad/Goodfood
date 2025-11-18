@@ -168,8 +168,8 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 ACCOUNT_FORMS = {
-    'login': 'goodfood.forms.CustomLoginForm',
-    'signup': 'goodfood.forms.CustomSignupForm',
+    'login': 'apps.users.forms.CustomLoginForm',
+    'signup': 'apps.users.forms.CustomSignupForm',
 }
 
 

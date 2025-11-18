@@ -3,14 +3,8 @@ from django.core.paginator import Paginator
 from .models import Categories, Goods
 
 
-# pip install django-infinite-pagination
-# Register your models here.
 
-STATUS_CHOICES = {
-    "d": "Draft",
-    "p": "Published",
-    "w": "Withdrawn",
-}
+
 
 @admin.register(Goods)
 class GoodsAdmin(admin.ModelAdmin):
