@@ -44,12 +44,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'csp',
     'django.contrib.sites',
+    'apps.goodfood',
+    'apps.users',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'apps.goodfood',
-    'apps.users',
     'widget_tweaks', 
 ]
      
@@ -80,7 +80,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+        'DIRS': [BASE_DIR / "templates",],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
