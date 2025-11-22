@@ -15,10 +15,10 @@ SECRET_KEY = config("SECRET_KEY", cast=str)
 
 DEBUG = False
 
-SITE_ID = 1
+SITE_ID = 3
 
-ALLOWED_HOSTS = ["localhost","127.0.0.1"]
-INTERNAL_IPS = ["127.0.0.1","localhost"]
+ALLOWED_HOSTS = ["example.com", "localhost", "127.0.0.1"]
+
 
 ROOT_URLCONF = "config.urls"
 
@@ -131,6 +131,8 @@ YEAR_MONTH_FORMAT = "m/Y"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# AUTH
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -151,7 +153,34 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-# ACCOUNT_FORMS = {
-#     'login': 'apps.users.forms.CustomLoginForm',
-#     'signup': 'apps.users.forms.CustomSignupForm',
-# }
+ACCOUNT_FORMS = {
+    'login': 'apps.users.forms.CustomLoginForm',
+    'signup': 'apps.users.forms.CustomSignupForm',
+}
+
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True 
+
+ACCOUNT_ALLOW_REGISTRATION = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # подтверждение email обязательно
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "goodfood:main"  # куда кидать после подтверждения
+ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter' # Это нужно, чтобы allauth не конфликтовал с кастомными шаблонами
+
+LOGIN_REDIRECT_URL = "goodfood:main"  # куда кидать после входа
+LOGOUT_REDIRECT_URL = "goodfood:main"  # куда после выхода
+
+# EMAIL
+EMAIL_BACKEND = f'{config("EMAIL_BACKEND", cast=str)}'
+
+# SMTP-сервер и порт
+EMAIL_HOST = f'{config("EMAIL_HOST", cast=str)}'  
+EMAIL_PORT = f'{config("EMAIL_PORT", cast=int)}'            
+
+EMAIL_USE_TLS = f'{config("EMAIL_USE_TLS", cast=bool)}'
+
+EMAIL_HOST_USER = f'{config("EMAIL_HOST_USER", cast=str)}'
+EMAIL_HOST_PASSWORD = f'{config("EMAIL_HOST_PASSWORD", cast=str)}'
+
+# Адрес отправителя по умолчанию
+DEFAULT_FROM_EMAIL = f'{config("DEFAULT_FROM_EMAIL", cast=str)}'

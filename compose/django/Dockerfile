@@ -9,7 +9,10 @@ RUN apt-get update && \
         postgresql-client curl gcc libpq-dev && \
     pip install --upgrade pip && \
     pip install "poetry" && \
+    #############################
+# REMOVE WHEN U WANT USE PROJECT IN PRODUCTION
     poetry install --with dev && \
+    #############################
     poetry install --no-root && \
     apt-get purge -y gcc libpq-dev && \
     apt-get autoremove -y && \
