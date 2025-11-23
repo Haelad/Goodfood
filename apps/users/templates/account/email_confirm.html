@@ -1,0 +1,15 @@
+{% extends "base_auth.html" %}
+
+{% block content %}
+<h2 class="text-xl font-bold mb-4">Подтверждение email</h2>
+
+<p class="mb-4">Подтвердите почту: <strong>{{ email_address.email }}</strong></p>
+
+<form method="post">
+    {% csrf_token %}
+    <button class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+        Подтвердить
+    </button>
+</form>
+{% endblock %}
+

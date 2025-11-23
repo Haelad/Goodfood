@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'csp',
     'django.contrib.sites',
+    "crispy_forms",
+    "crispy_bootstrap5",
     'apps.goodfood',
     'apps.users',
     'allauth',
@@ -184,3 +186,8 @@ EMAIL_HOST_PASSWORD = f'{config("EMAIL_HOST_PASSWORD", cast=str)}'
 
 # Адрес отправителя по умолчанию
 DEFAULT_FROM_EMAIL = f'{config("DEFAULT_FROM_EMAIL", cast=str)}'
+
+
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap5"]
+CRISPY_TEMPLATE_PACK = "bootstrap5"

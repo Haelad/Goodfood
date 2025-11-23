@@ -1,0 +1,17 @@
+{% extends "base_auth.html" %}
+
+{% block content %}
+<h2 class="text-xl font-bold mb-4">Привязанные аккаунты</h2>
+
+{% if form.accounts %}
+<ul class="mb-4">
+    {% for account in form.accounts %}
+        <li class="border p-3 rounded mb-2">
+            {{ account.get_provider.name }} — {{ account }}
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Нет привязанных аккаунтов.</p>
+{% endif %}
+{% endblock %}

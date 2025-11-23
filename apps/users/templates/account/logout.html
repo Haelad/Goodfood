@@ -1,0 +1,16 @@
+{% extends "base_auth.html" %}
+
+{% block title %}Выход{% endblock %}
+
+{% block content %}
+<h2 class="text-xl font-bold mb-4">Выход</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <p class="mb-4">Вы уверены, что хотите выйти?</p>
+
+    <button class="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700">
+        Выйти
+    </button>
+</form>
+{% endblock %}
