@@ -36,23 +36,28 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # Application definition
 
 INSTALLED_APPS = [
+    'apps.users',
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'csp',
     'django.contrib.sites',
-    "crispy_forms",
-    "crispy_bootstrap5",
-    'apps.goodfood',
-    'apps.users',
+    
+    'csp',
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'widget_tweaks', 
+    
+    'widget_tweaks',
+    "crispy_forms",
+    
+    'apps.goodfood',
+
 ]
      
 
@@ -127,8 +132,6 @@ DATETIME_INPUT_FORMATS = (
 USE_TZ = True
 YEAR_MONTH_FORMAT = "m/Y"
 
-# USE_THOUSAND_SEPARATOR = None
-
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -165,6 +168,7 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_AUTO_SIGNUP = True 
 
 ACCOUNT_ALLOW_REGISTRATION = True
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # подтверждение email обязательно
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "goodfood:main"  # куда кидать после подтверждения
 ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter' # Это нужно, чтобы allauth не конфликтовал с кастомными шаблонами
@@ -189,5 +193,3 @@ DEFAULT_FROM_EMAIL = f'{config("DEFAULT_FROM_EMAIL", cast=str)}'
 
 
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap5"]
-CRISPY_TEMPLATE_PACK = "bootstrap5"
