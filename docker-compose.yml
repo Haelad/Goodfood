@@ -36,7 +36,6 @@ services:
     volumes:
       - .:/app
       - ./static_collect:/app/static_collect
-
     ports:
       - "8000:8000"
     depends_on:
@@ -48,6 +47,9 @@ services:
     environment:
       DJANGO_ENV: "local"
       DJANGO_SETTINGS_MODULE: config.settings
+      DJANGO_ADMIN_USER: ${DJANGO_ADMIN_USER}
+      DJANGO_ADMIN_EMAIL: ${DJANGO_ADMIN_EMAIL}
+      DJANGO_ADMIN_PASSWORD: ${DJANGO_ADMIN_PASSWORD}
       DB_HOST: db
   
   nginx:

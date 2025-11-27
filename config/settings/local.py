@@ -1,6 +1,9 @@
 from .base import *
+
 from decouple import config
 from dotenv import load_dotenv
+
+
 
 load_dotenv()
 
@@ -67,5 +70,11 @@ STORAGES = {
 # ----------------------------
 # CSP (только для локала)
 # ----------------------------
-CSP_MIDDLEWARE = []
-CSP_REPORT_ONLY = True
+CONTENT_SECURITY_POLICY_REPORT_ONLY = {
+    "default-src": ["'self'"],
+    "script-src": ["'self'"],
+    "style-src": ["'self'"],
+    "font-src": ["'self'"],
+    "img-src": ["'self'", "data:"],
+    "connect-src": ["'self'"],
+}

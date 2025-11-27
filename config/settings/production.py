@@ -1,7 +1,9 @@
 from .base import *
+
+import os
+
 from decouple import config
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
 
@@ -52,7 +54,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # ----------------------------
 # Security / CSP
 # ----------------------------
-CSP = {
+CONTENT_SECURITY_POLICY = {
     "default-src": ["'self'"],
     "script-src": ["'self'"],
     "style-src": ["'self'"],
