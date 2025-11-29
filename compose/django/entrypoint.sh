@@ -33,8 +33,7 @@ rm -rf .pytest_cache
 # -----------------------------
 # Poetry update/install
 # -----------------------------
-echo "Installing/updating dependencies..."
-poetry install --no-interaction --no-ansi
+echo "Updating dependencies..."
 poetry update --no-interaction --no-ansi
 
 # -----------------------------
