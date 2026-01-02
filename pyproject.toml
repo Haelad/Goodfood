@@ -74,6 +74,21 @@ build-backend = "poetry.core.masonry.api"
 [tool.black]
 line-length = 88
 
+[tool.isort]
+profile = "black"
+line_length = 88
+
 [tool.ruff]
 select = ["E", "F", "I"]
+line-length = 88
+exclude = [
+    ".venv",
+    ".env",
+    "venv",
+    "static",
+    "media",
+]
 
+[tool.ruff.per-file-ignores]
+"**/migrations/*.py" = ["E501", "F401"]
+"config/settings/*.py" = ["F403", "F405"]

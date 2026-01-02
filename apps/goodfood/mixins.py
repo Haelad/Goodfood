@@ -1,13 +1,14 @@
-from django.contrib.postgres.search import SearchVector, SearchQuery
-from django.db.models.query import QuerySet
+from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.db.models import Q
+from django.db.models.query import QuerySet
 
 from .models import Goods
+
 
 class PostgresSearchMixin:
     search_param = "q"
     search_fields = ("name", "desc")  # поля, по которым ищем
-    search_language = "russian"       # язык поиска
+    search_language = "russian"  # язык поиска
 
     def get_search_query(self):
         return self.request.GET.get(self.search_param)
@@ -33,6 +34,7 @@ class PostgresSearchMixin:
 
         # fallback для list, если вдруг super() вернул list
         lowered = query.lower()
+
         def matches(obj):
             for field in self.search_fields:
                 val = getattr(obj, field, "")
@@ -41,8 +43,6 @@ class PostgresSearchMixin:
             return False
 
         return [obj for obj in qs if matches(obj)]
-      
-      
 
 
 class SearchMixin:

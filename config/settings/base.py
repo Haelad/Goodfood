@@ -1,5 +1,5 @@
-import os
 from pathlib import Path
+
 from decouple import config
 
 SECRET_KEY = config("SECRET_KEY")
@@ -22,7 +22,6 @@ INSTALLED_APPS = [
     # Приложения проекта
     "apps.users",
     "apps.goodfood",
-
     # Django
     "django.contrib.admin",
     "django.contrib.auth",
@@ -31,16 +30,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-
     # Безопасность
     "csp",
-
     # Аутентификация
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
-
     # UI
     "widget_tweaks",
     "crispy_forms",
@@ -120,7 +116,10 @@ LOGOUT_REDIRECT_URL = "goodfood:main"
 # Валидация паролей
 # ----------------------------
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation."
+        "UserAttributeSimilarityValidator"
+    },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
@@ -152,5 +151,5 @@ MEDIA_ROOT = BASE_DIR / "media"
 # ----------------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"  
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"

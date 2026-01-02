@@ -1,9 +1,7 @@
-from .base import *
-
 from decouple import config
 from dotenv import load_dotenv
 
-
+from .base import *
 
 load_dotenv()
 
@@ -58,7 +56,7 @@ MIDDLEWARE.insert(
 DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda request: True}
 
 # ----------------------------
-# WhiteNoise 
+# WhiteNoise
 # ----------------------------
 MIDDLEWARE += ["whitenoise.middleware.WhiteNoiseMiddleware"]
 STORAGES = {
