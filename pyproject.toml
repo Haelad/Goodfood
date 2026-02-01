@@ -43,6 +43,8 @@ python3-openid = "3.2.0"
 django-widget-tweaks = "^1.5.0"
 crispy-bootstrap5 = "^2025.6"
 django-crispy-forms = {extras = ["bootstrap5"], version = "^2.5"}
+pytest = "^9.0.2"
+pytest-django = "^4.11.1"
 
 
 
@@ -70,6 +72,20 @@ update = "^0.0.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["./tests"]
+python_files = ["test_*.py"]
+addopts = "-ra -q"
+DJANGO_SETTINGS_MODULE = "config.settings"
+django_find_project = true
+markers = [
+    "slow: медленные тесты",
+    "api: тесты API",
+    "unit: модульные тесты",
+    "integration: интеграционные тесты"
+]
+
 
 [tool.black]
 line-length = 88

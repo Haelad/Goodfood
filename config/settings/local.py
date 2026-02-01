@@ -46,14 +46,14 @@ CACHES = {
 # ----------------------------
 # Debug Toolbar
 # ----------------------------
-INSTALLED_APPS += ["debug_toolbar"]
+# INSTALLED_APPS += ["debug_toolbar"]
 
-MIDDLEWARE.insert(
-    MIDDLEWARE.index("django.middleware.security.SecurityMiddleware") + 1,
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
-)
+# MIDDLEWARE.insert(
+#     MIDDLEWARE.index("django.middleware.security.SecurityMiddleware") + 1,
+#     "debug_toolbar.middleware.DebugToolbarMiddleware",
+# )
 
-DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda request: True}
+# DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda request: True}
 
 # ----------------------------
 # WhiteNoise
@@ -63,7 +63,11 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
 }
+
 
 # ----------------------------
 # CSP (только для локала)
