@@ -1,9 +1,9 @@
 import pytest
 from django.conf import settings
+from django.core.cache import cache
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
-
-from apps.goodfood.models import Categories, Goods
+from factorytest import CategoryFactory, GoodsFactory
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -26,19 +26,21 @@ def create_fake_image():
 
 
 @pytest.fixture
-def category():
-    return Categories.objects.create(cat="category", id=999)
+def categories(db):
+    return CategoryFactory.create_batch(10)
 
 
 @pytest.fixture
-def product(category, create_fake_image):
-    return Goods.objects.create(
-        name="product",
-        category=category,
-        photo=create_fake_image,
-        slugify_name="slug",
-        id=999,
-    )
+def products(db, categories):
+    products = []
+    for category in categories:
+        products.extend(GoodsFactory.create_batch(3, category=category))
+    return products
+
+
+@pytest.fixture(autouse=True)
+def clear_cache():
+    cache.clear()
 
 
 @pytest.fixture
@@ -51,15 +53,21 @@ def define_static_urls():
 
 
 @pytest.fixture
-def define_dynamics_urls():
-    urls = {
-        "goodfood:_detail": {"kwargs": {"slug_name": "slug", "pk": 999}},
-        "goodfood:_category": {"kwargs": {"cat_id": 999}},
-    }
+def define_dynamics_urls(products, categories):
     defined_urls = []
+    detail_kwargs = {"kwargs": {"slug_name": "", "pk": ""}}
+    for product in products:
+        detail_kwargs["kwargs"]["slug_name"] = product.slugify_name
+        detail_kwargs["kwargs"]["pk"] = product.pk
+        defined_urls.append(reverse("goodfood:_detail", kwargs=detail_kwargs["kwargs"]))
 
-    for name, params in urls.items():
-        defined_urls.append(reverse(name, **params))
+    category_kwargs = {"kwargs": {"cat_id": ""}}
+    for category in categories:
+        category_kwargs["kwargs"]["cat_id"] = category.pk
+        defined_urls.append(
+            reverse("goodfood:_category", kwargs=category_kwargs["kwargs"])
+        )
+
     return defined_urls
 
 
