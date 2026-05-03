@@ -15,10 +15,14 @@ class GoodfoodValidator:
     )
 
     def __init__(self, message=None):
-        self.massage = (
+        self.message = (
             message if message else "input should be Ascii_letters, Digits or Cyrillic"
         )
 
     def __call__(self, value):
+        if value is None:
+            return
+
+        value = str(value)
         if not (set(value) <= set(self.ALLOWED_CHARACTERS)):
             raise ValidationError(self.message, params={"value": value})

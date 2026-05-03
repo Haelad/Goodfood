@@ -55,14 +55,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Security / CSP
 # ----------------------------
 CONTENT_SECURITY_POLICY = {
-    "default-src": ["'self'"],
-    "script-src": ["'self'"],
-    "style-src": ["'self'"],
-    "font-src": ["'self'"],
-    "img-src": ["'self'", "data:"],
-    "connect-src": ["'self'"],
+    "DIRECTIVES": {
+        "default-src": ["'self'"],
+        "script-src": ["'self'", "https://cdn.jsdelivr.net"],
+        "style-src": [
+            "'self'",
+            "https://cdn.jsdelivr.net",
+            "https://fonts.googleapis.com",
+        ],
+        "font-src": ["'self'", "https://fonts.gstatic.com"],
+        "img-src": ["'self'", "data:"],
+        "connect-src": ["'self'"],
+    }
 }
-
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True

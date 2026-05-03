@@ -1,7 +1,7 @@
 * {
 	padding: 0 0;
 	margin: 0 0;
-	font-family: 'Times New Roman', Times, serif;
+	font-family: 'Inter', sans-serif;
 }
 
 a {
@@ -11,9 +11,8 @@ a {
 
 
 body {
-    background-color: #070510; 
-    margin: 0;
     padding: 0;
+    margin: 0;
 }
 
 li {
@@ -31,8 +30,14 @@ ul {
   }
 }
 .nav-bar {
-	width: 100%;
-	background-color: transparent;
+    background-color: rgba(7, 5, 16, 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .nav-menu {
@@ -76,6 +81,42 @@ ul {
     transform: scaleY(1);
 }
 
+.search-form-nav {
+    display: flex;
+    flex: 1;
+    max-width: 600px;
+    margin: 0 20px;
+}
+
+.search-form-nav input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px 0 0 8px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+}
+
+.search-form-nav input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.search-form-nav button {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    color: #fff;
+    cursor: pointer;
+}
+
+.search-form-nav input,
+.search-form-nav button {
+    padding: 2.6px 10px;
+    font-size: 18px;
+}
+
 
 
 .main-block {
@@ -84,7 +125,7 @@ ul {
     justify-content: flex-start; 
     
     background: url(../images/delicious-vegetable-salad.jpg) center/cover no-repeat;
-    min-height: calc(100vh - 64px);
+    min-height: calc(100vh);
     width: 100%;
 }
 
@@ -135,8 +176,8 @@ ul {
 }
 
 .second-block {
-	background: url("../images/background_objects.png") center/cover no-repeat;   
-  position:absolute;
+	background: url("../images/goods-bcrg.webp") center center / cover no-repeat;
+  position: relative;
 	width: 100%;
 	min-height: 100vh;  
   padding: 60px 0;
@@ -164,6 +205,17 @@ ul {
   flex-direction: column;
 }
 
+.card {
+    background: rgba(10, 8, 20, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #fff;
+    backdrop-filter: blur(4px);
+}
+
+.card-title {
+    color: #fff;
+}
+
 .btn .food-card, .content-food-list {
   overflow-x: hidden;
 	resize: none; 
@@ -178,7 +230,7 @@ ul {
   overflow-y: auto;   
   overflow-x: hidden; 
 	transform: translateZ(0);
-
+  color: rgba(255,255,255,0.55);
   flex-shrink: 0; 
 }
 
@@ -195,6 +247,17 @@ ul {
   object-fit: cover;
 	pointer-events: none;
   user-select: none;    
+  filter: brightness(0.95);
+}
+
+.btn-primary {
+    background-color: #1a7a10;
+    border-color: #1a7a10;
+}
+
+.btn-primary:hover {
+    background-color: #155f0d;
+    border-color: #155f0d;
 }
 
 
@@ -211,6 +274,11 @@ ul {
 .badge {
   font-size: 0.8rem;      
   padding: 0.3em 0.6em;   
+}
+
+.badge.bg-success {
+    background-color: #1a7a10 !important;
+    color: #a8f0a0;
 }
 
 .card { position: relative; }

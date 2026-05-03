@@ -2,11 +2,7 @@
 
 {% block content %}
 
-<form method="get" class="search-form">
-  {% csrf_token %}
-  <input type="text" name="q" placeholder="Поиск..." value="{{ request.GET.q }}">
-  <button type="submit">🔍</button>
-</form>
+
 {% cache 600 "list_page" %}
 <section class="second-block">
 <div class="container my-5">

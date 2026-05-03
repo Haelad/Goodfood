@@ -72,11 +72,17 @@ STORAGES = {
 # ----------------------------
 # CSP (только для локала)
 # ----------------------------
-CONTENT_SECURITY_POLICY_REPORT_ONLY = {
-    "default-src": ["'self'"],
-    "script-src": ["'self'"],
-    "style-src": ["'self'"],
-    "font-src": ["'self'"],
-    "img-src": ["'self'", "data:"],
-    "connect-src": ["'self'"],
+CONTENT_SECURITY_POLICY = {
+    "DIRECTIVES": {
+        "default-src": ["'self'"],
+        "script-src": ["'self'", "https://cdn.jsdelivr.net"],
+        "style-src": [
+            "'self'",
+            "https://cdn.jsdelivr.net",
+            "https://fonts.googleapis.com",
+        ],
+        "font-src": ["'self'", "https://fonts.gstatic.com"],
+        "img-src": ["'self'", "data:"],
+        "connect-src": ["'self'"],
+    }
 }
