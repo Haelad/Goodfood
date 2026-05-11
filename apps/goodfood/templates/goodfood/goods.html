@@ -6,17 +6,16 @@
 {% cache 600 "list_page" %}
 <section class="second-block">
 <div class="container my-5">
-  <div class="row g-4">
+  <div class="row g-4 justify-content-center">
     {% for food in context %}
       <div class="col-12 col-sm-6 col-md-4 col-lg-3">
         <article class="card h-100 d-flex flex-column">
-        {% if food.category %}
-          <span class="badge bg-success mt-2 ms-2 position-absolute top-0 start-0"><a href="{{food.category.get_absolute_url}}">{{ food.category }}</a></span>
-        {% endif %}
-
         {% if food.photo %}
         <div class="card-img-wrapper">
-          <img src="{{ MEDIA_URL }}{{ food.photo }}" alt="{{ food.name }}" draggable="false">
+          {% if food.category %}
+            <span class="badge bg-success position-absolute top-0 start-0 mt-2 ms-2"><a href="{{food.category.get_absolute_url}}">{{ food.category }}</a></span>
+          {% endif %}
+          <img src="{{ MEDIA_URL }}{{ food.photo }}" alt="{{food.name}}" draggable="false">
         </div>
         {% endif %}
 

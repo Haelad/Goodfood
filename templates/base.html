@@ -29,7 +29,7 @@
 
     <div class="collapse navbar-collapse" id="mainNav">
 
-      <form method="get" action="{% url 'goodfood:goods' %}" class="search-form-nav mx-auto">
+      <form method="get" action="{% url 'goodfood:goods' %}" class="search-form-nav flex-grow-1 mx-3">
         <input type="text" name="q" placeholder="Поиск..." value="{{ request.GET.q }}">
         <button type="submit">🔍</button>
       </form>
