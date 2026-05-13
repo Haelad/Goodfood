@@ -7,7 +7,7 @@ class CustomLoginForm(LoginForm):
         required=True,
         widget=forms.TextInput(
             attrs={
-                "class": "form-control",
+                "class": "auth-input",
                 "placeholder": "Имя пользователя или Email",
             }
         ),
@@ -18,7 +18,7 @@ class CustomLoginForm(LoginForm):
         required=True,
         widget=forms.PasswordInput(
             attrs={
-                "class": "form-control",
+                "class": "auth-input",
                 "placeholder": "Пароль",
             }
         ),
@@ -36,7 +36,7 @@ class CustomSignupForm(SignupForm):
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "class": "form-control",
+                "class": "auth-input",
                 "placeholder": "Имя пользователя",
             }
         ),
@@ -45,7 +45,7 @@ class CustomSignupForm(SignupForm):
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
-                "class": "form-control",
+                "class": "auth-input",
                 "placeholder": "Email",
             }
         ),
@@ -54,7 +54,7 @@ class CustomSignupForm(SignupForm):
     password1 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "class": "form-control",
+                "class": "auth-input",
                 "placeholder": "Пароль",
             }
         ),
@@ -63,7 +63,7 @@ class CustomSignupForm(SignupForm):
     password2 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "class": "form-control",
+                "class": "auth-input",
                 "placeholder": "Подтверждение пароля",
             }
         ),

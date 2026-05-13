@@ -4,24 +4,22 @@
 {% load socialaccount %}  
 
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-  <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+<div class="auth-page">
+  <div class="card auth-card shadow p-4">
     <h2 class="text-center mb-4">вход</h2>
 
     <form method="post" action="{% url 'account_login' %}">
         {% csrf_token %}
         
         <div class="d-grid mb-3 w-100">
-            <label for="id_login">Email или Username</label>
-            {{ form.login }}
+            {{ form.login|add_class:"auth-input"|attr:"placeholder:Email или Username" }}
             {% if form.login.errors %}
                 <div class="text-danger small">{{ form.login.errors }}</div>
             {% endif %}
         </div>
 
         <div class="d-grid mb-3 w-100">
-            <label for="id_password">Пароль</label>
-            {{ form.password }}
+            {{ form.password|add_class:"auth-input"|attr:"placeholder:Пароль" }}
             {% if form.password.errors %}
                 <div class="text-danger mx-auto">{{ form.password.errors }}</div>
             {% endif %}
@@ -33,8 +31,9 @@
     <p class="mt-3 text-center">или</p>
 
     <div class="d-grid w-100">
-  <a href="{% provider_login_url 'google' %}" class="btn btn-danger">
-    <i class="bi bi-google me-2"></i> Войти через Google
+  <a href="{% provider_login_url 'google' %}" class="btn-google">
+    <img src="{% static 'images/google.svg' %}" alt="Google">
+    Войти через Google
   </a>
 </div>
     <div class="mt-3 text-center">
