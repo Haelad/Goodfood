@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.validators import (
     MaxLengthValidator,
     MinLengthValidator,
@@ -12,6 +13,14 @@ from apps.goodfood.validators import GoodfoodValidator
 
 # Create your models here.
 class Categories(models.Model):
+    owner = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        verbose_name="Владелец",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
     cat = models.CharField(
         verbose_name="категория",
         max_length=32,
@@ -31,6 +40,14 @@ class Categories(models.Model):
 
 
 class Goods(models.Model):
+    owner = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        verbose_name="Владелец",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
     name = models.CharField(
         verbose_name="Название",
         max_length=64,

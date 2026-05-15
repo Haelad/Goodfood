@@ -86,3 +86,6 @@ CONTENT_SECURITY_POLICY = {
         "connect-src": ["'self'"],
     }
 }
+
+
+ACCOUNT_EMAIL_VERIFICATION = "none"

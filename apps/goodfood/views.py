@@ -1,4 +1,4 @@
-from django.shortcuts import get_list_or_404, get_object_or_404, render
+from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.generic import DetailView, ListView, TemplateView
@@ -19,6 +19,9 @@ class FoodListView(SearchMixin, ListView):
     context_object_name = "context"
     paginate_by = 12
 
+    def get_queryset(self):
+        return super().get_queryset().filter(owner=self.request.user)
+
 
 @method_decorator(cache_page(300), name="dispatch")
 class FoodDetailView(DetailView):
@@ -30,10 +33,8 @@ class FoodDetailView(DetailView):
     slug_url_kwarg = "slug_name"
     pk_url_kwarg = "pk"
 
-    def get_object(self):
-        pk = self.kwargs.get("pk")
-        slug = self.kwargs.get("slug_name")
-        return get_object_or_404(Goods, pk=pk, slugify_name=slug)
+    def get_queryset(self):
+        return super().get_queryset().filter(owner=self.request.user)
 
 
 @method_decorator(cache_page(300), name="dispatch")
@@ -43,8 +44,7 @@ class FoodCategoryView(ListView):
     context_object_name = "food"
 
     def get_queryset(self):
-        cat_id = self.kwargs.get("cat_id")
-        return get_list_or_404(Goods.objects.filter(category_id=cat_id))
+        return super().get_queryset().filter(owner=self.request.user)
 
 
 # views_handlers
