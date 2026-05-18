@@ -11,7 +11,6 @@ from slugify import slugify
 from apps.goodfood.validators import GoodfoodValidator
 
 
-# Create your models here.
 class Categories(models.Model):
     owner = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,

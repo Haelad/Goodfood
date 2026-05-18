@@ -3,7 +3,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.generic import DetailView, ListView, TemplateView
 
-from .mixins import SearchMixin
+from .mixins import PostgresSearchMixin
 from .models import Goods
 
 # Настроить более точное кеширование отдельно темплейты и view
@@ -13,7 +13,7 @@ class IndexView(TemplateView):
     template_name = "goodfood/index.html"
 
 
-class FoodListView(SearchMixin, ListView):
+class FoodListView(PostgresSearchMixin, ListView):
     model = Goods
     template_name = "goodfood/goods.html"
     context_object_name = "context"
