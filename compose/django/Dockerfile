@@ -5,7 +5,7 @@ WORKDIR /app
 # Системные зависимости
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        postgresql-client curl gcc libpq-dev && \
+        postgresql-client curl gcc libpq-dev libmagic1 && \
     pip install --upgrade pip && \
     pip install poetry && \
     apt-get purge -y gcc libpq-dev && \

@@ -1,6 +1,7 @@
 from string import ascii_letters, digits
 
-from django.forms import ValidationError
+import magic
+from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
 
 
@@ -26,3 +27,11 @@ class GoodfoodValidator:
         value = str(value)
         if not (set(value) <= set(self.ALLOWED_CHARACTERS)):
             raise ValidationError(self.message, params={"value": value})
+
+
+def validate_image_file(file):
+    allowed_types = ["image/jpeg", "image/png", "image/webp"]
+    mime = magic.from_buffer(file.read(1024), mime=True)
+    file.seek(0)
+    if mime not in allowed_types:
+        raise ValidationError(f"Недопустимый тип файла: {mime}")

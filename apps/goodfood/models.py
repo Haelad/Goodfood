@@ -1,3 +1,5 @@
+import uuid
+
 from django.conf import settings
 from django.core.validators import (
     MaxLengthValidator,
@@ -8,7 +10,7 @@ from django.db import models
 from django.urls import reverse
 from slugify import slugify
 
-from apps.goodfood.validators import GoodfoodValidator
+from apps.goodfood.validators import GoodfoodValidator, validate_image_file
 
 
 class Categories(models.Model):
@@ -38,6 +40,11 @@ class Categories(models.Model):
         return reverse("goodfood:_category", kwargs={"cat_id": self.pk})
 
 
+def upload_to(instance, filename):
+    ext = filename.split(".")[-1]
+    return f"goods/{uuid.uuid4()}.{ext}"
+
+
 class Goods(models.Model):
     owner = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
@@ -61,6 +68,8 @@ class Goods(models.Model):
         blank=False,
         null=False,
         editable=True,
+        upload_to=upload_to,
+        validators=[validate_image_file],
     )
 
     description = models.TextField(

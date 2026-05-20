@@ -46,6 +46,7 @@ django-crispy-forms = {extras = ["bootstrap5"], version = "^2.5"}
 pytest = "^9.0.2"
 pytest-django = "^4.11.1"
 factory-boy = "^3.3.3"
+python-magic = "^0.4.27"
 
 
 
