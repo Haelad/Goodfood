@@ -126,10 +126,6 @@ class Goods(models.Model):
 
         get_latest_by = ["time_updated"]
 
-        # разрешения для тех кто может добавлять, редактировать, изменять \
-        # https://docs.djangoproject.com/en/5.2/ref/models/options/#
-        # permissions = [()]
-
     def __str__(self):
         return self.name
 

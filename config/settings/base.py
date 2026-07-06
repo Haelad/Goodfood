@@ -22,6 +22,17 @@ INSTALLED_APPS = [
     # Приложения проекта
     "apps.users",
     "apps.goodfood",
+    # Unfold
+    "unfold",  # before django.contrib.admin
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.inlines",
+    "unfold.contrib.import_export",
+    "unfold.contrib.guardian",
+    "unfold.contrib.simple_history",
+    "unfold.contrib.location_field",
+    "unfold.contrib.constance",
+    "unfold.contrib.hijack",
     # Django
     "django.contrib.admin",
     "django.contrib.auth",
@@ -154,3 +165,78 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+
+UNFOLD = {
+    "SITE_TITLE": "Goodfood",
+    "SITE_HEADER": "Goodfood Admin",
+    "SITE_URL": "/",
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": True,
+    "SHOW_BACK_BUTTON": False,
+    "BORDER_RADIUS": "12px",
+    "COLORS": {
+        "base": {
+            "50": "#f0f0f5",
+            "100": "#e2e2ec",
+            "200": "#c9c9d9",
+            "300": "#a8a8bf",
+            "400": "#7d7d99",
+            "500": "#5c5c78",
+            "600": "#46465e",
+            "700": "#33334a",
+            "800": "#221f38",  # ~ --color-main-bg
+            "900": "#141223",  # ~ --color-bg-nav
+            "950": "#050610",  # ~ --color-bg
+        },
+        "primary": {
+            "50": "#f4f8e9",
+            "100": "#ECF39E",  # --color-lime
+            "200": "#d3e6a8",
+            "300": "#b8d97a",
+            "400": "#90A955",  # --color-palm
+            "500": "#4F772D",  # --color-fern (основной акцент)
+            "600": "#3f6224",
+            "700": "#31572C",  # --color-hunter
+            "800": "#1f3d1f",
+            "900": "#132A13",  # --color-evergreen
+            "950": "#0a1a0a",
+        },
+        "font": {
+            "subtle-light": "var(--color-base-500)",
+            "subtle-dark": "rgba(255, 255, 255, 0.55)",  # --color-text-muted
+            "default-light": "var(--color-base-600)",
+            "default-dark": "var(--color-base-300)",
+            "important-light": "var(--color-base-900)",
+            "important-dark": "#ffffff",  # --color-text
+        },
+    },
+    # "SIDEBAR": {
+    #     "show_search": True,
+    #     "show_all_applications": False,
+    #     "navigation": [
+    #         {
+    #             "title": _("Управление"),
+    #             "separator": True,
+    #             "collapsible": True,
+    #             "items": [
+    #                 {
+    #                     "title": _("Dashboard"),
+    #                     "icon": "dashboard",
+    #                     "link": reverse_lazy("admin:main"),
+    #                 },
+    #                 {
+    #                     "title": _("Категории"),
+    #                     "icon": "category",
+    #                     "link": reverse_lazy("admin:_category"),
+    #                 },
+    #                 {
+    #                     "title": _("Товары"),
+    #                     "icon": "inventory_2",
+    #                     "link": reverse_lazy("admin:goodfood_product_changelist"),
+    #                 },
+    #             ],
+    #         },
+    #     ],
+    # },
+}

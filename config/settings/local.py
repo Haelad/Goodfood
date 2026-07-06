@@ -72,20 +72,21 @@ STORAGES = {
 # ----------------------------
 # CSP (только для локала)
 # ----------------------------
-CONTENT_SECURITY_POLICY = {
-    "DIRECTIVES": {
-        "default-src": ["'self'"],
-        "script-src": ["'self'", "https://cdn.jsdelivr.net"],
-        "style-src": [
-            "'self'",
-            "https://cdn.jsdelivr.net",
-            "https://fonts.googleapis.com",
-        ],
-        "font-src": ["'self'", "https://fonts.gstatic.com"],
-        "img-src": ["'self'", "data:"],
-        "connect-src": ["'self'"],
-    }
-}
+# CONTENT_SECURITY_POLICY = {
+#     "DIRECTIVES": {
+#         "default-src": ["'self'"],
+#         "script-src": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+#         "style-src": [
+#             "'self'",
+#             "'unsafe-inline'"
+#             "https://cdn.jsdelivr.net",
+#             "https://fonts.googleapis.com",
+#         ],
+#         "font-src": ["'self'", "https://fonts.gstatic.com", "data:"],
+#         "img-src": ["'self'", "data:", "https:"],
+#         "connect-src": ["'self'"],
+#     }
+# }
 
 
 ACCOUNT_EMAIL_VERIFICATION = "none"

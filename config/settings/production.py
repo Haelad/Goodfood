@@ -13,7 +13,7 @@ load_dotenv()
 DEBUG = False
 SECRET_KEY = config("SECRET_KEY")
 SITE_ID = 1
-ALLOWED_HOSTS = ["goodhealthyfood.ru", "goodhealthyfood.online"]
+ALLOWED_HOSTS = ["greatfood.duckdns.org"]
 STATIC_ROOT = os.path.join(BASE_DIR, "static_collect")
 
 # ----------------------------
@@ -68,6 +68,10 @@ CONTENT_SECURITY_POLICY = {
         "connect-src": ["'self'"],
     }
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://greatfood.duckdns.org",
+]
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
