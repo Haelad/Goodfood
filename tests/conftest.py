@@ -1,7 +1,9 @@
 import pytest
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import Client
 from django.urls import reverse
 from factorytest import CategoryFactory, GoodsFactory
 
@@ -21,20 +23,39 @@ def media_root(tmp_path, settings):
 
 
 @pytest.fixture
-def create_fake_image():
+def unauthenticated_client(db):
+    TestUser = User.objects.create_user(
+        username="Test_user", email="testmail@gmail.com", password="test_user_42"
+    )
+    return TestUser
+
+
+@pytest.fixture
+def authenticated_client(db, unauthenticated_client):
+    client = Client()
+    client.force_login(unauthenticated_client)
+    return client
+
+
+@pytest.fixture
+def create_fake_image(db):
     return SimpleUploadedFile("test.jpg", b"file_content", content_type="image/jpeg")
 
 
 @pytest.fixture
-def categories(db):
-    return CategoryFactory.create_batch(10)
+def categories(db, authenticated_client, unauthenticated_client):
+    return CategoryFactory.create_batch(10, owner=unauthenticated_client)
 
 
 @pytest.fixture
-def products(db, categories):
+def products(db, authenticated_client, unauthenticated_client, categories):
     products = []
     for category in categories:
-        products.extend(GoodsFactory.create_batch(3, category=category))
+        products.extend(
+            GoodsFactory.create_batch(
+                3, category=category, owner=unauthenticated_client
+            )
+        )
     return products
 
 

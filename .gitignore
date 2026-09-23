@@ -4,6 +4,7 @@
 /certbot/
 /certbot_data/
 /apps/goodfood/migrations/
+/git-secrets/
 
 # Byte-compiled / optimized / DLL files
 **/__pycache__/
