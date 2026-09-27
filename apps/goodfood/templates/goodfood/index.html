@@ -7,16 +7,17 @@
         <div class="row justify-content-start">
           <div class="col-12 col-md-8">
             <h1 class="title">Правильные ингридиенты для правильных блюд</h1>
+              {% endcache %}
             <div class="btts d-flex flex-wrap gap-3 justify-content-start justify-content-md-start">
-              {% if request.user.is_authenticated %}
+     
               <a href="{% url 'admin:index' %}"><button type="button" class="done">Создать рецепт</button></a>
-              {% endif %}
+              
               <a class="btn-link" href="{% url 'goodfood:goods'%}"><button type="button" class="look-at-menu">Мои рецепты</button></a>
             </div>
           </div>
         </div>
       </div>
     </div>
-  {% endcache %}
+
 {% endblock content %}
 

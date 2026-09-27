@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -20,7 +21,18 @@ class FoodListView(PostgresSearchMixin, ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        return super().get_queryset().filter(owner=self.request.user)
+        cache_key = "goods:food"
+        goods = cache.get(cache_key)
+
+        if goods is None:
+            goods = tuple(
+                cache_key, super().get_queryset().filter(owner=self.request.user)
+            )
+            cache.set(cache_key, goods, 300)
+        return goods
+
+    # def get_queryset(self):
+    #     return super().get_queryset().filter(owner=self.request.user)
 
 
 @method_decorator(cache_page(300), name="dispatch")
