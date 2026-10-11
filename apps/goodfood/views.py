@@ -1,42 +1,50 @@
+import logging
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
+from django.db import DatabaseError
 from django.shortcuts import render
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from django.views.generic import DetailView, ListView, TemplateView
 
 from .mixins import PostgresSearchMixin
 from .models import Goods
 
-# Настроить более точное кеширование отдельно темплейты и view
+logger = logging.getLogger(__name__)
+
+# TODO: вынести общее кэширование queryset и формат ключей
 
 
 class IndexView(TemplateView):
     template_name = "goodfood/index.html"
 
 
-class FoodListView(PostgresSearchMixin, ListView):
+class FoodListView(LoginRequiredMixin, PostgresSearchMixin, ListView):
     model = Goods
     template_name = "goodfood/goods.html"
     context_object_name = "context"
     paginate_by = 12
 
     def get_queryset(self):
-        cache_key = "goods:food"
+        cache_key = f"goods:food:user:{self.request.user.pk}"
         goods = cache.get(cache_key)
 
         if goods is None:
-            goods = tuple(
-                cache_key, super().get_queryset().filter(owner=self.request.user)
-            )
-            cache.set(cache_key, goods, 300)
+            try:
+                goods = list(super().get_queryset().filter(owner=self.request.user))
+            except DatabaseError:
+                logger.exception("could not find module in queryset")
+                raise
+
+            try:
+                cache.set(cache_key, goods, 300)
+            except Exception:
+                logger.exception("Could not save goods to cache")
+                return super().get_queryset().filter(owner=self.request.user)
+
         return goods
 
-    # def get_queryset(self):
-    #     return super().get_queryset().filter(owner=self.request.user)
 
-
-@method_decorator(cache_page(300), name="dispatch")
-class FoodDetailView(DetailView):
+class FoodDetailView(LoginRequiredMixin, DetailView):
     model = Goods
     template_name = "goodfood/food.html"
     context_object_name = "food"
@@ -46,17 +54,56 @@ class FoodDetailView(DetailView):
     pk_url_kwarg = "pk"
 
     def get_queryset(self):
-        return super().get_queryset().filter(owner=self.request.user)
+        cache_key = (
+            f"goods:detail-food:user:{self.request.user.pk}:pk:{self.kwargs['pk']}"
+        )
+        goods = cache.get(cache_key)
+
+        if goods is None:
+            try:
+                goods = super().get_queryset().filter(owner=self.request.user)
+            except DatabaseError:
+                logger.exception("could not find module in queryset")
+                raise
+
+            try:
+                cache.set(cache_key, goods, 300)
+            except Exception:
+                logger.exception("Could not save detail-food to cache")
+                return super().get_queryset().filter(owner=self.request.user)
+
+        return goods
 
 
-@method_decorator(cache_page(300), name="dispatch")
-class FoodCategoryView(ListView):
+class FoodCategoryView(LoginRequiredMixin, ListView):
     model = Goods
     template_name = "goodfood/category.html"
     context_object_name = "food"
 
     def get_queryset(self):
-        return super().get_queryset().filter(owner=self.request.user)
+        cache_key = f"goods:category-food:user:{self.request.user.pk}: \
+        cat_id:{self.kwargs['cat_id']}"
+
+        goods = cache.get(cache_key)
+
+        if goods is None:
+            try:
+                goods = list(
+                    super()
+                    .get_queryset()
+                    .filter(owner=self.request.user, category_id=self.kwargs["cat_id"])
+                )
+            except DatabaseError:
+                logger.exception("could not find module in queryset")
+                raise
+
+            try:
+                cache.set(cache_key, goods, 300)
+            except Exception:
+                logger.exception("Could not save category-food to cache")
+                return super().get_queryset().filter(owner=self.request.user)
+
+        return goods
 
 
 # views_handlers
