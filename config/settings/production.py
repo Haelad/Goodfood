@@ -37,8 +37,11 @@ CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": f'redis://{config("REDIS_HOST")}:{config("REDIS_PORT")}/0',
-        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
-    }
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": config("REDIS_PASSWORD"),
+        },
+    },
 }
 
 # ----------------------------

@@ -5,6 +5,7 @@ from .base import *
 
 load_dotenv()
 
+
 # ----------------------------
 # Основные настройки локальной среды
 # ----------------------------
@@ -42,7 +43,7 @@ CACHES = {
         "LOCATION": f"redis://{config('REDIS_HOST')}:{config('REDIS_PORT')}/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "IGNORE_EXCEPTIONS": True,
+            "PASSWORD": config("REDIS_PASSWORD"),
         },
     },
 }
@@ -51,14 +52,14 @@ CACHES = {
 # ----------------------------
 # Debug Toolbar
 # ----------------------------
-# INSTALLED_APPS += ["debug_toolbar"]
+# if "pytest" not in sys.modules:
+#     INSTALLED_APPS += ["debug_toolbar"]
+#     MIDDLEWARE.insert(
+#         MIDDLEWARE.index("django.middleware.security.SecurityMiddleware") + 1,
+#         "debug_toolbar.middleware.DebugToolbarMiddleware",
+#     )
+#     DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda request: True}
 
-# MIDDLEWARE.insert(
-#     MIDDLEWARE.index("django.middleware.security.SecurityMiddleware") + 1,
-#     "debug_toolbar.middleware.DebugToolbarMiddleware",
-# )
-
-# DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda request: True}
 
 # ----------------------------
 # WhiteNoise

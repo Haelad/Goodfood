@@ -81,8 +81,10 @@ class FoodCategoryView(LoginRequiredMixin, ListView):
     context_object_name = "food"
 
     def get_queryset(self):
-        cache_key = f"goods:category-food:user:{self.request.user.pk}: \
-        cat_id:{self.kwargs['cat_id']}"
+        cache_key = (
+            f"goods:category-food:user:{self.request.user.pk}:"
+            f"cat_id:{self.kwargs['cat_id']}"
+        )
 
         goods = cache.get(cache_key)
 

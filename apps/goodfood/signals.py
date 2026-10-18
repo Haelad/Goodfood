@@ -44,7 +44,6 @@ def save_old_goods_values(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Goods)
 def invalidate_goods_cache(sender, instance, **kwargs):
-    # Старые значения
     old_owner_id = getattr(instance, "_old_owner_id", None)
     old_category_id = getattr(instance, "_old_category_id", None)
 
@@ -57,7 +56,6 @@ def invalidate_goods_cache(sender, instance, **kwargs):
                 f"goods:category-food:user:{old_owner_id}:cat_id:{old_category_id}"
             )
 
-    # Новые значения
     cache.delete(f"goods:food:user:{instance.owner_id}")
     cache.delete(f"goods:detail-food:user:{instance.owner_id}:pk:{instance.pk}")
     cache.delete(
