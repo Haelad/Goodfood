@@ -29,7 +29,14 @@ def cook_client(client, cook):
 
 
 def post_recipe(client, **extra):
-    data = {"name": "Борщ", "desc": "Свекольный суп", "photo": png_file(), **extra}
+    # portion_grams в реальной форме уже заполнено значением по умолчанию
+    data = {
+        "name": "Борщ",
+        "desc": "Свекольный суп",
+        "photo": png_file(),
+        "portion_grams": 100,
+        **extra,
+    }
     return client.post(ADD_URL, data)
 
 

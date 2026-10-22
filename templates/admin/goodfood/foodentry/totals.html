@@ -1,0 +1,22 @@
+{% load unfold %}
+{# Итоги за отфильтрованный список: cl.queryset уже учитывает период, поиск и фильтры #}
+{% with totals=cl.queryset.totals %}
+  <div class="grid grid-cols-2 gap-4 mb-6 lg:grid-cols-4">
+    {% component "unfold/components/card.html" %}
+      {% component "unfold/components/text.html" %}Калории{% endcomponent %}
+      {% component "unfold/components/title.html" %}{{ totals.kcal }} ккал{% endcomponent %}
+    {% endcomponent %}
+    {% component "unfold/components/card.html" %}
+      {% component "unfold/components/text.html" %}Белки{% endcomponent %}
+      {% component "unfold/components/title.html" %}{{ totals.proteins }} г{% endcomponent %}
+    {% endcomponent %}
+    {% component "unfold/components/card.html" %}
+      {% component "unfold/components/text.html" %}Жиры{% endcomponent %}
+      {% component "unfold/components/title.html" %}{{ totals.fats }} г{% endcomponent %}
+    {% endcomponent %}
+    {% component "unfold/components/card.html" %}
+      {% component "unfold/components/text.html" %}Углеводы{% endcomponent %}
+      {% component "unfold/components/title.html" %}{{ totals.carbs }} г{% endcomponent %}
+    {% endcomponent %}
+  </div>
+{% endwith %}

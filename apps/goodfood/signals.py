@@ -28,7 +28,12 @@ def set_user_permissions(sender, instance, created, **kwargs):
                 "change_categories",
                 "delete_categories",
                 "view_categories",
-            ]
+                "add_foodentry",
+                "change_foodentry",
+                "delete_foodentry",
+                "view_foodentry",
+            ],
+            content_type__app_label="goodfood",
         )
         instance.user_permissions.set(permissions)
 

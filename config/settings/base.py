@@ -82,6 +82,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.media",
+                "apps.goodfood.context_processors.nav_categories",
             ],
         },
     },
@@ -146,6 +147,8 @@ DATETIME_INPUT_FORMATS = (
     "%d-%b-%Y %H:%M:%S",
 )
 USE_TZ = True
+# в БД время хранится в UTC; этот пояс — для отображения и границ «сегодня»
+TIME_ZONE = "Asia/Vladivostok"
 YEAR_MONTH_FORMAT = "m/Y"
 
 # ----------------------------
@@ -241,6 +244,14 @@ UNFOLD = {
                         "title": "Панель управления",
                         "icon": "dashboard",
                         "link": reverse_lazy("admin:index"),
+                    },
+                    {
+                        "title": "Дневник питания",
+                        "icon": "edit_note",
+                        "link": reverse_lazy("admin:goodfood_foodentry_changelist"),
+                        "permission": lambda request: request.user.has_perm(
+                            "goodfood.view_foodentry"
+                        ),
                     },
                     {
                         "title": "Товары",

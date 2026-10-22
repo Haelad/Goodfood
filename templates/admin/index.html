@@ -25,34 +25,54 @@
       {% endfor %}
     </div>
 
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3">
 
-      {# Последние товары #}
+      {# Калории за неделю #}
       <div class="lg:col-span-2">
-        {% url "admin:goodfood_goods_add" as goods_add_url %}
-        {% component "unfold/components/card.html" with title="Последние товары" %}
-          {% if latest_goods %}
-            <ul class="flex flex-col -my-3">
-              {% for g in latest_goods %}
-                <li class="flex items-center gap-3 py-3 border-b border-base-200 last:border-b-0 dark:border-base-800">
-                  {% if g.photo %}
-                    <img src="{{ g.photo.url }}" alt="" class="w-10 h-10 object-cover rounded-default">
-                  {% endif %}
-                  <div class="grow min-w-0">
-                    <a href="{% url 'admin:goodfood_goods_change' g.pk %}" class="block truncate font-semibold text-font-important-light dark:text-font-important-dark">{{ g.name }}</a>
-                    <span class="text-xs">{{ g.time_created|date:"d.m.Y H:i" }}</span>
-                  </div>
-                  {% component "unfold/helpers/label.html" with variant="primary" text=g.category.cat %}{% endcomponent %}
-                </li>
-              {% endfor %}
-            </ul>
-          {% else %}
-            {% component "unfold/components/text.html" %}
-              Товаров пока нет. <a href="{{ goods_add_url }}" class="text-primary-600 dark:text-primary-500">Добавить первый</a>
-            {% endcomponent %}
-          {% endif %}
+        {% component "unfold/components/card.html" with title="Калории за 7 дней" %}
+          {% component "unfold/components/chart/bar.html" with data=week_chart height=260 %}{% endcomponent %}
         {% endcomponent %}
       </div>
+
+      {# Сегодня: БЖУ и записи #}
+      {% component "unfold/components/card.html" with title="Сегодня" %}
+        <div class="grid grid-cols-3 gap-3 mb-5 text-center">
+          <div>
+            {% component "unfold/components/text.html" %}Белки{% endcomponent %}
+            <strong class="text-lg text-font-important-light dark:text-font-important-dark">{{ today_totals.proteins }} г</strong>
+          </div>
+          <div>
+            {% component "unfold/components/text.html" %}Жиры{% endcomponent %}
+            <strong class="text-lg text-font-important-light dark:text-font-important-dark">{{ today_totals.fats }} г</strong>
+          </div>
+          <div>
+            {% component "unfold/components/text.html" %}Углеводы{% endcomponent %}
+            <strong class="text-lg text-font-important-light dark:text-font-important-dark">{{ today_totals.carbs }} г</strong>
+          </div>
+        </div>
+        {% if today_entries %}
+          <ul class="flex flex-col">
+            {% for entry in today_entries %}
+              <li class="flex items-center gap-3 py-2 border-t border-base-200 dark:border-base-800">
+                <a href="{% url 'admin:goodfood_foodentry_change' entry.pk %}" class="grow min-w-0 truncate font-semibold text-font-important-light dark:text-font-important-dark">{{ entry.goods.name }}</a>
+                <span class="text-xs whitespace-nowrap">{{ entry.eaten_at|time:"H:i" }}, {{ entry.grams }} г</span>
+                {% if entry.kcal is not None %}
+                  {% component "unfold/helpers/label.html" with variant="primary" text=entry.kcal|stringformat:"s"|add:" ккал" %}{% endcomponent %}
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          {% component "unfold/components/text.html" %}Сегодня записей ещё нет.{% endcomponent %}
+        {% endif %}
+        <a href="{{ diary_add_url }}" class="inline-flex items-center gap-1 mt-4 font-semibold text-primary-600 dark:text-primary-500">
+          <span class="material-symbols-outlined text-base">add</span> Записать, что съел
+        </a>
+      {% endcomponent %}
+
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
 
       {# Топ категорий #}
       {% component "unfold/components/card.html" with title="Категории по числу товаров" %}
@@ -67,11 +87,11 @@
         {% endif %}
       {% endcomponent %}
 
-    </div>
+      {# Последние действия #}
+      <div class="lg:col-span-2">
+        {% include "unfold/helpers/history.html" %}
+      </div>
 
-    {# Последние действия #}
-    <div class="mt-8">
-      {% include "unfold/helpers/history.html" %}
     </div>
 
   {% endcomponent %}

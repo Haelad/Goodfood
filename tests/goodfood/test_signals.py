@@ -18,6 +18,10 @@ def test_new_user_gets_staff_and_goods_permissions():
             "goodfood.change_categories",
             "goodfood.delete_categories",
             "goodfood.view_categories",
+            "goodfood.add_foodentry",
+            "goodfood.change_foodentry",
+            "goodfood.delete_foodentry",
+            "goodfood.view_foodentry",
         ]
     )
 
