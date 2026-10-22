@@ -1,19 +1,22 @@
-<div class="col-12 col-sm-6 col-md-4 col-lg-3">
-  <article class="card food-card h-100">
-    {% if food.category %}
-      <a href="{{ food.category.get_absolute_url }}" class="badge bg-success position-absolute top-0 start-0 mt-2 ms-2">{{ food.category }}</a>
-    {% endif %}
-
-    <div class="card-img-wrapper">
+<div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+  <article class="food-card">
+    <div class="food-card__photo">
       {% if food.photo %}
-        <img src="{{ food.photo.url }}" alt="{{ food.name }}" loading="lazy" draggable="false">
+        <img src="{{ food.photo.url }}" alt="" loading="lazy" draggable="false">
       {% endif %}
     </div>
 
-    <div class="card-body text-center">
-      <h5 class="card-title mb-2">{{ food.name }}</h5>
-      <p class="card-text scroll-text mb-3">{{ food.desc|default:"" }}</p>
-      <a href="{{ food.get_absolute_url }}" class="btn btn-primary mt-auto">Посмотреть</a>
+    <div class="food-card__body">
+      {% if food.category %}
+        <a href="{{ food.category.get_absolute_url }}" class="chip">{{ food.category }}</a>
+      {% endif %}
+      {# stretched-link делает кликабельной всю карточку #}
+      <h2 class="food-card__title">
+        <a href="{{ food.get_absolute_url }}" class="stretched-link">{{ food.name }}</a>
+      </h2>
+      {% if food.desc %}
+        <p class="food-card__desc">{{ food.desc }}</p>
+      {% endif %}
     </div>
   </article>
 </div>

@@ -5,28 +5,33 @@
 {% block content %}
 <section class="second-block">
   <div class="container my-5">
-    <div class="row justify-content-center">
-      <div class="col-12 col-md-10 col-lg-8">
-        <article class="card food-detail shadow-lg">
-          {% if food.category %}
-            <a href="{{ food.category.get_absolute_url }}" class="badge bg-success position-absolute top-0 start-0 mt-3 ms-3">{{ food.category }}</a>
-          {% endif %}
+    <a href="{% url 'goodfood:goods' %}" class="back-link">&larr; Все рецепты</a>
 
-          {% if food.photo %}
-            <img src="{{ food.photo.url }}" class="card-img-top food-detail__img" alt="{{ food.name }}" draggable="false">
-          {% endif %}
+    <article class="recipe">
+      {% if food.photo %}
+        <div class="recipe__photo">
+          <img src="{{ food.photo.url }}" alt="{{ food.name }}" draggable="false">
+        </div>
+      {% endif %}
 
-          <div class="card-body">
-            <h1 class="card-title h2">{{ food.name }}</h1>
-            {% if food.desc %}
-              <p class="food-detail__desc">{{ food.desc }}</p>
-            {% endif %}
-
-            <a href="{% url 'goodfood:goods' %}" class="btn btn-outline-success mt-3">&larr; Вернуться к списку</a>
-          </div>
-        </article>
+      <div class="recipe__text">
+        {% if food.category %}
+          <a href="{{ food.category.get_absolute_url }}" class="chip">{{ food.category }}</a>
+        {% endif %}
+        <h1 class="recipe__title">{{ food.name }}</h1>
+        <p class="recipe__meta">
+          Добавлено {{ food.time_created|date:"j E Y" }}{% if food.time_updated|date:"Ymd" != food.time_created|date:"Ymd" %}, обновлено {{ food.time_updated|date:"j E Y" }}{% endif %}
+        </p>
+        {% if food.desc %}
+          <p class="recipe__desc">{{ food.desc }}</p>
+        {% else %}
+          <p class="recipe__desc recipe__desc--empty">Описание пока не добавлено.</p>
+        {% endif %}
+        {% if request.user.is_staff %}
+          <a href="{% url 'admin:goodfood_goods_change' food.pk %}" class="btn btn-outline-light">Изменить рецепт</a>
+        {% endif %}
       </div>
-    </div>
+    </article>
   </div>
 </section>
 {% endblock content %}
