@@ -12,6 +12,8 @@ from slugify import slugify
 
 from apps.goodfood.validators import GoodfoodValidator, validate_image_file
 
+DEFAULT_CATEGORY_NAME = "Без категории"
+
 
 class Categories(models.Model):
     owner = models.ForeignKey(
@@ -38,6 +40,19 @@ class Categories(models.Model):
 
     def get_absolute_url(self):
         return reverse("goodfood:_category", kwargs={"cat_id": self.pk})
+
+    @classmethod
+    def get_or_create_for(cls, owner, name):
+        """Категория пользователя по названию (без учёта регистра) или новая."""
+        name = name.strip()
+        category = cls.objects.filter(owner=owner, cat__iexact=name).first()
+        if category is None:
+            category = cls.objects.create(owner=owner, cat=name)
+        return category
+
+    @classmethod
+    def default_for(cls, owner):
+        return cls.get_or_create_for(owner, DEFAULT_CATEGORY_NAME)
 
 
 def upload_to(instance, filename):

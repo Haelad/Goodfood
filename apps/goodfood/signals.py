@@ -32,6 +32,9 @@ def set_user_permissions(sender, instance, created, **kwargs):
         )
         instance.user_permissions.set(permissions)
 
+        # Чтобы первый рецепт можно было сохранить, не создавая категорию заранее
+        Categories.default_for(instance)
+
 
 @receiver(pre_save, sender=Goods)
 def save_old_goods_values(sender, instance, **kwargs):
