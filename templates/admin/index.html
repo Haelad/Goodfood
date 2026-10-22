@@ -1,0 +1,78 @@
+{% extends "admin/base.html" %}
+{% load i18n unfold %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_("Django site admin") }}{% endblock %}
+
+{% block branding %}
+  {% include "unfold/helpers/site_branding.html" %}
+{% endblock %}
+
+{% block content %}
+  {% component "unfold/components/container.html" %}
+
+    {# KPI #}
+    <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
+      {% for item in kpi %}
+        {% component "unfold/components/card.html" with href=item.href %}
+          <div class="flex items-center gap-4">
+            <span class="material-symbols-outlined flex items-center justify-center w-10 h-10 rounded-default bg-primary-100 text-primary-700 dark:bg-primary-500/20 dark:text-primary-400">{{ item.icon }}</span>
+            <div>
+              {% component "unfold/components/text.html" %}{{ item.title }}{% endcomponent %}
+              {% component "unfold/components/title.html" %}{{ item.value }}{% endcomponent %}
+            </div>
+          </div>
+        {% endcomponent %}
+      {% endfor %}
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+
+      {# Последние товары #}
+      <div class="lg:col-span-2">
+        {% url "admin:goodfood_goods_add" as goods_add_url %}
+        {% component "unfold/components/card.html" with title="Последние товары" %}
+          {% if latest_goods %}
+            <ul class="flex flex-col -my-3">
+              {% for g in latest_goods %}
+                <li class="flex items-center gap-3 py-3 border-b border-base-200 last:border-b-0 dark:border-base-800">
+                  {% if g.photo %}
+                    <img src="{{ g.photo.url }}" alt="" class="w-10 h-10 object-cover rounded-default">
+                  {% endif %}
+                  <div class="grow min-w-0">
+                    <a href="{% url 'admin:goodfood_goods_change' g.pk %}" class="block truncate font-semibold text-font-important-light dark:text-font-important-dark">{{ g.name }}</a>
+                    <span class="text-xs">{{ g.time_created|date:"d.m.Y H:i" }}</span>
+                  </div>
+                  {% component "unfold/helpers/label.html" with variant="primary" text=g.category.cat %}{% endcomponent %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            {% component "unfold/components/text.html" %}
+              Товаров пока нет. <a href="{{ goods_add_url }}" class="text-primary-600 dark:text-primary-500">Добавить первый</a>
+            {% endcomponent %}
+          {% endif %}
+        {% endcomponent %}
+      </div>
+
+      {# Топ категорий #}
+      {% component "unfold/components/card.html" with title="Категории по числу товаров" %}
+        {% if top_categories %}
+          <div class="flex flex-col gap-5">
+            {% for c in top_categories %}
+              {% component "unfold/components/progress.html" with title=c.title description=c.total value=c.percent %}{% endcomponent %}
+            {% endfor %}
+          </div>
+        {% else %}
+          {% component "unfold/components/text.html" %}Категорий пока нет.{% endcomponent %}
+        {% endif %}
+      {% endcomponent %}
+
+    </div>
+
+    {# Последние действия #}
+    <div class="mt-8">
+      {% include "unfold/helpers/history.html" %}
+    </div>
+
+  {% endcomponent %}
+{% endblock %}

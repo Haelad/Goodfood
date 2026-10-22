@@ -19,7 +19,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from apps.users.views import admin_login
+
 urlpatterns = [
+    # До admin.site.urls, чтобы перехватить вход в админку
+    path("admin/login/", admin_login, name="admin_login_redirect"),
     path("admin/", admin.site.urls),
     path("", include("apps.goodfood.urls", namespace="goodfood")),
     path("", include("apps.users.urls")),

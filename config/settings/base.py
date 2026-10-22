@@ -1,6 +1,8 @@
 from pathlib import Path
 
 from decouple import config
+from django.templatetags.static import static
+from django.urls import reverse_lazy
 
 SECRET_KEY = config("SECRET_KEY")
 
@@ -22,17 +24,12 @@ INSTALLED_APPS = [
     # Приложения проекта
     "apps.users",
     "apps.goodfood",
-    # Unfold
+    # Unfold (только contrib-модули без сторонних зависимостей;
+    # import_export/guardian/simple_history и т.п. подключать вместе с пакетами)
     "unfold",  # before django.contrib.admin
     "unfold.contrib.filters",
     "unfold.contrib.forms",
     "unfold.contrib.inlines",
-    "unfold.contrib.import_export",
-    "unfold.contrib.guardian",
-    "unfold.contrib.simple_history",
-    "unfold.contrib.location_field",
-    "unfold.contrib.constance",
-    "unfold.contrib.hijack",
     # Django
     "django.contrib.admin",
     "django.contrib.auth",
@@ -138,8 +135,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # ----------------------------
-# Дата и время
+# Язык, дата и время
 # ----------------------------
+LANGUAGE_CODE = "ru"
+USE_I18N = True
+
 DATETIME_INPUT_FORMATS = (
     "%Y-%m-%d %H:%M:%S",
     "%m/%d/%Y %I:%M %p",
@@ -167,13 +167,31 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
+# ----------------------------
+# Unfold (админка)
+# https://unfoldadmin.com/docs/configuration/settings/
+# ----------------------------
 UNFOLD = {
     "SITE_TITLE": "Goodfood",
-    "SITE_HEADER": "Goodfood Admin",
+    "SITE_HEADER": "Goodfood",
+    "SITE_SUBHEADER": "Панель управления",
     "SITE_URL": "/",
+    "SITE_SYMBOL": "restaurant",
+    "SITE_FAVICONS": [
+        {
+            "rel": "icon",
+            "type": "image/png",
+            "href": lambda request: static("images/logo.png"),
+        },
+    ],
     "SHOW_HISTORY": True,
     "SHOW_VIEW_ON_SITE": True,
-    "SHOW_BACK_BUTTON": False,
+    "SHOW_BACK_BUTTON": True,
+    "ENVIRONMENT": "apps.goodfood.dashboard.environment_callback",
+    "DASHBOARD_CALLBACK": "apps.goodfood.dashboard.dashboard_callback",
+    "LOGIN": {
+        "image": lambda request: static("images/delicious-vegetable-salad.webp"),
+    },
     "BORDER_RADIUS": "12px",
     "COLORS": {
         "base": {
@@ -204,39 +222,105 @@ UNFOLD = {
         },
         "font": {
             "subtle-light": "var(--color-base-500)",
-            "subtle-dark": "rgba(255, 255, 255, 0.55)",  # --color-text-muted
+            "subtle-dark": "var(--color-base-400)",
             "default-light": "var(--color-base-600)",
             "default-dark": "var(--color-base-300)",
             "important-light": "var(--color-base-900)",
-            "important-dark": "#ffffff",  # --color-text
+            "important-dark": "var(--color-base-100)",
         },
     },
-    # "SIDEBAR": {
-    #     "show_search": True,
-    #     "show_all_applications": False,
-    #     "navigation": [
-    #         {
-    #             "title": _("Управление"),
-    #             "separator": True,
-    #             "collapsible": True,
-    #             "items": [
-    #                 {
-    #                     "title": _("Dashboard"),
-    #                     "icon": "dashboard",
-    #                     "link": reverse_lazy("admin:main"),
-    #                 },
-    #                 {
-    #                     "title": _("Категории"),
-    #                     "icon": "category",
-    #                     "link": reverse_lazy("admin:_category"),
-    #                 },
-    #                 {
-    #                     "title": _("Товары"),
-    #                     "icon": "inventory_2",
-    #                     "link": reverse_lazy("admin:goodfood_product_changelist"),
-    #                 },
-    #             ],
-    #         },
-    #     ],
-    # },
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": True,
+        "navigation": [
+            {
+                "title": "Каталог",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Панель управления",
+                        "icon": "dashboard",
+                        "link": reverse_lazy("admin:index"),
+                    },
+                    {
+                        "title": "Товары",
+                        "icon": "restaurant_menu",
+                        "link": reverse_lazy("admin:goodfood_goods_changelist"),
+                        "badge": "apps.goodfood.dashboard.goods_badge",
+                        "permission": lambda request: request.user.has_perm(
+                            "goodfood.view_goods"
+                        ),
+                    },
+                    {
+                        "title": "Категории",
+                        "icon": "category",
+                        "link": reverse_lazy("admin:goodfood_categories_changelist"),
+                        "permission": lambda request: request.user.has_perm(
+                            "goodfood.view_categories"
+                        ),
+                    },
+                ],
+            },
+            {
+                "title": "Пользователи",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Пользователи",
+                        "icon": "person",
+                        "link": reverse_lazy("admin:auth_user_changelist"),
+                        "permission": lambda request: request.user.has_perm(
+                            "auth.view_user"
+                        ),
+                    },
+                    {
+                        "title": "Группы",
+                        "icon": "group",
+                        "link": reverse_lazy("admin:auth_group_changelist"),
+                        "permission": lambda request: request.user.has_perm(
+                            "auth.view_group"
+                        ),
+                    },
+                    {
+                        "title": "Email-адреса",
+                        "icon": "mail",
+                        "link": reverse_lazy("admin:account_emailaddress_changelist"),
+                        "permission": lambda request: request.user.has_perm(
+                            "account.view_emailaddress"
+                        ),
+                    },
+                ],
+            },
+            {
+                "title": "Интеграции",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Социальные приложения",
+                        "icon": "apps",
+                        "link": reverse_lazy(
+                            "admin:socialaccount_socialapp_changelist"
+                        ),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": "Социальные аккаунты",
+                        "icon": "link",
+                        "link": reverse_lazy(
+                            "admin:socialaccount_socialaccount_changelist"
+                        ),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": "Сайты",
+                        "icon": "language",
+                        "link": reverse_lazy("admin:sites_site_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                ],
+            },
+        ],
+    },
 }
