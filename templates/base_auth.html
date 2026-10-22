@@ -1,18 +1,16 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Аккаунт{% endblock %}</title>
+{% extends "base.html" %}
+{% load static %}
 
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100">
+{% block extra_head %}
+<script src="{% static 'js/auth-forms.js' %}" defer></script>
+{% endblock extra_head %}
 
-<div class="flex justify-center mt-20">
-    <div class="w-full max-w-md bg-white p-8 rounded-xl shadow">
-        {% block content %}{% endblock %}
-    </div>
+{% block title %}{% block auth_title %}Аккаунт{% endblock auth_title %} — Goodfood{% endblock title %}
+
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card">
+    {% block auth_content %}{% endblock auth_content %}
+  </div>
 </div>
-
-</body>
-</html>
+{% endblock content %}

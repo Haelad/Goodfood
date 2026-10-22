@@ -1,33 +1,17 @@
-{% extends "base.html" %}
-{% load socialaccount %}  
-{% load i18n %}
+{% extends "base_auth.html" %}
 
-{% block title %}Вход через Google{% endblock %}
+{% block auth_title %}Вход через {{ provider.name }}{% endblock auth_title %}
 
-{% block content %}
-<div class="container mt-5">
-    <div class="card shadow-lg p-4 mx-auto" style="max-width: 500px;">
-        <h3 class="text-center mb-4">Подтверждение входа</h3>
+{% block auth_content %}
+<h1 class="auth-title">Подтверждение входа</h1>
+<p class="auth-text">Вы собираетесь войти через <strong>{{ provider.name }}</strong>.</p>
 
-        <p class="text-center mb-3">
-            {% blocktrans with provider_name=account.get_provider.name %}
-            Вы собираетесь войти через <strong>{{ provider_name }}</strong>.
-            {% endblocktrans %}
-        </p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-primary w-100">Продолжить</button>
+</form>
 
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <div class="d-grid">
-                <button type="submit" class="btn btn-danger">
-                    <i class="bi bi-google"></i> Войти через Google
-                </button>
-            </div>
-        </form>
-
-        <div class="text-center mt-3">
-            <a href="{% url 'account_login' %}">Назад к форме входа</a>
-        </div>
-    </div>
+<div class="auth-links">
+  <p><a href="{% url 'account_login' %}">Назад к форме входа</a></p>
 </div>
-{% endblock %}
+{% endblock auth_content %}

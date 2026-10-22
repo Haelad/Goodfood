@@ -1,0 +1,7 @@
+{% load static socialaccount %}
+<div class="auth-divider">или войти через</div>
+<div class="auth-social">
+  <a href="{% provider_login_url 'google' %}" class="btn btn-google-icon" aria-label="Войти через Google" title="Войти через Google">
+    <img src="{% static 'images/google-g.svg' %}" alt="" width="20" height="20">
+  </a>
+</div>

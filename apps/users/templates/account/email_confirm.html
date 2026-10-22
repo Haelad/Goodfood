@@ -1,15 +1,18 @@
 {% extends "base_auth.html" %}
 
-{% block content %}
-<h2 class="text-xl font-bold mb-4">Подтверждение email</h2>
+{% block auth_title %}Подтверждение email{% endblock auth_title %}
 
-<p class="mb-4">Подтвердите почту: <strong>{{ email_address.email }}</strong></p>
+{% block auth_content %}
+<h1 class="auth-title">Подтверждение email</h1>
 
-<form method="post">
+{% if confirmation %}
+  <p class="auth-text">Подтвердите почту: <strong>{{ confirmation.email_address.email }}</strong></p>
+  <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
     {% csrf_token %}
-    <button class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-        Подтвердить
-    </button>
-</form>
-{% endblock %}
-
+    <button type="submit" class="btn btn-primary w-100">Подтвердить</button>
+  </form>
+{% else %}
+  <p class="auth-text">Ссылка подтверждения недействительна или устарела.</p>
+  <a href="{% url 'account_login' %}" class="btn btn-primary w-100">Вернуться ко входу</a>
+{% endif %}
+{% endblock auth_content %}

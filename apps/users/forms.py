@@ -7,7 +7,6 @@ class CustomLoginForm(LoginForm):
         required=True,
         widget=forms.TextInput(
             attrs={
-                "class": "auth-input",
                 "placeholder": "Имя пользователя или Email",
             }
         ),
@@ -18,7 +17,6 @@ class CustomLoginForm(LoginForm):
         required=True,
         widget=forms.PasswordInput(
             attrs={
-                "class": "auth-input",
                 "placeholder": "Пароль",
             }
         ),
@@ -27,7 +25,6 @@ class CustomLoginForm(LoginForm):
 
     remember = forms.BooleanField(
         required=False,
-        widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
         label="Запомнить меня",
     )
 
@@ -36,8 +33,11 @@ class CustomSignupForm(SignupForm):
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "class": "auth-input",
                 "placeholder": "Имя пользователя",
+                # как в UnicodeUsernameValidator Django (буквы любого алфавита)
+                "pattern": r"[\p{L}\p{N}_.@+\-]+",
+                "maxlength": "150",
+                "autocomplete": "username",
             }
         ),
         label="Имя пользователя",
@@ -45,27 +45,28 @@ class CustomSignupForm(SignupForm):
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
-                "class": "auth-input",
                 "placeholder": "Email",
+                "autocomplete": "email",
             }
         ),
         label="Email",
     )
-    password1 = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={
-                "class": "auth-input",
-                "placeholder": "Пароль",
-            }
-        ),
-        label="Пароль",
-    )
-    password2 = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={
-                "class": "auth-input",
-                "placeholder": "Подтверждение пароля",
-            }
-        ),
-        label="Подтвердите пароль",
-    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # allauth пересоздаёт поля паролей в __init__, поэтому атрибуты — здесь.
+        # minlength: MinimumLengthValidator по умолчанию требует 8 символов.
+        password_attrs = {
+            "minlength": "8",
+            "autocomplete": "new-password",
+        }
+        self.fields["password1"].widget.attrs.update(
+            password_attrs, placeholder="Пароль"
+        )
+        if "password2" in self.fields:
+            self.fields["password2"].widget.attrs.update(
+                password_attrs,
+                placeholder="Подтверждение пароля",
+                # auth-forms.js сверяет значение с полем пароля
+                **{"data-match": "id_password1"},
+            )

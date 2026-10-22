@@ -1,0 +1,30 @@
+{% load widget_tweaks %}
+{% if form.non_field_errors %}
+  <div class="auth-alert">{% for error in form.non_field_errors %}<div>{{ error }}</div>{% endfor %}</div>
+{% endif %}
+{% for field in form.hidden_fields %}{{ field }}{% endfor %}
+{# WIDGET_ERROR_CLASS: render_field сам добавит is-invalid полям с ошибкой #}
+{% with WIDGET_ERROR_CLASS="is-invalid" %}
+{% for field in form.visible_fields %}
+  <div class="auth-field">
+    {% if field.field.widget.input_type == "checkbox" %}
+      <label class="form-check">
+        {% render_field field class+="form-check-input" %}
+        <span class="form-check-label">{{ field.label }}</span>
+      </label>
+    {% else %}
+      <label class="visually-hidden" for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {% if form.non_field_errors %}
+        {# Ошибка формы целиком (неверный логин/пароль) — подсвечиваем все поля #}
+        {% render_field field class+="auth-input is-invalid" aria-invalid="true" placeholder=field.field.widget.attrs.placeholder|default:field.label %}
+      {% elif form.is_bound and not field.errors and field.value and field.field.widget.input_type != "password" %}
+        {# Принятое сервером значение. Пароли в форму не возвращаются — их не красим #}
+        {% render_field field class+="auth-input is-valid" placeholder=field.field.widget.attrs.placeholder|default:field.label %}
+      {% else %}
+        {% render_field field|add_error_attr:"aria-invalid:true" class+="auth-input" placeholder=field.field.widget.attrs.placeholder|default:field.label %}
+      {% endif %}
+    {% endif %}
+    {% for error in field.errors %}<div class="auth-error">{{ error }}</div>{% endfor %}
+  </div>
+{% endfor %}
+{% endwith %}

@@ -1,46 +1,24 @@
-{% extends "base.html" %}
-{% load static %}
-{% load widget_tweaks %}
-{% load socialaccount %}  
+{% extends "base_auth.html" %}
 
-{% block content %}
-<div class="auth-page">
-  <div class="card auth-card shadow p-4">
-    <h2 class="text-center mb-4">вход</h2>
+{% block auth_title %}Вход{% endblock auth_title %}
 
-    <form method="post" action="{% url 'account_login' %}">
-        {% csrf_token %}
-        
-        <div class="d-grid mb-3 w-100">
-            {{ form.login|add_class:"auth-input"|attr:"placeholder:Email или Username" }}
-            {% if form.login.errors %}
-                <div class="text-danger small">{{ form.login.errors }}</div>
-            {% endif %}
-        </div>
+{% block auth_content %}
+<h1 class="auth-title">Вход</h1>
 
-        <div class="d-grid mb-3 w-100">
-            {{ form.password|add_class:"auth-input"|attr:"placeholder:Пароль" }}
-            {% if form.password.errors %}
-                <div class="text-danger mx-auto">{{ form.password.errors }}</div>
-            {% endif %}
-        </div>
+{# Верность логина/пароля знает только сервер: auth-forms.js проверяет лишь заполненность и не красит зелёным #}
+<form method="post" action="{% url 'account_login' %}" class="no-live-valid">
+  {% csrf_token %}
+  {% include "account/_form_fields.html" %}
+  {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+  {% endif %}
+  <button type="submit" class="btn btn-primary w-100">Войти</button>
+</form>
 
-        <button type="submit" class="btn btn-primary d-grid w-100">Войти</button>
-    </form>
+{% include "account/_google.html" %}
 
-    <p class="mt-3 text-center">или</p>
-
-    <div class="d-grid w-100">
-  <a href="{% provider_login_url 'google' %}" class="btn-google">
-    <img src="{% static 'images/google.svg' %}" alt="Google">
-    Войти через Google
-  </a>
+<div class="auth-links">
+  <p>Нет аккаунта? <a href="{% url 'account_signup' %}">Зарегистрироваться</a></p>
+  <p><a href="{% url 'account_reset_password' %}">Забыли пароль?</a></p>
 </div>
-    <div class="mt-3 text-center">
-        <p>Нет аккаунта? <a href="{% url 'account_signup' %}">Зарегистрироваться</a></p>
-        <p><a href="{% url 'account_reset_password' %}">Забыли пароль?</a></p>
-    </div>
-</div>
-</div>
-</div>
-{% endblock %}
+{% endblock auth_content %}
