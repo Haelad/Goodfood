@@ -1,9 +1,22 @@
-<div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-  <article class="food-card">
+{# col_class и wide можно передать через include … with — по умолчанию обычная сетка #}
+<div class="{{ col_class|default:'col-12 col-sm-6 col-lg-4 col-xl-3' }}">
+  <article class="food-card{% if wide %} food-card--wide{% endif %}">
     <div class="food-card__photo">
       {% if food.photo %}
         <img src="{{ food.photo.url }}" alt="" loading="lazy" draggable="false">
       {% endif %}
+
+      {# Быстрый дневник: каждое «+» — одна обычная порция, «−» отменяет последнюю #}
+      <div class="quick-log{% if food.today_count %} has-count{% endif %}"
+           data-eat-url="{% url 'goodfood:eat' food.pk %}"
+           data-uneat-url="{% url 'goodfood:uneat' food.pk %}">
+        <button type="button" class="quick-log__btn quick-log__minus" data-action="uneat"
+                aria-label="Убрать одну порцию «{{ food.name }}»">&minus;</button>
+        <span class="quick-log__count" aria-live="polite"
+              title="Съедено сегодня">{{ food.today_count|default:0 }}</span>
+        <button type="button" class="quick-log__btn quick-log__plus" data-action="eat"
+                aria-label="Съел порцию «{{ food.name }}» ({{ food.portion_grams }} г)">+</button>
+      </div>
     </div>
 
     <div class="food-card__body">

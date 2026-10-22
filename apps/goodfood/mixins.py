@@ -1,6 +1,8 @@
 from django.contrib.postgres.search import SearchQuery, SearchVector, TrigramSimilarity
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.db.models.query import QuerySet
+
+from .models import FoodEntry
 
 
 class PostgresSearchMixin:
@@ -42,3 +44,22 @@ class SearchMixin:
                 Q(name__icontains=query) | Q(desc__icontains=query)
             )
         return queryset
+
+
+class TodayDiaryMixin:
+    """Счётчики «съедено сегодня» для карточек и итоги дня для нижней полосы.
+
+    Не трогает get_queryset: счётчик дописывается к объектам текущей страницы.
+    """
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        today = FoodEntry.objects.filter(owner=self.request.user).today()
+        counts = {
+            row["goods"]: row["n"]
+            for row in today.values("goods").annotate(n=Count("id"))
+        }
+        for goods in context["object_list"]:
+            goods.today_count = counts.get(goods.pk, 0)
+        context["today_totals"] = today.totals()
+        return context

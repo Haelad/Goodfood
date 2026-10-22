@@ -5,25 +5,42 @@
 {% block content %}
 <section class="second-block">
   <div class="container my-5">
-    {% with food.0.category as category %}
-      <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
-        <a href="{% url 'goodfood:goods' %}" class="back-link">&larr; Все рецепты</a>
-        {% if category %}<span class="category-food">{{ category }}</span>{% endif %}
+    {# Заголовок на той же высоте, что «Мои рецепты»: при переключении категорий ничего не прыгает #}
+    <div class="page-head">
+      {% with food.0.category as category %}
+        <h1 class="page-title">
+          {% if category %}{{ category }}{% else %}Категория{% endif %}
+          {% if food %}<span class="page-title__count" title="Рецептов в категории">{{ food|length }}</span>{% endif %}
+        </h1>
+      {% endwith %}
+      <a href="{% url 'goodfood:goods' %}" class="back-link">&larr; Все рецепты</a>
+    </div>
+
+    {# Ширина карточек по их числу: одна — во всю ширину горизонтально, две — пополам, три — по трети #}
+    {% with total=food|length %}
+      <div class="row g-4">
+        {% for food in food %}
+          {% if total == 1 %}
+            {% include "goodfood/_card.html" with col_class="col-12" wide=True %}
+          {% elif total == 2 %}
+            {% include "goodfood/_card.html" with col_class="col-12 col-md-6" %}
+          {% elif total == 3 %}
+            {% include "goodfood/_card.html" with col_class="col-12 col-md-4" %}
+          {% else %}
+            {% include "goodfood/_card.html" %}
+          {% endif %}
+        {% empty %}
+          <div class="col-12">
+            <div class="empty-state">
+              <p>В этой категории пока нет рецептов.</p>
+              <a href="{% url 'goodfood:goods' %}" class="btn btn-outline-light">К списку рецептов</a>
+            </div>
+          </div>
+        {% endfor %}
       </div>
     {% endwith %}
-
-    <div class="row g-4">
-      {% for food in food %}
-        {% include "goodfood/_card.html" %}
-      {% empty %}
-        <div class="col-12">
-          <div class="empty-state">
-            <p>В этой категории пока нет рецептов.</p>
-            <a href="{% url 'goodfood:goods' %}" class="btn btn-outline-light">К списку рецептов</a>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
   </div>
 </section>
+
+{% include "goodfood/_today_bar.html" %}
 {% endblock content %}

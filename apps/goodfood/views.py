@@ -1,13 +1,16 @@
 import logging
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.db import DatabaseError
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView, TemplateView
 
-from .mixins import PostgresSearchMixin
-from .models import Goods
+from .mixins import PostgresSearchMixin, TodayDiaryMixin
+from .models import FoodEntry, Goods
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +21,7 @@ class IndexView(TemplateView):
     template_name = "goodfood/index.html"
 
 
-class FoodListView(LoginRequiredMixin, PostgresSearchMixin, ListView):
+class FoodListView(LoginRequiredMixin, TodayDiaryMixin, PostgresSearchMixin, ListView):
     model = Goods
     template_name = "goodfood/goods.html"
     context_object_name = "context"
@@ -75,7 +78,7 @@ class FoodDetailView(LoginRequiredMixin, DetailView):
         return goods
 
 
-class FoodCategoryView(LoginRequiredMixin, ListView):
+class FoodCategoryView(LoginRequiredMixin, TodayDiaryMixin, ListView):
     model = Goods
     template_name = "goodfood/category.html"
     context_object_name = "food"
@@ -106,6 +109,45 @@ class FoodCategoryView(LoginRequiredMixin, ListView):
                 return super().get_queryset().filter(owner=self.request.user)
 
         return goods
+
+
+# Быстрый дневник: «+» и «−» на карточках блюд
+
+
+def _today_state(request, goods):
+    today = FoodEntry.objects.filter(owner=request.user).today()
+    totals = today.totals()
+    return JsonResponse(
+        {
+            "count": today.filter(goods=goods).count(),
+            "totals": {name: str(value) for name, value in totals.items()},
+        }
+    )
+
+
+@login_required
+@require_POST
+def eat(request, pk):
+    """Записать обычную порцию блюда на текущее время."""
+    goods = get_object_or_404(Goods, pk=pk, owner=request.user)
+    FoodEntry.objects.create(owner=request.user, goods=goods, grams=goods.portion_grams)
+    return _today_state(request, goods)
+
+
+@login_required
+@require_POST
+def uneat(request, pk):
+    """Отменить последнюю сегодняшнюю запись этого блюда."""
+    goods = get_object_or_404(Goods, pk=pk, owner=request.user)
+    last = (
+        FoodEntry.objects.filter(owner=request.user, goods=goods)
+        .today()
+        .order_by("-eaten_at", "-pk")
+        .first()
+    )
+    if last:
+        last.delete()
+    return _today_state(request, goods)
 
 
 # views_handlers

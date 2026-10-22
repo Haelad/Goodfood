@@ -1,0 +1,19 @@
+{% load static %}
+{# Итоги дня — обновляются скриптом quick-log.js после каждого «+» / «−» #}
+<aside class="today-bar" aria-label="Съедено сегодня">
+  <div class="container today-bar__inner">
+    <span class="today-bar__kcal"><strong data-total="kcal">{{ today_totals.kcal }}</strong> ккал<span class="today-bar__hint"> сегодня</span></span>
+    <span class="today-bar__macros">
+      Б <strong data-total="proteins">{{ today_totals.proteins }}</strong>
+      Ж <strong data-total="fats">{{ today_totals.fats }}</strong>
+      У <strong data-total="carbs">{{ today_totals.carbs }}</strong>
+    </span>
+    {% if request.user.is_staff %}
+      <a class="today-bar__link" href="{% url 'admin:goodfood_foodentry_changelist' %}?period=today" aria-label="Дневник за сегодня">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h11v16H8a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z"/><path d="M9 9h6M9 13h6"/></svg>
+        <span class="today-bar__link-text">Дневник</span>
+      </a>
+    {% endif %}
+  </div>
+</aside>
+<script src="{% static 'js/quick-log.js' %}" defer></script>

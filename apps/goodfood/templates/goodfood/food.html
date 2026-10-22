@@ -15,22 +15,34 @@
       {% endif %}
 
       <div class="recipe__text">
-        {% if food.category %}
-          <a href="{{ food.category.get_absolute_url }}" class="chip">{{ food.category }}</a>
-        {% endif %}
+        {# Служебная строка: категория слева, дата справа #}
+        <div class="recipe__meta">
+          {% if food.category %}
+            <span class="recipe__category">
+              <span class="recipe__label">Категория</span>
+              <a href="{{ food.category.get_absolute_url }}" class="chip">{{ food.category }}</a>
+            </span>
+          {% endif %}
+          <time class="recipe__date" datetime="{{ food.time_created|date:'c' }}"
+                {% if food.time_updated|date:"Ymd" != food.time_created|date:"Ymd" %}title="Обновлено {{ food.time_updated|date:'j E Y' }}"{% endif %}>
+            {{ food.time_created|date:"j E Y" }}
+          </time>
+        </div>
+
         <h1 class="recipe__title">{{ food.name }}</h1>
-        <p class="recipe__meta">
-          Добавлено {{ food.time_created|date:"j E Y" }}{% if food.time_updated|date:"Ymd" != food.time_created|date:"Ymd" %}, обновлено {{ food.time_updated|date:"j E Y" }}{% endif %}
-        </p>
+
         {% if food.desc %}
           <p class="recipe__desc">{{ food.desc }}</p>
         {% else %}
           <p class="recipe__desc recipe__desc--empty">Описание пока не добавлено.</p>
         {% endif %}
-        {% if request.user.is_staff %}
-          <a href="{% url 'admin:goodfood_goods_change' food.pk %}" class="btn btn-outline-light">Изменить рецепт</a>
-        {% endif %}
       </div>
+
+      {% if request.user.is_staff %}
+        <div class="recipe__actions">
+          <a href="{% url 'admin:goodfood_goods_change' food.pk %}" class="btn btn-outline-light">Изменить рецепт</a>
+        </div>
+      {% endif %}
     </article>
   </div>
 </section>

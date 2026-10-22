@@ -143,8 +143,18 @@ img {
    SEARCH
    ========================================================================== */
 
-/* Растягивается на всё место между логотипом и меню (flex-grow-1 в разметке) */
+/* Поиск и фильтр категорий — одна группа слева от меню */
+.nav-tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
 .search-form-nav {
+    flex: 1;
+    min-width: 0;   /* иначе поле не сжимается и выталкивает кнопку фильтра */
+    max-width: 360px;
     display: flex;
     align-items: center;
     background: var(--color-surface);
@@ -188,6 +198,62 @@ img {
 .search-form-nav button:hover {
     color: var(--color-lime);
     background: rgba(236, 243, 158, 0.08);
+}
+
+/* Кнопка фильтра — той же формы и высоты, что поле поиска */
+.category-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 16px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    color: var(--color-text);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.category-filter:hover,
+.category-filter[aria-expanded="true"] {
+    border-color: var(--color-palm);
+    color: var(--color-lime);
+}
+
+.category-menu {
+    --bs-dropdown-bg: var(--color-surface);
+    --bs-dropdown-border-color: var(--color-line);
+    --bs-dropdown-border-radius: var(--radius-ctrl);
+    --bs-dropdown-link-color: var(--color-text);
+    --bs-dropdown-link-hover-bg: rgba(236, 243, 158, 0.06);
+    --bs-dropdown-link-hover-color: var(--color-lime);
+    --bs-dropdown-link-active-bg: var(--color-fern);
+    --bs-dropdown-link-active-color: #fff;
+    --bs-dropdown-divider-bg: var(--color-line);
+    min-width: 240px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 6px;
+}
+
+.category-menu .dropdown-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.category-menu__count {
+    color: var(--color-text-muted);
+    font-size: 0.8125rem;
+}
+
+.category-menu .active .category-menu__count {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 
@@ -250,11 +316,11 @@ img {
 }
 
 .title {
-    font-size: clamp(2.5rem, 7vw, 4.75rem);
-    font-weight: 800;
-    line-height: 1.02;
-    letter-spacing: -0.02em;
-    max-width: 11ch;
+    font-size: clamp(2rem, 4.2vw, 3.25rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    max-width: 16ch;
     margin: 0;
     color: var(--color-text);
 }
@@ -320,6 +386,34 @@ img {
     margin-bottom: 1.5rem;
     color: var(--color-text-muted);
     font-size: 0.9375rem;
+}
+
+/* Заголовок страницы и ссылка «назад» в одну строку — высота как у
+   обычного .page-title, поэтому контент не сдвигается между страницами */
+.page-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 16px;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.page-head .page-title,
+.page-head .back-link {
+    margin-bottom: 0;
+}
+
+.page-title__count {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 2px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    font-weight: 600;
+    vertical-align: middle;
 }
 
 .back-link:hover {
@@ -389,9 +483,96 @@ a.chip:hover {
 }
 
 .food-card__photo {
+    position: relative;
     aspect-ratio: 4 / 3;
     background: var(--color-surface-2);
     overflow: hidden;
+}
+
+/* Быстрый дневник: «+» на фото, после первого нажатия — «− N +» */
+.quick-log {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 2;   /* над stretched-link карточки */
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    border-radius: 999px;
+    background: rgba(20, 18, 35, 0.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.quick-log:not(.has-count) {
+    padding: 0;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.quick-log:not(.has-count) .quick-log__minus,
+.quick-log:not(.has-count) .quick-log__count {
+    display: none;
+}
+
+.quick-log__btn {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.15s, transform 0.1s;
+}
+
+.quick-log__btn:active {
+    transform: scale(0.9);
+}
+
+.quick-log__plus {
+    background: var(--color-lime);
+    color: var(--color-evergreen);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.quick-log__plus:hover {
+    background: #fff;
+}
+
+.quick-log__minus {
+    background: transparent;
+    color: var(--color-text);
+}
+
+.quick-log__minus:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.quick-log__count {
+    min-width: 1.75rem;
+    text-align: center;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.quick-log__count.bump {
+    animation: quick-log-bump 0.25s ease;
+}
+
+@keyframes quick-log-bump {
+    50% { transform: scale(1.35); color: var(--color-lime); }
+}
+
+.quick-log.has-error .quick-log__plus {
+    background: var(--color-invalid);
+    color: #fff;
 }
 
 .food-card__photo img {
@@ -440,19 +621,62 @@ a.chip:hover {
     line-height: 1.5;
 }
 
+/* Единственная карточка в категории: горизонтально, во всю ширину */
+@media (min-width: 768px) {
+    .food-card--wide {
+        flex-direction: row;
+    }
+
+    .food-card--wide .food-card__photo {
+        flex: 0 0 55%;
+    }
+
+    .food-card--wide .food-card__body {
+        flex: 1;
+        justify-content: center;
+        gap: 14px;
+        padding: 28px 32px;
+    }
+
+    .food-card--wide .food-card__title {
+        font-size: 2rem;
+    }
+
+    .food-card--wide .food-card__desc {
+        -webkit-line-clamp: 6;
+        font-size: 1.0625rem;
+    }
+}
+
 
 /* ==========================================================================
    RECIPE DETAIL
    ========================================================================== */
 
+/* Области: на компьютере фото и кнопка слева, карточка с текстом справа;
+   на телефоне (см. RESPONSIVE) — фото, текст, кнопка.
+   Фото заметно шире, карточка — по высоте содержимого: доминирует фото */
 .recipe {
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    gap: clamp(24px, 4vw, 56px);
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    grid-template-areas:
+        "photo   text"
+        "actions .";
+    column-gap: clamp(20px, 3vw, 40px);
+    row-gap: 16px;
     align-items: start;
 }
 
+.recipe:not(:has(.recipe__photo)) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+        "text"
+        "actions";
+    max-width: 760px;
+}
+
 .recipe__photo {
+    grid-area: photo;
     border-radius: var(--radius-card);
     overflow: hidden;
     background: var(--color-surface-2);
@@ -465,41 +689,72 @@ a.chip:hover {
     object-fit: cover;
 }
 
+/* Название и описание — единый блок в стиле карточек из списка рецептов */
 .recipe__text {
+    grid-area: text;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-    padding-top: 8px;
+    gap: 16px;
+    padding: 0 28px 28px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
 }
 
-/* Категория на странице рецепта — крупная плашка, а не мелкая метка */
-.recipe__text .chip {
-    padding: 10px 22px;
-    font-size: 1.0625rem;
-    font-weight: 700;
-    min-width: 160px;
-    text-align: center;
+.recipe__actions {
+    grid-area: actions;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
-.recipe__title {
-    font-size: clamp(2.25rem, 5vw, 3.5rem);
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin: 0;
-    overflow-wrap: anywhere;
-}
-
+/* Служебная строка: тихая, отделена линией от основного текста */
 .recipe__meta {
-    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+    /* шапка карточки: линия-разделитель на всю ширину */
+    margin: 0 -28px;
+    padding: 14px 28px;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.recipe__category {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.recipe__label,
+.recipe__date {
     color: var(--color-text-muted);
     font-size: 0.875rem;
 }
 
+.recipe__category .chip {
+    padding: 5px 14px;
+    font-size: 0.875rem;
+}
+
+.recipe__date {
+    margin-left: auto;   /* прижата вправо, даже если категории нет */
+    white-space: nowrap;
+}
+
+.recipe__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 4px 0 0;
+    overflow-wrap: anywhere;
+}
+
 .recipe__desc {
     max-width: 62ch;
-    margin: 8px 0 12px;
+    margin: 0;
     font-size: 1.0625rem;
     line-height: 1.7;
     white-space: pre-wrap;
@@ -508,11 +763,6 @@ a.chip:hover {
 
 .recipe__desc--empty {
     color: var(--color-text-muted);
-}
-
-.recipe:not(:has(.recipe__photo)) {
-    grid-template-columns: minmax(0, 1fr);
-    max-width: 760px;
 }
 
 
@@ -531,6 +781,80 @@ a.chip:hover {
     --bs-pagination-active-border-color: var(--color-fern);
     --bs-pagination-active-color: #fff;
     --bs-pagination-border-radius: var(--radius-ctrl);
+}
+
+/* Итоги дня — всегда у нижнего края экрана. fixed, а не sticky: sticky на
+   короткой странице остаётся в потоке сразу под карточками */
+/* место под полосу: 10 + 32 + 10 px высоты и 1 px рамки, чтобы она
+   не закрывала последнюю карточку и подвал */
+body:has(.today-bar) {
+    padding-bottom: 53px;
+}
+
+.today-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 900;
+    padding: 10px 0;
+    background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+    border-top: 1px solid var(--color-line);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+}
+
+/* Всегда одна строка фиксированной высоты: при росте чисел полоса
+   не переносится и не «поднимается» над карточками */
+.today-bar__inner {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 16px;
+    min-height: 32px;
+    white-space: nowrap;
+}
+
+/* цифры одинаковой ширины — текст не прыгает при каждом нажатии */
+.today-bar strong {
+    font-variant-numeric: tabular-nums;
+}
+
+.today-bar__kcal {
+    flex: none;
+}
+
+.today-bar__kcal strong {
+    font-size: 1.25rem;
+    color: var(--color-lime);
+}
+
+/* при очень больших числах БЖУ сжимается с многоточием, а не переносится */
+.today-bar__macros {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.today-bar__macros strong {
+    color: var(--color-text);
+    margin-right: 6px;
+}
+
+.today-bar__link {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    color: var(--color-palm);
+    font-weight: 600;
+}
+
+.today-bar__link:hover {
+    color: var(--color-lime);
 }
 
 .site-footer {
@@ -754,11 +1078,31 @@ input:-webkit-autofill {
     .navbar-nav {
         padding-bottom: 8px;
     }
+
+    /* в раскрытом мобильном меню поиск занимает всю строку */
+    .search-form-nav {
+        max-width: none;
+    }
 }
 
 @media (max-width: 767.98px) {
-    .recipe {
+    .recipe,
+    .recipe:not(:has(.recipe__photo)) {
         grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "photo"
+            "text"
+            "actions";
+        row-gap: 24px;
+    }
+
+    .recipe__text {
+        padding: 0 20px 24px;
+    }
+
+    .recipe__meta {
+        margin: 0 -20px;
+        padding: 12px 20px;
     }
 
     /* На узком экране текст hero занимает всю ширину — затемняем снизу */
@@ -779,6 +1123,37 @@ input:-webkit-autofill {
 @media (max-width: 575.98px) {
     .hero-btn {
         width: 100%;
+    }
+
+    /* полоса итогов: короткие подписи, «Дневник» — только иконка */
+    .today-bar__inner {
+        gap: 12px;
+    }
+
+    .today-bar__hint,
+    .today-bar__link-text {
+        display: none;
+    }
+
+    .today-bar__macros {
+        font-size: 0.8125rem;
+    }
+
+    /* под палец: 44px — минимальная удобная цель касания */
+    .quick-log__btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* на телефоне у кнопки фильтра только иконка */
+    .category-filter {
+        width: 40px;
+        padding: 0;
+        justify-content: center;
+    }
+
+    .category-filter span {
+        display: none;
     }
 
     .auth-card {

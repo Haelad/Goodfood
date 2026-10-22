@@ -12,4 +12,6 @@ urlpatterns = [
         "food/<slug:slug_name>/<int:pk>", views.FoodDetailView.as_view(), name="_detail"
     ),
     path("food/<int:cat_id>", views.FoodCategoryView.as_view(), name="_category"),
+    path("food/<int:pk>/eat/", views.eat, name="eat"),
+    path("food/<int:pk>/uneat/", views.uneat, name="uneat"),
 ]
