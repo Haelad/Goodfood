@@ -1,8 +1,8 @@
 /* ==========================================================================
    TOKENS
-   Тёмная «хвойная» основа из палитры бренда вместо тёмно-синей;
-   Alegreya (книжная антиква с кириллицей) — только для заголовков
-   и логотипа, интерфейс — Inter.
+   Тёмно-синяя основа (те же тона, что base-800/900 в админке unfold),
+   зелёный бренд для действий, лайм — для главной кнопки и фокуса.
+   Один шрифт — Inter; заголовки отличаются весом.
    ========================================================================== */
 
 :root {
@@ -14,22 +14,21 @@
     --color-lime:      #ECF39E;
 
     /* поверхности */
-    --color-ink:       #0D1A0E;   /* фон страницы */
-    --color-surface:   #142616;   /* карточки */
-    --color-surface-2: #1B321D;   /* поля ввода, приподнятые блоки */
-    --color-line:      rgba(236, 243, 158, 0.10);
+    --color-ink:       #1E1F38;   /* фон страницы */
+    --color-surface:   #141223;   /* карточки */
+    --color-surface-2: #221F38;   /* поля ввода, приподнятые блоки */
+    --color-line:      rgba(255, 255, 255, 0.08);
 
     /* текст */
-    --color-text:       #EEF0E2;
-    --color-text-muted: #A3AE94;
+    --color-text:       #FFFFFF;
+    --color-text-muted: rgba(255, 255, 255, 0.55);
 
     /* валидация форм */
     --color-valid:     #a4c46a;
     --color-invalid:   #e2645c;
-    --color-typing:    #5d6b57;
+    --color-typing:    #5c5c78;
 
     /* шрифты и формы */
-    --font-display: 'Alegreya', Georgia, serif;
     --font-ui:      'Inter', system-ui, sans-serif;
     --radius-card:  14px;
     --radius-ctrl:  10px;
@@ -83,7 +82,6 @@ img {
 }
 
 .wordmark {
-    font-family: var(--font-display);
     font-weight: 700;
     font-size: 1.5rem;
     letter-spacing: -0.01em;
@@ -145,10 +143,10 @@ img {
    SEARCH
    ========================================================================== */
 
+/* Растягивается на всё место между логотипом и меню (flex-grow-1 в разметке) */
 .search-form-nav {
     display: flex;
     align-items: center;
-    max-width: 420px;
     background: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: 999px;
@@ -245,16 +243,15 @@ img {
     z-index: -1;
     background: linear-gradient(
         90deg,
-        rgba(13, 26, 14, 0.85) 0%,
-        rgba(13, 26, 14, 0.45) 45%,
-        rgba(13, 26, 14, 0) 75%
+        rgba(20, 18, 35, 0.85) 0%,
+        rgba(20, 18, 35, 0.45) 45%,
+        rgba(20, 18, 35, 0) 75%
     );
 }
 
 .title {
-    font-family: var(--font-display);
     font-size: clamp(2.5rem, 7vw, 4.75rem);
-    font-weight: 500;
+    font-weight: 800;
     line-height: 1.02;
     letter-spacing: -0.02em;
     max-width: 11ch;
@@ -290,7 +287,7 @@ img {
 }
 
 .hero-btn--outline {
-    background: rgba(13, 26, 14, 0.4);
+    background: rgba(20, 18, 35, 0.4);
     border: 1px solid rgba(238, 240, 226, 0.6);
     color: var(--color-text);
 }
@@ -299,7 +296,7 @@ img {
 .hero-btn--outline:focus-visible {
     border-color: var(--color-lime);
     color: var(--color-lime);
-    background: rgba(13, 26, 14, 0.6);
+    background: rgba(20, 18, 35, 0.6);
 }
 
 
@@ -312,9 +309,8 @@ img {
 }
 
 .page-title {
-    font-family: var(--font-display);
     font-size: clamp(2rem, 4vw, 2.75rem);
-    font-weight: 500;
+    font-weight: 700;
     letter-spacing: -0.015em;
     margin-bottom: 2rem;
 }
@@ -340,7 +336,6 @@ img {
 }
 
 .empty-state p {
-    font-family: var(--font-display);
     font-size: 1.375rem;
     color: var(--color-text);
     margin-bottom: 1.25rem;
@@ -419,9 +414,8 @@ a.chip:hover {
 }
 
 .food-card__title {
-    font-family: var(--font-display);
     font-size: 1.375rem;
-    font-weight: 500;
+    font-weight: 700;
     line-height: 1.2;
     margin: 0;
 }
@@ -479,10 +473,18 @@ a.chip:hover {
     padding-top: 8px;
 }
 
+/* Категория на странице рецепта — крупная плашка, а не мелкая метка */
+.recipe__text .chip {
+    padding: 10px 22px;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    min-width: 160px;
+    text-align: center;
+}
+
 .recipe__title {
-    font-family: var(--font-display);
     font-size: clamp(2.25rem, 5vw, 3.5rem);
-    font-weight: 500;
+    font-weight: 700;
     line-height: 1.05;
     letter-spacing: -0.02em;
     margin: 0;
@@ -572,9 +574,8 @@ a.chip:hover {
 }
 
 .auth-title {
-    font-family: var(--font-display);
     font-size: 2rem;
-    font-weight: 500;
+    font-weight: 700;
     text-align: center;
     margin-bottom: 1.5rem;
 }
@@ -750,10 +751,6 @@ input:-webkit-autofill {
    ========================================================================== */
 
 @media (max-width: 991.98px) {
-    .search-form-nav {
-        max-width: none;
-    }
-
     .navbar-nav {
         padding-bottom: 8px;
     }
@@ -772,9 +769,9 @@ input:-webkit-autofill {
     .main-block::before {
         background: linear-gradient(
             0deg,
-            rgba(13, 26, 14, 0.92) 0%,
-            rgba(13, 26, 14, 0.55) 55%,
-            rgba(13, 26, 14, 0.1) 100%
+            rgba(20, 18, 35, 0.92) 0%,
+            rgba(20, 18, 35, 0.55) 55%,
+            rgba(20, 18, 35, 0.1) 100%
         );
     }
 }
