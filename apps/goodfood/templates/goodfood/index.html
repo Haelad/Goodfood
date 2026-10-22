@@ -1,23 +1,19 @@
-{% extends "base.html" %}{% load static %}{% load cache %}
+{% extends "base.html" %}{% load cache %}
 
 {% block content %}
-  {% cache 1800 index_page  %}
-    <div class="main-block">
+  {% cache 1800 index_hero %}
+    <section class="main-block">
       <div class="container">
-        <div class="row justify-content-start">
+        <div class="row">
           <div class="col-12 col-md-8">
-            <h1 class="title">Правильные ингридиенты для правильных блюд</h1>
-              {% endcache %}
-            <div class="btts d-flex flex-wrap gap-3 justify-content-start justify-content-md-start">
-     
-              <a href="{% url 'admin:index' %}"><button type="button" class="done">Создать рецепт</button></a>
-              
-              <a class="btn-link" href="{% url 'goodfood:goods'%}"><button type="button" class="look-at-menu">Мои рецепты</button></a>
+            <h1 class="title">Правильные ингредиенты для правильных блюд</h1>
+            <div class="btts d-flex flex-wrap gap-3">
+              <a href="{% url 'admin:goodfood_goods_add' %}" class="btn hero-btn hero-btn--primary">Создать рецепт</a>
+              <a href="{% url 'goodfood:goods' %}" class="btn hero-btn hero-btn--outline">Мои рецепты</a>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
+    </section>
+  {% endcache %}
 {% endblock content %}
-

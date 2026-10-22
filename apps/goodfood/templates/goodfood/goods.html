@@ -1,42 +1,33 @@
-{% extends "base.html" %} {% load static cache %} 
+{% extends "base.html" %}
+
+{% block title %}{% if request.GET.q %}Поиск: {{ request.GET.q }}{% else %}Мои рецепты{% endif %} — Goodfood{% endblock title %}
 
 {% block content %}
-
-
-
 <section class="second-block">
-<div class="container my-5">
-  <div class="row g-4 justify-content-center">
-    {% for food in context %}
-      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <article class="card h-100 d-flex flex-column">
-        {% if food.photo %}
-        <div class="card-img-wrapper">
-          {% if food.category %}
-            <span class="badge bg-success position-absolute top-0 start-0 mt-2 ms-2"><a href="{{food.category.get_absolute_url}}">{{ food.category }}</a></span>
-          {% endif %}
-          <img src="{{ MEDIA_URL }}{{ food.photo }}" alt="{{food.name}}" draggable="false">
-        </div>
-        {% endif %}
+  <div class="container my-5">
+    <h1 class="page-title">
+      {% if request.GET.q %}Результаты поиска «{{ request.GET.q }}»{% else %}Мои рецепты{% endif %}
+    </h1>
 
-        <div class="card-body d-flex flex-column text-center">
-          <h5 class="card-title mb-2">{{ food.name }}</h5>
-          <p class="card-text scroll-text mb-3">{{ food.desc }}</p>
-          
-         
-          <a href="{{ food.get_absolute_url }}" class="btn btn-primary mt-auto">Посмотреть</a>
+    <div class="row g-4">
+      {% for food in context %}
+        {% include "goodfood/_card.html" %}
+      {% empty %}
+        <div class="col-12">
+          <div class="empty-state">
+            {% if request.GET.q %}
+              <p>По запросу ничего не найдено.</p>
+              <a href="{% url 'goodfood:goods' %}" class="btn btn-outline-light">Сбросить поиск</a>
+            {% else %}
+              <p>У вас пока нет рецептов.</p>
+              <a href="{% url 'admin:goodfood_goods_add' %}" class="btn btn-primary">Создать рецепт</a>
+            {% endif %}
+          </div>
         </div>
-      </article>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
 
+    {% include "goodfood/_pagination.html" %}
   </div>
-</div>
 </section>
-
-
-
-
 {% endblock content %}
-
-

@@ -18,6 +18,11 @@
     --color-border:    rgba(255, 255, 255, 0.08);
     --color-text:      #ffffff;
     --color-text-muted: rgba(255, 255, 255, 0.55);
+
+    /* приглушённые тона в палитре сайта (между palm и lime / тёплый коралл) */
+    --color-valid:     #a4c46a;
+    --color-invalid:   #e2645c;
+    --color-typing:    #5c5c78;
 }
 
 
@@ -25,9 +30,15 @@
    RESET & BASE
    ========================================================================== */
 
-* {
-    padding: 0;
-    margin: 0;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body,
+button,
+input {
     font-family: 'Inter', sans-serif;
 }
 
@@ -37,13 +48,9 @@ a {
 }
 
 body {
-    padding: 0;
     margin: 0;
-    background: var(--color-evergreen);
-}
-
-ul {
-    list-style-type: none;
+    background: var(--color-main-bg);
+    color: var(--color-text);
 }
 
 
@@ -68,10 +75,6 @@ ul {
     font-weight: 900;
 }
 
-.navbar-nav li {
-    display: inline;
-}
-
 .nav-link {
     position: relative;
     color: var(--color-text);
@@ -79,6 +82,8 @@ ul {
     font-weight: 800;
     padding: 10px;
     margin-right: 10px;
+    background: none;
+    border: 0;
     text-decoration: none;
     transition: color 0.3s;
 }
@@ -101,24 +106,17 @@ ul {
     transform: scaleY(1);
 }
 
-.btn-link {
-    text-decoration: none;
-    color: var(--color-text);
-}
-
-.btn-link:link {
-    text-decoration: none;
-    color: var(--color-text);
-}
-
 .nav-link:hover {
     color: var(--color-fern) !important;
 }
 
-.btn-link:hover,
-.btn-link:focus,
-.btn-link:active {
-    color: var(--color-lime);
+.navbar-brand img {
+    display: block;
+    height: auto;
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 
@@ -139,13 +137,17 @@ ul {
 
 .search-form-nav input {
     flex: 1;
+    min-width: 0;
     background: transparent;
     border: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 0;
     color: var(--color-text);
-    font-family: 'Inter', sans-serif;
     outline: none;
+}
+
+.search-form-nav input:focus {
+    border-bottom-color: var(--color-palm);
 }
 
 .search-form-nav input::placeholder {
@@ -170,39 +172,56 @@ ul {
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
+    min-height: 100svh;
     width: 100%;
-    padding-right: 36vh;
+    padding: 100px 0 60px;
     background: url(../images/delicious-vegetable-salad.webp) center / cover no-repeat;
 }
 
 .title {
-    font-size: 46px;
+    font-size: clamp(2rem, 6vw, 3rem);
     font-weight: 900;
-    max-width: min-content;
+    line-height: 1.15;
+    max-width: 14ch;
     color: aliceblue;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
 }
 
 .btts {
     padding-top: 40px;
-    min-width: fit-content;
 }
 
-.btts button {
-    color: aliceblue;
+.hero-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 200px;
+    height: 50px;
     font-size: 18px;
-    width: 200px;
-    block-size: 50px;
-    margin-right: 20px;
+    color: aliceblue;
+    border-radius: 0;
 }
 
-.btts button.done {
+.hero-btn--primary {
     background-color: var(--color-hunter);
-    border-color: var(--color-hunter);
+    border: 1px solid var(--color-hunter);
 }
 
-.btts button.look-at-menu {
+.hero-btn--primary:hover {
+    background-color: var(--color-fern);
+    border-color: var(--color-fern);
+    color: #fff;
+}
+
+.hero-btn--outline {
     background-color: rgba(86, 86, 86, 0.1);
-    border-color: rgb(237, 237, 237);
+    border: 1px solid rgb(237, 237, 237);
+}
+
+.hero-btn--outline:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--color-lime);
+    border-color: var(--color-lime);
 }
 
 
@@ -215,7 +234,34 @@ ul {
     width: 100%;
     min-height: 100vh;
     padding: 80px 0 60px;
-    background: var(--color-main-bg)
+    background: var(--color-main-bg);
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+}
+
+.back-link {
+    color: var(--color-palm);
+}
+
+.back-link:hover {
+    color: var(--color-lime);
+}
+
+.empty-state {
+    padding: 3rem 1rem;
+    text-align: center;
+    color: var(--color-text-muted);
+    border: 1px dashed var(--color-border);
+    border-radius: 12px;
+}
+
+.empty-state p {
+    margin-bottom: 1rem;
 }
 
 .card {
@@ -226,10 +272,11 @@ ul {
     backdrop-filter: blur(4px);
 }
 
-.card-body {
-    width: 100%;
-    max-width: 350px;
-    margin: 0 auto;
+.food-card {
+    overflow: hidden;
+}
+
+.food-card .card-body {
     display: flex;
     flex-direction: column;
 }
@@ -273,6 +320,7 @@ ul {
     height: 200px;
     overflow: hidden;
     position: relative;
+    background: rgba(255, 255, 255, 0.04);
 }
 
 .card-img-wrapper img {
@@ -294,9 +342,28 @@ ul {
     border-color: var(--color-hunter);
 }
 
-.btn .food-card {
-    overflow-x: hidden;
-    resize: none;
+.food-detail__img {
+    max-height: 480px;
+    object-fit: cover;
+}
+
+.food-detail__desc {
+    white-space: pre-wrap;
+    color: var(--color-text-muted);
+    overflow-wrap: anywhere;
+}
+
+/* Пагинация */
+.pagination {
+    --bs-pagination-bg: transparent;
+    --bs-pagination-color: var(--color-palm);
+    --bs-pagination-border-color: var(--color-border);
+    --bs-pagination-hover-bg: rgba(255, 255, 255, 0.06);
+    --bs-pagination-hover-color: var(--color-lime);
+    --bs-pagination-hover-border-color: var(--color-border);
+    --bs-pagination-active-bg: var(--color-fern);
+    --bs-pagination-active-border-color: var(--color-fern);
+    --bs-pagination-active-color: #fff;
 }
 
 
@@ -315,6 +382,10 @@ ul {
     color: var(--color-lime);
 }
 
+a.badge:hover {
+    background-color: var(--color-fern) !important;
+}
+
 .category-food {
     color: #e4e3e9;
     font-size: 22px;
@@ -322,7 +393,6 @@ ul {
     background-color: var(--color-hunter);
     border-radius: 8px;
     padding: 6px 14px;
-    margin-bottom: 40px;
 }
 
 
@@ -335,7 +405,8 @@ ul {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-main-bg)
+    padding: 90px 16px 40px;
+    background: var(--color-main-bg);
 }
 
 .auth-card {
@@ -361,6 +432,50 @@ ul {
     margin-bottom: 1rem;
 }
 
+.auth-text {
+    color: var(--color-text-muted);
+    text-align: center;
+    margin-bottom: 1.25rem;
+}
+
+.auth-text strong {
+    color: var(--color-text);
+}
+
+.auth-alert {
+    background: rgba(255, 107, 107, 0.12);
+    border: 1px solid rgba(255, 107, 107, 0.35);
+    color: #ff8a8a;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    margin-bottom: 1rem;
+}
+
+.auth-list {
+    list-style: none;
+    padding: 0;
+}
+
+.auth-list li {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+}
+
+.auth-card .form-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-muted);
+    font-size: 14px;
+}
+
+.auth-card .form-check-input {
+    margin: 0;
+}
+
 .auth-input {
     width: 100%;
     background: rgba(255, 255, 255, 0.07) !important;
@@ -368,8 +483,43 @@ ul {
     border-radius: 8px !important;
     color: var(--color-text) !important;
     padding: 8px 12px;
-    font-family: 'Inter', sans-serif;
     outline: none;
+}
+
+.auth-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.auth-input:focus {
+    border-color: var(--color-palm) !important;
+}
+
+/* Валидация. Классы ставит static/js/auth-forms.js после окончания ввода,
+   а при перезагрузке страницы — сервер (_form_fields.html) */
+.auth-input {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Пользователь печатает — нейтрально, без оценки */
+.auth-input.is-typing {
+    border-color: var(--color-typing) !important;
+    box-shadow: inset 0 0 0 1px var(--color-typing);
+}
+
+.auth-input.is-valid {
+    border-color: var(--color-valid) !important;
+    /* inset-тень утолщает рамку до 2px без сдвига вёрстки,
+       внешняя размыта — свет рассеивается от рамки */
+    box-shadow:
+        inset 0 0 0 1px var(--color-valid),
+        0 0 128px 1px color-mix(in srgb, var(--color-valid) 38%, transparent);
+}
+
+.auth-input.is-invalid {
+    border-color: var(--color-invalid) !important;
+    box-shadow:
+        inset 0 0 0 1px var(--color-invalid),
+        0 0 128px 1px color-mix(in srgb, var(--color-invalid) 38%, transparent);
 }
 
 .auth-input:-webkit-autofill,
@@ -379,7 +529,7 @@ input:-webkit-autofill {
 }
 
 .auth-error {
-    color: #ff6b6b;
+    color: var(--color-invalid);
     font-size: 12px;
     margin-top: 4px;
 }
@@ -402,18 +552,43 @@ input:-webkit-autofill {
     color: var(--color-palm);
 }
 
-.btn-google {
+.auth-social {
+    display: flex;
+    gap: 12px;
+}
+
+/* Кнопка во всю ширину, как «Войти»; иконка фиксированного размера по центру */
+.btn-google-icon {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    background: var(--color-text);
-    color: #333;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-weight: 500;
-    width: 100%;
+    background: #fff;
+    border: 1px solid #fff;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-google-icon img {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.btn-google-icon:hover,
+.btn-google-icon:active {
+    background: #f1f1f1;
+    border-color: #f1f1f1;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.btn-google-icon:focus-visible {
+    outline: 2px solid var(--color-palm);
+    outline-offset: 2px;
+}
+
+.auth-links p {
+    margin-bottom: 0.5rem;
 }
 
 
@@ -422,31 +597,18 @@ input:-webkit-autofill {
    RESPONSIVE
    ========================================================================== */
 
-@media (max-width: 767.98px) {
-    .col-12 {
-        padding-left: 24px;
-        padding-right: 15px;
+@media (max-width: 991.98px) {
+    .navbar-nav .nav-link::after {
+        display: none;
     }
 }
 
 @media (max-width: 575.98px) {
-    .title-food { font-size: 32px; }
-    .text-food  { font-size: 18px; }
-    .img-food img { width: 70%; }
+    .hero-btn {
+        width: 100%;
+    }
 }
 
-@media (max-width: 768px) {
-    img,
-    p,
-    h1,
-    h2,
-    h3,
-    span,
-    a,
-    button {
-        -webkit-user-drag: none;
-        user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-    }
+img {
+    -webkit-user-drag: none;
 }
