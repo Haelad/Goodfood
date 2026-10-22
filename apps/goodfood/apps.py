@@ -6,4 +6,5 @@ class GoodfoodConfig(AppConfig):
     name = "apps.goodfood"
 
     def ready(self):
-        pass
+        # Регистрирует обработчики: права новым пользователям и сброс кэша
+        from . import signals  # noqa: F401

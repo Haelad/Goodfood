@@ -22,6 +22,17 @@ def media_root(tmp_path, settings):
     settings.MEDIA_ROOT = tmp_path
 
 
+@pytest.fixture(autouse=True)
+def plain_static_storage(settings):
+    """Тесты идут с DEBUG=False: manifest-хранилищу нужен свежий collectstatic."""
+    settings.STORAGES = {
+        **settings.STORAGES,
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"
+        },
+    }
+
+
 @pytest.fixture
 def unauthenticated_client(db):
     TestUser = User.objects.create_user(
